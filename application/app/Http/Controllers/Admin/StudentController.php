@@ -68,11 +68,11 @@ class StudentController extends Controller
         $dataTable = Datatables::of($this->studentRepository->getByRequest($request->all()));
 
         $dataTable->addColumn('action', function ($index) {
-            return view('admin.student.dataTable.action', compact('index'));
+            return view('admin.student.datatable.action', compact('index'));
         });
 
         $dataTable->editColumn('name', function ($index) {
-            return view('admin.student.dataTable.information', compact('index'));
+            return view('admin.student.datatable.information', compact('index'));
         });
 
 

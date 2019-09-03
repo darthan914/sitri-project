@@ -64,16 +64,16 @@ class UserController extends Controller
         $dataTable = Datatables::of($this->userRepository->getByRequest($request->all()));
 
         $dataTable->addColumn('action', function ($index) {
-            return view('admin.user.dataTable.action', compact('index'));
+            return view('admin.user.datatable.action', compact('index'));
         });
 
         $dataTable->editColumn('name', function ($index) {
-            return view('admin.user.dataTable.information', compact('index'));
+            return view('admin.user.datatable.information', compact('index'));
         });
 
         $dataTable->editColumn('active', function ($index) {
             $active = $index->active;
-            return view('admin._general.dataTable.active', compact('active'));
+            return view('admin._general.datatable.active', compact('active'));
         });
 
         $dataTable = $dataTable->rawColumns(['check', 'active', 'action', 'name'])->make(true);
