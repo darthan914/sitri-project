@@ -17,4 +17,16 @@ $(function () {
 
     $(".select2").select2();
     $(".select2-full").select2({width: '100%'});
+
+    $('.timepicker').timepicker({
+        timeFormat: 'H:mm:ss',
+        interval: 30,
+        minTime: '8',
+        maxTime: '9:00pm',
+        startTime: '10:00',
+        dynamic: true,
+        dropdown: true,
+        scrollbar: true
+    });
+
 })
