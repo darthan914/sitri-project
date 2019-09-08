@@ -92,7 +92,11 @@ class ClassRoomController extends Controller
     {
         $request->validated();
 
-        $action->execute($request->all());
+        try {
+            $action->execute($request->all());
+        } catch (Exception $e) {
+            return redirect()->route('admin.classRoom.index')->with('failed', $e->getMessage());
+        }
 
         return redirect()->route('admin.classRoom.index')->with('success', 'Data has been added');
     }
@@ -118,7 +122,11 @@ class ClassRoomController extends Controller
     {
         $request->validated();
 
-        $action->execute($classRoom, $request->all());
+        try {
+            $action->execute($classRoom, $request->all());
+        } catch (Exception $e) {
+            return redirect()->route('admin.classRoom.index')->with('failed', $e->getMessage());
+        }
 
         return redirect()->route('admin.classRoom.index')->with('success', 'Data has been updated');
     }
