@@ -86,7 +86,7 @@ class ClassScheduleController extends Controller
         });
 
         $dataTable->editColumn('schedule_id', function ($index) {
-            return config('sitri.day')[$index->schedule->day] . ' (' . $index->schedule->start_time . ' - ' . $index->schedule->end_time . ')';
+            return $index->getSchedule();
         });
 
 

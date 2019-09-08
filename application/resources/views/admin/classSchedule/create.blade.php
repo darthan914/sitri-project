@@ -35,8 +35,7 @@
                                     <option value=""></option>
                                     @foreach($schedules as $schedule)
                                         <option value="{{ $schedule->id }}"
-                                                @if($schedule->id == old('schedule_id')) selected @endif>{{ config('sitri.day')[$schedule->day] }}
-                                            ({{ $schedule->start_time }} - {{ $schedule->end_time }})
+                                                @if($schedule->id == old('schedule_id')) selected @endif>{{ $schedule->getSchedule() }})
                                         </option>
                                     @endforeach
                                 </select>
