@@ -15,7 +15,7 @@ class CreateClasses extends Migration
     {
         Schema::create('class_rooms', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->boolean('active')->default(0);
             $table->timestamps();
         });
