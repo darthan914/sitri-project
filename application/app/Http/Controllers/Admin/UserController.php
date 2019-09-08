@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\User\ActiveUserRequest;
+use App\Http\Requests\Admin\General\ActiveRequest;
 use App\Http\Requests\Admin\User\ChangePasswordUserRequest;
 use App\Http\Requests\Admin\User\IndexUserRequest;
 use App\Http\Controllers\Controller;
@@ -150,7 +150,7 @@ class UserController extends Controller
      *
      * @return RedirectResponse
      */
-    public function active(User $user, ActiveUserRequest $request, ActiveUserAction $action)
+    public function active(User $user, ActiveRequest $request, ActiveUserAction $action)
     {
         $request->validated();
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\User;
+namespace App\Http\Requests\Admin\General;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ActiveUserRequest extends FormRequest
+class ActiveRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
