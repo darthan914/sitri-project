@@ -24,7 +24,7 @@ class StoreClassRoomRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'   => 'required',
+            'name'   => 'required|unique:class_rooms',
             'active' => 'nullable|boolean',
         ];
     }
