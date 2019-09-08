@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\Sitri\Actions\Student;
+namespace App\Sitri\Actions\Student;
 
 
 use App\Sitri\Models\Admin\Student;
