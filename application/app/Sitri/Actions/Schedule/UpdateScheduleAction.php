@@ -12,17 +12,10 @@ class UpdateScheduleAction
      * @param Schedule $schedule
      * @param array    $request
      *
-     * @return Schedule
+     * @return bool
      */
     public function execute(Schedule $schedule, array $request)
     {
-        $schedule->day = $request['day'];
-        $schedule->start_time = $request['start_time'];
-        $schedule->end_time = $request['end_time'];
-        $schedule->active = isset($request['active']) ? 1 : 0;
-
-        $schedule->save();
-
-        return $schedule;
+        return $schedule->update($request);
     }
 }

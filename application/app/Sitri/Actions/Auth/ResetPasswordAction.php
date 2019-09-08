@@ -26,12 +26,10 @@ class ResetPasswordAction
             throw new Exception('Password is required.');
         }
 
-        $user = User::query()->where('token_forgot_password', $token)->first();
-        $user->password = bcrypt($newPassword);
-        $user->token_forgot_password = null;
-        $user->expired_forgot_password = null;
-        $user->save();
+        $request['password'] = bcrypt($newPassword);
+        $request['token_forgot_password'] = null;
+        $request['expired_forgot_password'] = null;
 
-        return true;
+        return User::query()->where('token_forgot_password', $token)->update($request);
     }
 }

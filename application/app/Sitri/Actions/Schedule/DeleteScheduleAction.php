@@ -17,8 +17,6 @@ class DeleteScheduleAction
      */
     public function execute(Schedule $schedule)
     {
-        $schedule->delete();
-
-        return true;
+        return $schedule->delete();
     }
 }

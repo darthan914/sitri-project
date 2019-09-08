@@ -10,13 +10,10 @@ class ChangePasswordUserActions
      * @param User   $user
      * @param string $password
      *
-     * @return User
+     * @return bool
      */
     public function execute(User $user, $password)
     {
-        $user->password = bcrypt($password);
-        $user->save();
-
-        return $user;
+        return $user->update(['password' => bcrypt($password)]);
     }
 }

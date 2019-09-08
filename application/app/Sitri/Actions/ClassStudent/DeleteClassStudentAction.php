@@ -17,8 +17,6 @@ class DeleteClassStudentAction
      */
     public function execute(ClassStudent $classStudent)
     {
-        $classStudent->delete();
-
-        return true;
+        return $classStudent->delete();
     }
 }

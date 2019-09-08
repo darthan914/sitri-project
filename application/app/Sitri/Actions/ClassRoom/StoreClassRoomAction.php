@@ -6,30 +6,25 @@ namespace App\Sitri\Actions\ClassRoom;
 
 use App\Sitri\Models\Admin\ClassRoom;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class StoreClassRoomAction
 {
     /**
      * @param array $request
      *
-     * @return ClassRoom
+     * @return Builder|Model
      * @throws Exception
      */
     public function execute(array $request)
     {
-        $checkClassRoom = ClassRoom::query()->where('name', $request['name'])->first();
+        $check = ClassRoom::query()->where('name', $request['name'])->first();
 
-        if(isset($checkClassRoom)){
+        if(isset($check)){
             throw new Exception('Name already exist');
         }
 
-        $classRoom = new ClassRoom();
-
-        $classRoom->name = $request['name'];
-        $classRoom->active = isset($request['active']) ? 1 : 0;
-
-        $classRoom->save();
-
-        return $classRoom;
+        return ClassRoom::query()->create($request);
     }
 }

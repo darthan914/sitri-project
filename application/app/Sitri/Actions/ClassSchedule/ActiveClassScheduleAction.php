@@ -10,15 +10,12 @@ class ActiveClassScheduleAction
 {
     /**
      * @param ClassSchedule $classSchedule
-     * @param          $active
+     * @param               $active
      *
-     * @return ClassSchedule
+     * @return bool
      */
     public function execute(ClassSchedule $classSchedule, $active)
     {
-        $classSchedule->active = $active;
-        $classSchedule->save();
-
-        return $classSchedule;
+        return $classSchedule->update(['active' => $active]);
     }
 }

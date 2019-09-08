@@ -12,15 +12,10 @@ class UpdateStudentAction
      * @param Student $student
      * @param array   $data
      *
-     * @return Student
+     * @return bool
      */
     public function execute(Student $student, array $data)
     {
-        $student->user_id = $data['user_id'];
-        $student->name = $data['name'];
-
-        $student->save();
-
-        return $student;
+        return $student->update($data);
     }
 }

@@ -17,8 +17,6 @@ class DeleteClassRoomAction
      */
     public function execute(ClassRoom $classRoom)
     {
-        $classRoom->delete();
-
-        return true;
+        return $classRoom->delete();
     }
 }

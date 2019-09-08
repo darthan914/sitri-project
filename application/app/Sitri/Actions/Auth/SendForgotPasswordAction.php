@@ -26,11 +26,9 @@ class SendForgotPasswordAction
             throw new Exception('Email is not on the list.');
         }
 
-        $user->token_forgot_password = str_random();
-        $user->expired_forgot_password = Carbon::now()->addDay()->format('Y-m-d H:i:s');
+        $request['token_forgot_password'] = str_random();
+        $request['expired_forgot_password'] = Carbon::now()->addDay()->toDateTimeString();
 
-        $user->save();
-
-        return $user;
+        return User::query()->create($request);
     }
 }

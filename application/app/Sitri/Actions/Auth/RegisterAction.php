@@ -5,26 +5,22 @@ namespace App\Sitri\Actions;
 
 
 use App\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class RegisterAction
 {
     /**
-     * @param array $data
+     * @param array $request
      *
-     * @return User
+     * @return Builder|Model
      */
-    public function execute(array $data)
+    public function execute(array $request)
     {
-        $user = new User();
+        $request['password'] = bcrypt($request['password']);
+        $request['token_verify'] = str_random();
 
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->password = bcrypt($data['password']);
-        $user->token_verify = str_random();
-
-        $user->save();
-
-        return $user;
+        return User::query()->create($request);
     }
 }

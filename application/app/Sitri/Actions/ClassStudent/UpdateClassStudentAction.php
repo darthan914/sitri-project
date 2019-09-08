@@ -13,7 +13,7 @@ class UpdateClassStudentAction
      * @param ClassStudent $classStudent
      * @param array        $request
      *
-     * @return ClassStudent
+     * @return bool
      * @throws Exception
      */
     public function execute(ClassStudent $classStudent, array $request)
@@ -27,11 +27,6 @@ class UpdateClassStudentAction
             throw new Exception('Class student already exist');
         }
 
-        $classStudent->class_schedule_id = $request['class_schedule_id'];
-        $classStudent->student_id = $request['student_id'];
-
-        $classStudent->save();
-
-        return $classStudent;
+        return $classStudent->update($request);
     }
 }

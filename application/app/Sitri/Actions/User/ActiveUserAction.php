@@ -12,13 +12,10 @@ class ActiveUserAction
      * @param User $user
      * @param bool $setActive
      *
-     * @return User
+     * @return bool
      */
     public function execute(User $user, $setActive)
     {
-        $user->active = $setActive;
-        $user->save();
-
-        return $user;
+        return $user->update(['active' => $setActive]);
     }
 }

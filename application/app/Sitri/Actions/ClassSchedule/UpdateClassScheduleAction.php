@@ -13,7 +13,7 @@ class UpdateClassScheduleAction
      * @param ClassSchedule $classSchedule
      * @param array         $request
      *
-     * @return ClassSchedule
+     * @return bool
      * @throws Exception
      */
     public function execute(ClassSchedule $classSchedule, array $request)
@@ -27,12 +27,6 @@ class UpdateClassScheduleAction
             throw new Exception('Class schedule already exist');
         }
 
-        $classSchedule->class_room_id = $request['class_room_id'];
-        $classSchedule->schedule_id = $request['schedule_id'];
-        $classSchedule->active = isset($request['active']) ? 1 : 0;
-
-        $classSchedule->save();
-
-        return $classSchedule;
+        return $classSchedule->update($request);
     }
 }

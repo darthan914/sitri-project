@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClassSchedule extends Model
 {
+    protected $fillable = ['class_room_id', 'schedule_id', 'active'];
+
     public function classRoom()
     {
         return $this->belongsTo(ClassRoom::class);

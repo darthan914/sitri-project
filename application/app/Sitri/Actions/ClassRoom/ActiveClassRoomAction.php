@@ -10,15 +10,12 @@ class ActiveClassRoomAction
 {
     /**
      * @param ClassRoom $classRoom
-     * @param          $active
+     * @param           $active
      *
-     * @return ClassRoom
+     * @return bool
      */
     public function execute(ClassRoom $classRoom, $active)
     {
-        $classRoom->active = $active;
-        $classRoom->save();
-
-        return $classRoom;
+        return $classRoom->update(['active' => $active]);
     }
 }

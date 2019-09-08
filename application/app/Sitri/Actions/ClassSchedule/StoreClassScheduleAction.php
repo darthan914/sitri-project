@@ -6,13 +6,15 @@ namespace App\Sitri\Actions\ClassSchedule;
 
 use App\Sitri\Models\Admin\ClassSchedule;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class StoreClassScheduleAction
 {
     /**
      * @param array $request
      *
-     * @return ClassSchedule
+     * @return Builder|Model
      * @throws Exception
      */
     public function execute(array $request)
@@ -25,15 +27,6 @@ class StoreClassScheduleAction
             throw new Exception('Class schedule already exist');
         }
 
-
-        $classSchedule = new ClassSchedule();
-
-        $classSchedule->class_room_id = $request['class_room_id'];
-        $classSchedule->schedule_id = $request['schedule_id'];
-        $classSchedule->active = isset($request['active']) ? 1 : 0;
-
-        $classSchedule->save();
-
-        return $classSchedule;
+        return ClassSchedule::query()->create($request);
     }
 }

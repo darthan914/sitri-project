@@ -5,22 +5,18 @@ namespace App\Sitri\Actions\Student;
 
 
 use App\Sitri\Models\Admin\Student;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class StoreStudentAction
 {
     /**
      * @param array $data
      *
-     * @return Student
+     * @return Builder|Model
      */
     public function execute(array $data)
     {
-        $student = new Student();
-        $student->user_id = $data['user_id'];
-        $student->name = $data['name'];
-
-        $student->save();
-
-        return $student;
+        return Student::query()->create($data);
     }
 }
