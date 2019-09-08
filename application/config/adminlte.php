@@ -135,6 +135,11 @@ return [
             'can'  => 'manage-blog',
         ],
         [
+            'text'  => 'Home',
+            'route' => 'admin.home.index',
+            'icon'  => 'fa fa-home',
+        ],
+        [
             'text'  => 'User Management',
             'route' => 'admin.user.index',
             'icon'  => 'far fa-user',
