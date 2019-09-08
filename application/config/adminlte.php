@@ -153,7 +153,22 @@ return [
         [
             'text'  => 'Student Management',
             'route' => 'admin.student.index',
-            'icon'  => 'far fa-user',
+            'icon'  => 'far fa-smile',
+        ],
+        [
+            'text'  => 'Schedule Management',
+            'route' => 'admin.schedule.index',
+            'icon'  => 'far fa-clock',
+        ],
+        [
+            'text'  => 'Class Room Management',
+            'route' => 'admin.classRoom.index',
+            'icon'  => 'far fa-clock',
+        ],
+        [
+            'text'  => 'Class Schedule Management',
+            'route' => 'admin.classSchedule.index',
+            'icon'  => 'far fa-clock',
         ],
         ['header' => 'account_settings'],
         [
@@ -323,6 +338,22 @@ return [
                     'type'     => 'js',
                     'asset'    => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        [
+            'name'   => 'Timepicker',
+            'active' => true,
+            'files'  => [
+                [
+                    'type'     => 'css',
+                    'asset'    => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css',
+                ],
+                [
+                    'type'     => 'js',
+                    'asset'    => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js',
                 ],
             ],
         ],
