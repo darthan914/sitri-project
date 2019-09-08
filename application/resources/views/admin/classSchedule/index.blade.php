@@ -2,7 +2,7 @@
 
 @extends('adminlte::page')
 
-@section('title', 'Class Room List')
+@section('title', 'Class Schedule List')
 
 @section('js')
     <script>
@@ -61,7 +61,7 @@
                         <thead>
                         <tr role="row">
                             <th>
-                                Class Room
+                                Class Schedule
                             </th>
                             <th>
                                 Schedule

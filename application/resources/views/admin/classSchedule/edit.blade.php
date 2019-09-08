@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('title')
-    Update Class Room
+    Update Class Schedule
 @stop
 
 @section('content')
@@ -11,11 +11,11 @@
                 <form class="form-horizontal" method="post" action="{{ route('admin.classSchedule.update', $classSchedule) }}">
                     <div class="box-body">
                         <div class="form-group @if($errors->first('class_room_id')) has-error @endif">
-                            <label for="class_room_id" class="col-sm-2 control-label">Class Room</label>
+                            <label for="class_room_id" class="col-sm-2 control-label">Class Schedule</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control select2" id="class_room_id" name="class_room_id"
-                                        data-placeholder="Select Class Room">
+                                        data-placeholder="Select Class Schedule">
                                     <option value=""></option>
                                     @foreach($classRooms as $classRoom)
                                         <option value="{{ $classRoom->id }}"
@@ -31,7 +31,7 @@
 
                             <div class="col-sm-10">
                                 <select class="form-control select2" id="schedule_id" name="schedule_id"
-                                        data-placeholder="Select Class Room">
+                                        data-placeholder="Select Class Schedule">
                                     <option value=""></option>
                                     @foreach($schedules as $schedule)
                                         <option value="{{ $schedule->id }}"
