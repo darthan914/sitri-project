@@ -86,7 +86,7 @@ class ClassScheduleController extends Controller
         });
 
         $dataTable->editColumn('schedule_id', function ($index) {
-            return $index->getSchedule();
+            return $index->schedule->getSchedule();
         });
 
 

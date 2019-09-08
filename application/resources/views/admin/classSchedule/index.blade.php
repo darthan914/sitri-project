@@ -61,7 +61,7 @@
                         <thead>
                         <tr role="row">
                             <th>
-                                Class Schedule
+                                Class
                             </th>
                             <th>
                                 Schedule
