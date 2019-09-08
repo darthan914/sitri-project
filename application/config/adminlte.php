@@ -170,6 +170,11 @@ return [
             'route' => 'admin.classSchedule.index',
             'icon'  => 'far fa-clock',
         ],
+        [
+            'text'  => 'Class Student Management',
+            'route' => 'admin.classStudent.index',
+            'icon'  => 'far fa-clock',
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',

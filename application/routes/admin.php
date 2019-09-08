@@ -60,3 +60,15 @@ Route::prefix('classSchedule')->name('classSchedule.')->group(function () {
     Route::post('{classSchedule}/active', 'ClassScheduleController@active')->name('active');
 })
 ;
+
+Route::prefix('classStudent')->name('classStudent.')->group(function () {
+    Route::get('/', 'ClassStudentController@index')->name('index');
+    Route::get('dataTable', 'ClassStudentController@dataTable')->name('dataTable');
+    Route::get('create', 'ClassStudentController@create')->name('create');
+    Route::post('store', 'ClassStudentController@store')->name('store');
+    Route::get('{classStudent}/edit', 'ClassStudentController@edit')->name('edit');
+    Route::post('{classStudent}/update', 'ClassStudentController@update')->name('update');
+    Route::post('{classStudent}/delete', 'ClassStudentController@delete')->name('delete');
+    Route::post('{classStudent}/active', 'ClassStudentController@active')->name('active');
+})
+;
