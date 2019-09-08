@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\Student\StoreStudentRequest;
 use App\Http\Requests\Admin\Student\UpdateStudentRequest;
 use App\Http\Requests\Admin\User\IndexUserRequest;
-use app\Sitri\Actions\Student\DeleteStudentAction;
+use App\Sitri\Actions\Student\DeleteStudentAction;
 use App\Sitri\Actions\Student\StoreStudentAction;
 use App\Sitri\Actions\Student\UpdateStudentAction;
 use App\Sitri\Models\Admin\Student;
