@@ -14,7 +14,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface
      */
     public function all()
     {
-        return Schedule::query()->orderBy('day')->get();
+        return Schedule::query()->orderBy('day')->orderBy('start_time')->get();
     }
 
     /**
@@ -24,7 +24,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface
      */
     public function getByRequest(array $data)
     {
-        return Schedule::query()->orderBy('day')->get();
+        return Schedule::query()->orderBy('day')->orderBy('start_time')->get();
     }
 
     /**
@@ -34,6 +34,11 @@ class ScheduleRepository implements ScheduleRepositoryInterface
      */
     public function getIsActive($active)
     {
-        return Schedule::query()->where('active', $active)->orderBy('day')->get();
+        return Schedule::query()->where('active', $active)->orderBy('day')->orderBy('start_time')->get();
+    }
+
+    public function listDayActive()
+    {
+        return $this->getIsActive(true)->map(function ($schedule) { return $schedule->day; })->unique()->all();
     }
 }

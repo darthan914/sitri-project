@@ -128,22 +128,11 @@ return [
     */
 
     'menu' => [
-        [
-            'text'   => 'search',
-            'search' => true,
-        ],
-        ['header' => 'main_navigation'],
+        ['header' => 'ADMIN MENU'],
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
-        ],
-        [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
         ],
         [
             'text'  => 'User Management',
@@ -175,6 +164,8 @@ return [
             'route' => 'admin.classStudent.index',
             'icon'  => 'far fa-clock',
         ],
+        ['header' => 'PARENT MENU'],
+
         ['header' => 'account_settings'],
         [
             'text' => 'profile',

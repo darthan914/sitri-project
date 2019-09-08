@@ -9,5 +9,5 @@ use App\Sitri\Interfaces\DataInterface;
 
 interface ScheduleRepositoryInterface extends DataInterface, ActiveInterface
 {
-
+    public function listDayActive();
 }

@@ -18,6 +18,11 @@ class ClassSchedule extends Model
         return $this->belongsTo(Schedule::class);
     }
 
+    public function classStudents()
+    {
+        return $this->hasMany(ClassStudent::class);
+    }
+
 
     public function getClassInfo()
     {

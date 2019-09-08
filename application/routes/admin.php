@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::prefix('home')->name('home.')->group(function () {
+    Route::get('/', 'HomeController@index')->name('index');
+})
+;
+
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('/', 'UserController@index')->name('index');
     Route::get('dataTable', 'UserController@dataTable')->name('dataTable');
