@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Sitri\Repositories\ClassRoom\ClassRoomRepository;
 use App\Sitri\Repositories\ClassRoom\ClassRoomRepositoryInterface;
+use App\Sitri\Repositories\ClassSchedule\ClassScheduleRepository;
+use App\Sitri\Repositories\ClassSchedule\ClassScheduleRepositoryInterface;
 use App\Sitri\Repositories\Schedule\ScheduleRepository;
 use App\Sitri\Repositories\Schedule\ScheduleRepositoryInterface;
 use App\Sitri\Repositories\Student\StudentRepository;
@@ -38,5 +40,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(StudentRepositoryInterface::class,StudentRepository::class);
         $this->app->singleton(ScheduleRepositoryInterface::class,ScheduleRepository::class);
         $this->app->singleton(ClassRoomRepositoryInterface::class,ClassRoomRepository::class);
+        $this->app->singleton(ClassScheduleRepositoryInterface::class,ClassScheduleRepository::class);
     }
 }
