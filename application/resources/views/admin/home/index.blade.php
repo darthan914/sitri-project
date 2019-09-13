@@ -8,6 +8,14 @@
 
 @stop
 
+@section('css')
+<style>
+    .highlight-today{
+        background-color: #00e765;
+    }
+</style>
+@stop
+
 @section('content')
     <div class="row">
         <div class="col-xs-12">
@@ -17,7 +25,7 @@
                         <thead>
                         <tr>
                             @foreach($activeDayLists as $day)
-                                <th class="text-center">
+                                <th class="text-center @if($day == date('w')) highlight-today @endif">
                                     {{ config('sitri.day')[$day] }}
                                 </th>
                             @endforeach
@@ -25,7 +33,7 @@
                         </thead>
                         <tbody>
                         @foreach($activeDayLists as $day)
-                            <td>
+                            <td class="@if($day == date('w')) highlight-today @endif">
                                 @foreach($schedules as $schedule)
                                     @if($schedule->day === $day)
                                         <table class="table table-bordered">
