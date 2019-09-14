@@ -169,6 +169,11 @@ return [
             'route' => 'admin.classStudent.index',
             'icon'  => 'far fa-clock',
         ],
+        [
+            'text'  => 'Reschedule Management',
+            'route' => 'admin.reschedule.index',
+            'icon'  => 'far fa-clock',
+        ],
         ['header' => 'PARENT MENU'],
 
         ['header' => 'account_settings'],
@@ -355,6 +360,33 @@ return [
                     'type'     => 'js',
                     'asset'    => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js',
+                ],
+            ],
+        ],
+        [
+            'name'   => 'momentJs',
+            'active' => true,
+            'files'  => [
+                [
+                    'type'     => 'js',
+                    'asset'    => false,
+                    'location' => '//cdn.jsdelivr.net/momentjs/latest/moment.min.js',
+                ],
+            ],
+        ],
+        [
+            'name'   => 'DateRangePicker',
+            'active' => true,
+            'files'  => [
+                [
+                    'type'     => 'css',
+                    'asset'    => false,
+                    'location' => '//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css',
+                ],
+                [
+                    'type'     => 'js',
+                    'asset'    => false,
+                    'location' => '//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js',
                 ],
             ],
         ],

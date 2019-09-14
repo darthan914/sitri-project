@@ -77,3 +77,16 @@ Route::prefix('classStudent')->name('classStudent.')->group(function () {
     Route::post('{classStudent}/active', 'ClassStudentController@active')->name('active');
 })
 ;
+
+Route::prefix('reschedule')->name('reschedule.')->group(function () {
+    Route::get('/', 'RescheduleController@index')->name('index');
+    Route::get('dataTable', 'RescheduleController@dataTable')->name('dataTable');
+    Route::get('create', 'RescheduleController@create')->name('create');
+    Route::post('store', 'RescheduleController@store')->name('store');
+    Route::get('{reschedule}/edit', 'RescheduleController@edit')->name('edit');
+    Route::post('{reschedule}/update', 'RescheduleController@update')->name('update');
+    Route::post('{reschedule}/delete', 'RescheduleController@delete')->name('delete');
+    Route::get('getRegularStudent', 'RescheduleController@getRegularStudent')->name('getRegularStudent');
+    Route::get('getScheduleAvailable', 'RescheduleController@getScheduleAvailable')->name('getScheduleAvailable');
+})
+;
