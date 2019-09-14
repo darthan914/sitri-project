@@ -5,6 +5,7 @@ namespace App\Sitri\Repositories\ClassSchedule;
 
 
 use App\Sitri\Models\Admin\ClassSchedule;
+use Carbon\Carbon;
 
 class ClassScheduleRepository implements ClassScheduleRepositoryInterface
 {
@@ -24,7 +25,17 @@ class ClassScheduleRepository implements ClassScheduleRepositoryInterface
      */
     public function getByRequest(array $data)
     {
-        return ClassSchedule::query()->get();
+        $collect = collect($data);
+        $classSchedules = ClassSchedule::query();
+
+        $date = $collect->get('f_date');
+        if(null !== $date) {
+            $classSchedules->whereHas('schedule', function ($schedule) use ($date) {
+                $schedule->where('day', Carbon::parse($date)->dayOfWeek);
+            });
+        }
+
+        return $classSchedules->get();
     }
 
     /**
