@@ -90,3 +90,16 @@ Route::prefix('reschedule')->name('reschedule.')->group(function () {
     Route::get('getScheduleAvailable', 'RescheduleController@getScheduleAvailable')->name('getScheduleAvailable');
 })
 ;
+
+Route::prefix('absence')->name('absence.')->group(function () {
+    Route::get('/', 'AbsenceController@index')->name('index');
+    Route::get('dataTable', 'AbsenceController@dataTable')->name('dataTable');
+    Route::get('create', 'AbsenceController@create')->name('create');
+    Route::post('store', 'AbsenceController@store')->name('store');
+    Route::get('{absence}/edit', 'AbsenceController@edit')->name('edit');
+    Route::post('{absence}/update', 'AbsenceController@update')->name('update');
+    Route::post('{absence}/delete', 'AbsenceController@delete')->name('delete');
+    Route::get('getScheduleDate', 'AbsenceController@getScheduleDate')->name('getScheduleDate');
+    Route::get('getStudentList', 'AbsenceController@getStudentList')->name('getStudentList');
+})
+;

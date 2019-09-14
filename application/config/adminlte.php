@@ -174,6 +174,11 @@ return [
             'route' => 'admin.reschedule.index',
             'icon'  => 'far fa-clock',
         ],
+        [
+            'text'  => 'Absence Management',
+            'route' => 'admin.absence.index',
+            'icon'  => 'far fa-clock',
+        ],
         ['header' => 'PARENT MENU'],
 
         ['header' => 'account_settings'],
