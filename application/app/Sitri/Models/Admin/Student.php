@@ -18,4 +18,14 @@ class Student extends Model
     {
         return $this->hasMany(ClassStudent::class);
     }
+
+    public function reschedules()
+    {
+        return $this->hasMany(Reschedule::class);
+    }
+
+    public function isReschedule($date)
+    {
+        return $this->reschedules()->where('from_date', $date)->count() !== 0;
+    }
 }
