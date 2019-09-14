@@ -16,6 +16,11 @@ class Reschedule extends Model
         'to_class_schedule_id'
     ];
 
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
     public function fromClassSchedule()
     {
         return $this->belongsTo(ClassSchedule::class,'from_class_schedule_id');

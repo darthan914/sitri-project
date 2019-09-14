@@ -81,6 +81,10 @@ class RescheduleController extends Controller
             return view('admin.reschedule.datatable.to', compact('reschedule'));
         });
 
+        $dataTable->editColumn('student_id', function ($reschedule) {
+            return $reschedule->student->name;
+        });
+
         $dataTable = $dataTable->rawColumns(['action', 'from_date', 'to_date'])->make(true);
         return $dataTable;
     }
