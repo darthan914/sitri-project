@@ -50,9 +50,9 @@
                                 <select class="form-control select2" id="from_class_schedule_id"
                                         name="from_class_schedule_id" data-placeholder="Select From Class Schedule">
                                     <option value=""></option>
-                                    @foreach($fromScheduleClasses as $fromScheduleClass)
-                                        <option value="{{ $fromScheduleClass->id }}"
-                                                @if(old('from_class_schedule_id', $reschedule->from_class_schedule_id) == $fromScheduleClass->id) selected @endif>{{ $fromScheduleClass->getClassInfo() }}</option>
+                                    @foreach($fromClassSchedules as $fromClassSchedule)
+                                        <option value="{{ $fromClassSchedule->id }}"
+                                                @if(old('from_class_schedule_id', $reschedule->from_class_schedule_id) == $fromClassSchedule->id) selected @endif>{{ $fromClassSchedule->getClassInfo() }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('from_class_schedule_id') }}</span>
@@ -77,9 +77,9 @@
                                 <select class="form-control select2" id="to_class_schedule_id"
                                         name="to_class_schedule_id" data-placeholder="Select To Class Schedule">
                                     <option value=""></option>
-                                    @foreach($toScheduleClasses as $toScheduleClass)
-                                        <option value="{{ $toScheduleClass->id }}"
-                                                @if(old('to_class_schedule_id', $reschedule->to_class_schedule_id) == $toScheduleClass->id) selected @endif>{{ $toScheduleClass->getClassInfo() }}</option>
+                                    @foreach($toClassSchedules as $toClassSchedule)
+                                        <option value="{{ $toClassSchedule->id }}"
+                                                @if(old('to_class_schedule_id', $reschedule->to_class_schedule_id) == $toClassSchedule->id) selected @endif>{{ $toClassSchedule->getClassInfo() }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('to_class_schedule_id') }}</span>

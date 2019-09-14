@@ -124,14 +124,14 @@ class RescheduleController extends Controller
      */
     public function edit(Reschedule $reschedule)
     {
-        $fromScheduleClasses = $this->rescheduleRepository->getRegularStudentScheduleByDate($reschedule->student_id,
+        $fromClassSchedules = $this->rescheduleRepository->getRegularStudentScheduleByDate($reschedule->student_id,
             $reschedule->from_date);
-        $toScheduleClasses = $this->rescheduleRepository->getRescheduleStudentAvailableByDate($reschedule->student_id,
+        $toClassSchedules = $this->rescheduleRepository->getRescheduleStudentAvailableByDate($reschedule->student_id,
             $reschedule->to_date, $reschedule->from_date);
         $students = $this->studentRepository->all();
 
         return view('admin.reschedule.edit',
-            compact('reschedule', 'students', 'fromScheduleClasses', 'toScheduleClasses'));
+            compact('reschedule', 'students', 'fromClassSchedules', 'toClassSchedules'));
     }
 
     /**
@@ -170,13 +170,13 @@ class RescheduleController extends Controller
 
     public function getRegularStudent(Request $request)
     {
-        $regulars = $this->rescheduleRepository->getRegularStudentScheduleByDate($request->student_id, $request->date);
+        $classSchedules = $this->rescheduleRepository->getRegularStudentScheduleByDate($request->student_id, $request->date);
 
         $result = [];
-        foreach ($regulars as $regular) {
+        foreach ($classSchedules as $classSchedule) {
             $result[] = [
-                'id'   => $regular->id,
-                'name' => $regular->getClassInfo(),
+                'id'   => $classSchedule->id,
+                'name' => $classSchedule->getClassInfo(),
             ];
         }
 
@@ -185,14 +185,14 @@ class RescheduleController extends Controller
 
     public function getScheduleAvailable(Request $request)
     {
-        $regulars = $this->rescheduleRepository->getRescheduleStudentAvailableByDate($request->student_id,
+        $classSchedules = $this->rescheduleRepository->getRescheduleStudentAvailableByDate($request->student_id,
             $request->to_date, $request->from_date);
 
         $result = [];
-        foreach ($regulars as $regular) {
+        foreach ($classSchedules as $classSchedule) {
             $result[] = [
-                'id'   => $regular->id,
-                'name' => $regular->getClassInfo(),
+                'id'   => $classSchedule->id,
+                'name' => $classSchedule->getClassInfo(),
             ];
         }
 
