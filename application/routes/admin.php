@@ -103,3 +103,15 @@ Route::prefix('absence')->name('absence.')->group(function () {
     Route::get('getStudentList', 'AbsenceController@getStudentList')->name('getStudentList');
 })
 ;
+
+Route::prefix('payment')->name('payment.')->group(function () {
+    Route::get('/', 'PaymentController@index')->name('index');
+    Route::get('dataTable', 'PaymentController@dataTable')->name('dataTable');
+    Route::get('create', 'PaymentController@create')->name('create');
+    Route::post('store', 'PaymentController@store')->name('store');
+    Route::get('{payment}/edit', 'PaymentController@edit')->name('edit');
+    Route::post('{payment}/update', 'PaymentController@update')->name('update');
+    Route::post('{payment}/delete', 'PaymentController@delete')->name('delete');
+    Route::post('{payment}/paid', 'PaymentController@paid')->name('paid');
+})
+;

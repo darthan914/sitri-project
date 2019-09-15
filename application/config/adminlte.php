@@ -179,6 +179,11 @@ return [
             'route' => 'admin.absence.index',
             'icon'  => 'far fa-clock',
         ],
+        [
+            'text'  => 'Payment Management',
+            'route' => 'admin.payment.index',
+            'icon'  => 'fa fa-money',
+        ],
         ['header' => 'PARENT MENU'],
 
         ['header' => 'account_settings'],

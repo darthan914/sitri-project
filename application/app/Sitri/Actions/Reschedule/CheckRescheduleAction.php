@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\Sitri\Actions\Reschedule;
+namespace App\Sitri\Actions\Reschedule;
 
 
 use App\Sitri\Models\Admin\ClassSchedule;
