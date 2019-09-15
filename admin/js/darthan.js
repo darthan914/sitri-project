@@ -53,4 +53,12 @@ $(function () {
         scrollbar: true
     });
 
+    $(".check-all").click(function () {
+        if ($(this).is(':checked')) {
+            $('.' + $(this).attr('data-target')).prop('checked', true);
+        } else {
+            $('.' + $(this).attr('data-target')).prop('checked', false);
+        }
+    });
+
 })
