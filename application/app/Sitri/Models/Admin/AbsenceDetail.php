@@ -15,6 +15,6 @@ class AbsenceDetail extends Model
 
     public function student()
     {
-        return$this->belongsTo(Student::class);
+        return$this->belongsTo(Student::class)->withoutGlobalScope('isActive');
     }
 }

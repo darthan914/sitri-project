@@ -3,11 +3,24 @@
 namespace App\Sitri\Models\Admin;
 
 use App\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
     protected $fillable = ['user_id', 'name'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('isActive', function (Builder $builder) {
+            $builder->whereHas('user', function (Builder $user) {
+                $user->where('active', 1);
+            });
+        });
+    }
+
 
     public function user()
     {
@@ -22,6 +35,11 @@ class Student extends Model
     public function reschedules()
     {
         return $this->hasMany(Reschedule::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 
     public function isReschedule($date)
