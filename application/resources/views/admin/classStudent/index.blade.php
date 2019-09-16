@@ -7,7 +7,8 @@
 @section('js')
     <script>
         $(function () {
-            $('#classStudent-list').DataTable({
+            let classStudentSelector = $('#classStudent-list');
+            classStudentSelector.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -29,15 +30,10 @@
                 ordering: true,
                 info: true,
                 autoWidth: false
-            }).on('click', '.alert-modal', function () {
-                $('#alert-modal form').attr('action', $(this).data('route'));
-                $('#alert-modal .modal-title').html($(this).data('title'));
-            }).on('click', '.alertActive-modal', function () {
-                $('#alertActive-modal form').attr('action', $(this).data('route'));
-                $('#alertActive-modal input[name=route]').val($(this).data('route'));
-                $('#alertActive-modal input[name=active]').val($(this).data('active'));
-                $('#alertActive-modal .modal-title').html($(this).data('title'));
-            })
+            });
+
+            alertModal(classStudentSelector);
+            activeModal(classStudentSelector);
         })
     </script>
 @stop

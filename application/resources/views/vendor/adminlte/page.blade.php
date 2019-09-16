@@ -168,6 +168,8 @@
     <script>
         $(function () {
             @if(old('modal_error'))
+            $('#{{ old('modal_error') }} form').attr('action', '{{ old('route') }}');
+            $('#{{ old('modal_error') }} input.name-changer').attr('name', '{{ old('name', 'active') }}');
             $('#{{ old('modal_error') }}').modal('show');
             @endif
         })

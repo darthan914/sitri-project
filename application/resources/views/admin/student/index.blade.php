@@ -7,7 +7,8 @@
 @section('js')
     <script>
         $(function () {
-            $('#student-list').DataTable({
+            let studentSelector = $('#student-list');
+            studentSelector.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -31,6 +32,8 @@
                 $('#alert-modal form').attr('action', $(this).data('route'));
                 $('#alert-modal .modal-title').html($(this).data('title'));
             })
+
+            alertModal(studentSelector);
         })
     </script>
 @stop

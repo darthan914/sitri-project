@@ -11,7 +11,7 @@
         {{--@endif--}}
         {{--@if(Auth::user()->can('active-user'))--}}
         <li>
-            <a href="#" class="alertActive-modal" data-toggle="modal" data-target="#alertActive-modal"
+            <a href="#" class="active-modal" data-toggle="modal" data-target="#active-modal"
                data-route="{{ route('admin.schedule.active', $index) }}"
                data-active="{{ $index->active ? '0' : '1' }}"
                data-title="{{ $index->active ? 'Inactive' : 'Active' }} schedule {{ $index->name }}?"

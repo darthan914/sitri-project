@@ -61,4 +61,31 @@ $(function () {
         }
     });
 
-})
+});
+
+const alertModal = function (selector) {
+    selector.on('click', '.alert-modal', function () {
+        $('#alert-modal form').attr('action', $(this).data('route'));
+        $('#alert-modal .modal-title').html($(this).data('title'));
+    })
+};
+
+const activeModal = function (selector) {
+    selector.on('click', '.active-modal', function () {
+        $('#active-modal form').attr('action', $(this).data('route'));
+        $('#active-modal input[name=route]').val($(this).data('route'));
+        $('#active-modal .modal-title').html($(this).data('title'));
+        $('#active-modal input[name=active]').val($(this).data('active'));
+        if ($(this).data('name')) {
+            $('#active-modal .name-changer').attr('name', $(this).data('name'));
+        }
+        $('#active-modal input[name=name]').val($(this).data('name'));
+    })
+};
+
+const customModal = function (selector) {
+    selector.on('click', '.custom-modal', function () {
+        $($(this).data('target') + ' form').attr('action', $(this).data('route'));
+        $($(this).data('target') + ' input[name=route]').val($(this).data('route'));
+    })
+};

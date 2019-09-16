@@ -1,14 +1,14 @@
 @push('js')
     <script>
         $(function () {
-            @if(old('route') && 'alertActive-modal' === old('modal'))
-            $('#alertActive-modal form').attr('action', '{{ old('route') }}');
+            @if(old('route') && 'active-modal' === old('modal'))
+            $('#active-modal form').attr('action', '{{ old('route') }}');
             @endif
         });
     </script>
 @endpush
 
-<div id="alertActive-modal" class="modal fade" role="dialog">
+<div id="active-modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <form class="form-horizontal form-label-left" action="#" method="post">
@@ -20,9 +20,11 @@
                 </div>
                 <div class="modal-footer">
                     {{ csrf_field() }}
-                    <input type="hidden" name="active" value="{{ old('active') }}">
+                    <input type="hidden" name="modal_error" value="active-modal">
+                    <input type="hidden" name="active" class="name-changer" value="{{ old('active') }}">
                     <input type="hidden" name="route" value="{{ old('route') }}">
-                    <input type="hidden" name="modal_error" value="alertActive-modal">
+                    <input type="hidden" name="name" value="{{ old('name') }}">
+                    <input type="hidden" name="modal_error" value="active-modal">
                     <button type="submit" class="btn btn-primary">Yes</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                 </div>

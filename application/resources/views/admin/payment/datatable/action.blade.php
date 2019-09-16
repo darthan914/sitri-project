@@ -17,7 +17,7 @@
             >Delete</a>
         </li>
         <li>
-            <a href="#" class="alertActive-modal" data-toggle="modal" data-target="#alertActive-modal"
+            <a href="#" class="active-modal" data-toggle="modal" data-target="#active-modal"
                data-route="{{ route('admin.payment.paid', $index) }}"
                data-active="{{ $index->date_paid ? '0' : '1' }}"
                data-title="Set {{ $index->date_paid ? 'Unpaid' : 'Paid' }} {{ $index->no_payment }}?"

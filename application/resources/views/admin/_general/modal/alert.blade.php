@@ -10,6 +10,7 @@
                 </div>
                 <div class="modal-footer">
                     {{ csrf_field() }}
+                    <input type="hidden" name="modal_error" value="alert-modal">
                     <button type="submit" class="btn btn-primary">Yes</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                 </div>
