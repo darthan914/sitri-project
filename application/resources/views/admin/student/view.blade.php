@@ -125,7 +125,7 @@
             <div class="box">
                 <h2>Reschedule</h2>
                 <div class="box-body">
-                    <a href="{{ route('admin.reschedule.create') }}" class="btn btn-default">Create</a>
+                    <a href="{{ route('admin.reschedule.create', ['student_id' => $student->id]) }}" class="btn btn-default">Create</a>
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered" id="reschedule-list">

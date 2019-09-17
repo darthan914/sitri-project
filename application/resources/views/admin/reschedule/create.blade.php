@@ -23,7 +23,7 @@
                                     <option value=""></option>
                                     @foreach($students  as $student)
                                         <option value="{{ $student->id }}"
-                                                @if(old('student_id') == $student->id) selected @endif>{{ $student->name }}</option>
+                                                @if(old('student_id', $request->student_id) == $student->id) selected @endif>{{ $student->name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('student_id') }}</span>

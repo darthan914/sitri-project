@@ -90,12 +90,14 @@ class RescheduleController extends Controller
     }
 
     /**
+     * @param Request $request
+     *
      * @return Factory|View
      */
-    public function create()
+    public function create(Request $request)
     {
         $students = $this->studentRepository->all();
-        return view('admin.reschedule.create', compact('students'));
+        return view('admin.reschedule.create', compact('students', 'request'));
     }
 
     /**
