@@ -26,7 +26,7 @@
                         <tr>
                             @foreach($activeDayLists as $day)
                                 <th class="text-center @if($day == date('w')) highlight-today @endif">
-                                    {{ config('sitri.day')[$day] }}
+                                    {{ config('sitri.day')[$day] }} {{ \Carbon\Carbon::parse($weekDates[$day])->format('d/m/y') }}
                                 </th>
                             @endforeach
                         </tr>

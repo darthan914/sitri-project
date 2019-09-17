@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Sitri\Repositories\Schedule\ScheduleRepositoryInterface;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -14,7 +15,6 @@ class HomeController extends Controller
 
     public function __construct(ScheduleRepositoryInterface $scheduleRepository)
     {
-
         $this->scheduleRepository = $scheduleRepository;
     }
 
@@ -23,6 +23,12 @@ class HomeController extends Controller
         $schedules = $this->scheduleRepository->getIsActive(true);
         $activeDayLists = $this->scheduleRepository->listDayActive();
 
-        return view('admin.home.index', compact('schedules', 'activeDayLists'));
+        $startWeek = Carbon::now()->startOfWeek()->subDay(2);
+        $weekDates = [];
+        foreach (range(0, 6) as $week) {
+            $weekDates[$week] = $startWeek->addDay()->toDateString();
+        }
+
+        return view('admin.home.index', compact('schedules', 'activeDayLists', 'weekDates'));
     }
 }
