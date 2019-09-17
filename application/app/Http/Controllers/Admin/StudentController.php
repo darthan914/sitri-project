@@ -110,6 +110,16 @@ class StudentController extends Controller
      *
      * @return Factory|View
      */
+    public function view(Student $student)
+    {
+        return view('admin.student.view', compact('student'));
+    }
+
+    /**
+     * @param Student $student
+     *
+     * @return Factory|View
+     */
     public function edit(Student $student)
     {
         $users = $this->userRepository->getIsActive(true);
