@@ -35,6 +35,18 @@ class ClassScheduleRepository implements ClassScheduleRepositoryInterface
             });
         }
 
+        $active = $collect->get('f_active');
+        if(null !== $active) {
+            $classSchedules->where('active', $active);
+        }
+
+        $student = $collect->get('f_student');
+        if(null !== $student) {
+            $classSchedules->whereHas('classStudents', function ($classStudents) use ($student) {
+                $classStudents->where('student_id', $student);
+            });
+        }
+
         return $classSchedules->get();
     }
 

@@ -56,7 +56,7 @@
                                                             @foreach($classSchedule->classStudents as $classStudent)
                                                                 <tr>
                                                                     <td>
-                                                                        {{ $classStudent->student->name }}
+                                                                        <a href="{{ route('admin.student.view', $classStudent->student) }}">{{ $classStudent->student->name }}</a>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach

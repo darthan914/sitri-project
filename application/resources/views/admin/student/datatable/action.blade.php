@@ -6,6 +6,9 @@
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
         {{--@if(Auth::user()->can('update-student'))--}}
         <li>
+            <a href="{{ route('admin.student.view', $index) }}">View</a>
+        </li>
+        <li>
             <a href="{{ route('admin.student.edit', $index) }}">Edit</a>
         </li>
         {{--@endif--}}

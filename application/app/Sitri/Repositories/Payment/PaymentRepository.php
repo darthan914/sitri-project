@@ -54,6 +54,11 @@ class PaymentRepository implements PaymentRepositoryInterface
             });
         }
 
+        $student = $collect->get('f_student');
+        if (null !== $student) {
+            $payment->where('student_id', $student);
+        }
+
         return $payment->get();
     }
 }
