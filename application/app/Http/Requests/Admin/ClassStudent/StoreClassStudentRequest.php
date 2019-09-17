@@ -24,7 +24,7 @@ class StoreClassStudentRequest extends FormRequest
     public function rules()
     {
         return [
-            'class_schedule_id' => 'required|integer',
+            'class_schedule_id' => 'required|min:1',
             'student_id'        => 'required|integer',
         ];
     }

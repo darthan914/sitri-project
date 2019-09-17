@@ -20,14 +20,31 @@ class StoreClassStudentAction
      */
     public function execute(array $request)
     {
-        $check = ClassStudent::query()->where('class_schedule_id', $request['class_schedule_id'])
-                                       ->where('student_id', $request['student_id'])->first()
+        $checks = ClassStudent::query()->whereIn('class_schedule_id', $request['class_schedule_id'])
+                              ->where('student_id', $request['student_id'])->get()
         ;
 
-        if (isset($check)) {
-            throw new Exception('Class student already exist');
+        $listScheduleRegister = [];
+        foreach ($checks as $classSchedule) {
+            $listScheduleRegister[$classSchedule->student_id][$classSchedule->class_schedule_id] = true;
         }
 
-        return ClassStudent::query()->create($request);
+        $massInsert = [];
+        foreach ($request['class_schedule_id'] as $classStudentId) {
+            if (isset($listScheduleRegister[$request['student_id']][$classStudentId])) {
+                continue;
+            }
+
+            $massInsert[] = [
+                'student_id'        => $request['student_id'],
+                'class_schedule_id' => $classStudentId,
+            ];
+        }
+
+        if (0 === count($massInsert)) {
+            throw new Exception('Nothing to add schedule');
+        }
+
+        return ClassStudent::query()->insert($massInsert);
     }
 }
