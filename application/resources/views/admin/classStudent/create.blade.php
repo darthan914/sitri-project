@@ -10,22 +10,6 @@
             <div class="box">
                 <form class="form-horizontal" method="post" action="{{ route('admin.classStudent.store') }}">
                     <div class="box-body">
-                        <div class="form-group @if($errors->first('class_schedule_id')) has-error @endif">
-                            <label for="class_schedule_id" class="col-sm-2 control-label">Class Schedule</label>
-
-                            <div class="col-sm-10">
-                                <select class="form-control select2" id="class_schedule_id" name="class_schedule_id"
-                                        data-placeholder="Select Class Schedule">
-                                    <option value=""></option>
-                                    @foreach($classSchedules as $classSchedule)
-                                        <option value="{{ $classSchedule->id }}"
-                                                @if($classSchedule->id == old('class_schedule_id')) selected @endif>{{ $classSchedule->getClassInfo() }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="help-block">{{ $errors->first('class_schedule_id') }}</span>
-                            </div>
-                        </div>
-
                         <div class="form-group @if($errors->first('student_id')) has-error @endif">
                             <label for="student_id" class="col-sm-2 control-label">Student</label>
 
@@ -35,7 +19,7 @@
                                     <option value=""></option>
                                     @foreach($students as $student)
                                         <option value="{{ $student->id }}"
-                                                @if($student->id == old('student_id')) selected @endif>{{ $student->name }}
+                                                @if($student->id == old('student_id', $request->student_id)) selected @endif>{{ $student->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -43,6 +27,21 @@
                             </div>
                         </div>
 
+                        <div class="form-group @if($errors->first('class_schedule_id')) has-error @endif">
+                            <label for="class_schedule_id" class="col-sm-2 control-label">Class Schedule</label>
+
+                            <div class="col-sm-10">
+                                <select multiple class="form-control select2" id="class_schedule_id" name="class_schedule_id[]"
+                                        data-placeholder="Select Class Schedule">
+                                    <option value=""></option>
+                                    @foreach($classSchedules as $classSchedule)
+                                        <option value="{{ $classSchedule->id }}"
+                                                @if(in_array($classSchedule->id, old('class_schedule_id', []))) selected @endif>{{ $classSchedule->getClassInfo() }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="help-block">{{ $errors->first('class_schedule_id') }}</span>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">

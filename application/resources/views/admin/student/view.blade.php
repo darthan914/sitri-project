@@ -8,11 +8,11 @@
     <script>
         $(function () {
             let classScheduleSelector = $('#classSchedule-list');
-            $('#classSchedule-list').DataTable({
+            classScheduleSelector.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('admin.classSchedule.dataTable') }}",
+                    url: "{{ route('admin.classStudent.dataTable') }}",
                     type: "get",
                     data: {
                         f_student: '{{ $student->id }}',
@@ -20,8 +20,7 @@
                     },
                 },
                 columns: [
-                    {data: 'class_room_id'},
-                    {data: 'schedule_id'},
+                    {data: 'class_schedule_id'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
                 paging: true,
@@ -91,6 +90,8 @@
 @stop
 
 @section('content')
+    @include('admin._general.modal.alert')
+    @include('admin._general.modal.alertActive')
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -110,11 +111,13 @@
             <div class="box">
                 <h2>Regular Schedule</h2>
                 <div class="box-body">
+                    <a href="{{ route('admin.classStudent.create', ['student_id' => $student->id]) }}" class="btn btn-default">Create</a>
+                </div>
+                <div class="box-body">
                     <table class="table table-bordered" id="classSchedule-list">
                         <thead>
                         <tr>
-                            <th>Class Name</th>
-                            <th>Schedule</th>
+                            <th>Class</th>
                             <th></th>
                         </tr>
                         </thead>

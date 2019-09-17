@@ -16,6 +16,7 @@ use App\Sitri\Repositories\Student\StudentRepositoryInterface;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -106,11 +107,11 @@ class ClassStudentController extends Controller
     /**
      * @return Factory|View
      */
-    public function create()
+    public function create(Request $request)
     {
         $classSchedules = $this->scheduleRepository->getIsActive(true);
         $students = $this->studentRepository->all();
-        return view('admin.classStudent.create', compact('classSchedules', 'students'));
+        return view('admin.classStudent.create', compact('classSchedules', 'students', 'request'));
     }
 
     /**
