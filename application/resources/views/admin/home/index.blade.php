@@ -49,7 +49,9 @@
                                                         <table class="table table-bordered">
                                                             <thead>
                                                             <tr>
-                                                                <th class="text-center">{{ $classSchedule->classRoom->name }}</th>
+                                                                <th class="text-center">
+                                                                    <a class="btn btn-sm btn-info btn-block" href="{{ route('admin.absence.create', ['date' => $weekDates[$day], 'class_schedule_id' => $classSchedule->id]) }}">{{ $classSchedule->classRoom->name }}</a>
+                                                                </th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>

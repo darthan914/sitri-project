@@ -26,6 +26,7 @@ class StoreAbsenceRequest extends FormRequest
         return [
             'class_schedule_id' => 'required|integer',
             'date'              => 'required|date',
+            'status'            => 'min:1',
             'status.*'          => 'required',
         ];
     }

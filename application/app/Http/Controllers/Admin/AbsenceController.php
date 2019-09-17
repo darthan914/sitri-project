@@ -87,11 +87,13 @@ class AbsenceController extends Controller
     }
 
     /**
+     * @param Request $request
+     *
      * @return Factory|View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.absence.create');
+        return view('admin.absence.create', compact('request'));
     }
 
     /**
@@ -115,14 +117,15 @@ class AbsenceController extends Controller
 
     /**
      * @param Absence $absence
+     * @param Request $request
      *
      * @return Factory|View
      */
-    public function edit(Absence $absence)
+    public function edit(Absence $absence, Request $request)
     {
         $classSchedules = $this->scheduleRepository->getByRequest(['f_date' => $absence->date]);
 
-        return view('admin.absence.edit', compact('absence', 'classSchedules'));
+        return view('admin.absence.edit', compact('absence', 'classSchedules', 'request'));
     }
 
     /**

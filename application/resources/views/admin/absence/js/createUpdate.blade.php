@@ -1,7 +1,7 @@
 <script>
     $(function () {
-        let oldClassScheduleId = '{{ old('class_schedule_id') }}';
-        let oldDate = '{{ old('date') }}';
+        let oldClassScheduleId = '{{ old('class_schedule_id', $request->class_schedule_id) }}';
+        let oldDate = '{{ old('date', $request->date) }}';
         let classScheduleSelector = $('select[name=class_schedule_id]');
         let dateSelector = $('input[name=date]');
 
@@ -35,7 +35,7 @@
                     $.each(data, function (i, field) {
                         classScheduleSelector.append("<option value='" + field.id + "'>" + field.name + "</option>");
                     });
-                    classScheduleSelector.val('').trigger('change');
+                    classScheduleSelector.val(oldClassScheduleId).trigger('change');
                 });
 
         }

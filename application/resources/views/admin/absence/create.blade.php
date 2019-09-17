@@ -20,7 +20,7 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control datepicker" id="date" name="date"
                                        placeholder="From Date"
-                                       value="{{ old('date') }}">
+                                       value="{{ old('date', $request->date) }}">
                                 <span class="help-block">{{ $errors->first('date') }}</span>
                             </div>
                         </div>
