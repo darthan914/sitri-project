@@ -31,8 +31,13 @@ class ClassStudentRepository implements ClassStudentRepositoryInterface
         $search = $collect->get('f_search');
         if (null !== $search && '' !== $search) {
             $classStudent->whereHas('student', function ($student) use ($search) {
-                $student->where('name', 'like', '%'.$search.'%');
+                $student->where('name', 'like', '%' . $search . '%');
             });
+        }
+
+        $student = $collect->get('f_student');
+        if (null !== $student) {
+            $classStudent->where('student_id', $student);
         }
 
         return $classStudent->get();
