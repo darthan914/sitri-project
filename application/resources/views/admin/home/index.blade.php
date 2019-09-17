@@ -13,6 +13,19 @@
         .highlight-today {
             background-color: #00e765;
         }
+
+        .strikethrough {
+            text-decoration: line-through;
+        }
+
+        .italic {
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        .content-overflow {
+            overflow: auto;
+        }
     </style>
 @stop
 
@@ -45,7 +58,7 @@
                 </div>
             </div>
 
-            <div class="box">
+            <div class="box content-overflow">
                 <div class="box-title">
                     <h2>Schedule Table</h2>
                 </div>
@@ -78,7 +91,7 @@
                                                         <table class="table table-bordered">
                                                             <thead>
                                                             <tr>
-                                                                <th class="text-center">
+                                                                <th class="text-center" style="width: 7em;">
                                                                     <a class="btn btn-sm btn-info btn-block"
                                                                        href="{{ route('admin.absence.create', ['date' => $weekDates[$day], 'class_schedule_id' => $classSchedule->id]) }}">{{ $classSchedule->classRoom->name }}</a>
                                                                 </th>
@@ -88,9 +101,22 @@
                                                             @foreach($classSchedule->classStudents as $classStudent)
                                                                 <tr>
                                                                     <td>
-                                                                        <a href="{{ route('admin.student.view', $classStudent->student) }}">{{ $classStudent->student->name }}</a>
+                                                                        <a href="{{ route('admin.student.view', $classStudent->student) }}"
+                                                                           class="@if(isset($listRescheduleFrom[$weekDates[$day]][$classStudent->student_id])) strikethrough @endif"
+                                                                        >{{ $classStudent->student->name }}</a>
                                                                     </td>
                                                                 </tr>
+                                                            @endforeach
+                                                            @foreach($rescheduleTo as $reschedule)
+                                                                @if($weekDates[$day] === $reschedule->to_date && $reschedule->to_class_schedule_id === $classSchedule->id)
+                                                                <tr>
+                                                                    <td>
+                                                                        <a href="{{ route('admin.student.view', $reschedule->student) }}"
+                                                                           class="italic"
+                                                                        >{{ $reschedule->student->name }}</a>
+                                                                    </td>
+                                                                </tr>
+                                                                @endif
                                                             @endforeach
                                                             </tbody>
                                                         </table>

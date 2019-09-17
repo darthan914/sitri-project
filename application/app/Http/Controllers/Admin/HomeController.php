@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Sitri\Repositories\Reschedule\RescheduleRepositoryInterface;
 use App\Sitri\Repositories\Schedule\ScheduleRepositoryInterface;
 use App\Sitri\Repositories\Student\StudentRepositoryInterface;
 use Carbon\Carbon;
@@ -17,17 +18,26 @@ class HomeController extends Controller
      * @var StudentRepositoryInterface
      */
     private $studentRepository;
+    /**
+     * @var RescheduleRepositoryInterface
+     */
+    private $rescheduleRepository;
 
     /**
      * HomeController constructor.
      *
      * @param ScheduleRepositoryInterface $scheduleRepository
-     * @param StudentRepositoryInterface  $studentRepository
+     * @param StudentRepositoryInterface $studentRepository
+     * @param RescheduleRepositoryInterface $rescheduleRepository
      */
-    public function __construct(ScheduleRepositoryInterface $scheduleRepository, StudentRepositoryInterface $studentRepository)
-    {
+    public function __construct(
+        ScheduleRepositoryInterface $scheduleRepository,
+        StudentRepositoryInterface $studentRepository,
+        RescheduleRepositoryInterface $rescheduleRepository
+    ) {
         $this->scheduleRepository = $scheduleRepository;
         $this->studentRepository = $studentRepository;
+        $this->rescheduleRepository = $rescheduleRepository;
     }
 
     public function index()
@@ -41,8 +51,18 @@ class HomeController extends Controller
             $weekDates[$week] = $startWeek->addDay()->toDateString();
         }
 
+        $rescheduleFrom = $this->rescheduleRepository->getFromRangeDate($weekDates[0], $weekDates[6]);
+        $listRescheduleFrom = [];
+        foreach ($rescheduleFrom as $reschedule) {
+            $listRescheduleFrom[$reschedule->from_date][$reschedule->student_id] = true;
+        }
+
+        $rescheduleTo = $this->rescheduleRepository->getToRangeDate($weekDates[0], $weekDates[6]);
+
         $studentNotOnSchedule = $this->studentRepository->getStudentNotOnSchedule();
 
-        return view('admin.home.index', compact('schedules', 'activeDayLists', 'weekDates', 'studentNotOnSchedule'));
+        return view('admin.home.index',
+            compact('schedules', 'activeDayLists', 'weekDates', 'studentNotOnSchedule', 'listRescheduleFrom',
+                'rescheduleTo'));
     }
 }

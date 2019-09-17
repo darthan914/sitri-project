@@ -12,4 +12,8 @@ interface RescheduleRepositoryInterface extends DataInterface
     public function getRegularStudentScheduleByDate($studentId, $date);
 
     public function getRescheduleStudentAvailableByDate($studentId, $toDate, $fromDate);
+
+    public function getFromRangeDate($start, $end);
+
+    public function getToRangeDate($start, $end);
 }

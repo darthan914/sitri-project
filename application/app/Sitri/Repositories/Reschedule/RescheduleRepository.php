@@ -36,6 +36,16 @@ class RescheduleRepository implements RescheduleRepositoryInterface
             $reschedule->where('student_id', $student);
         }
 
+        $rangeFromDate = $collect->get('f_range_from_date');
+        if (null !== $rangeFromDate && is_array($rangeFromDate)) {
+            $reschedule->whereBetween('from_date', $rangeFromDate);
+        }
+
+        $rangeToDate = $collect->get('f_range_to_date');
+        if (null !== $rangeToDate && is_array($rangeToDate)) {
+            $reschedule->whereBetween('to_date', $rangeToDate);
+        }
+
         return $reschedule->get();
     }
 
@@ -68,5 +78,15 @@ class RescheduleRepository implements RescheduleRepositoryInterface
         }
 
         return $classSchedule->get();
+    }
+
+    public function getFromRangeDate($start, $end)
+    {
+        return $this->getByRequest(['f_range_from_date' => [$start, $end]]);
+    }
+
+    public function getToRangeDate($start, $end)
+    {
+        return $this->getByRequest(['f_range_to_date' => [$start, $end]]);
     }
 }
