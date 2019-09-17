@@ -57,6 +57,7 @@
                         </span>
                     @endif
                 </div>
+                @yield('additional-input')
                 <button type="submit" class="btn btn-primary btn-block btn-flat">
                     {{ trans('adminlte::adminlte.register') }}
                 </button>

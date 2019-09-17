@@ -124,7 +124,7 @@ class UserController extends Controller
     {
         $request->validated();
 
-        $action->execute($user, $request->all());
+        $action->execute($user, $request->except(['password']));
 
         return redirect()->route('admin.user.index')->with('success', 'Data has been updated');
     }
@@ -144,9 +144,9 @@ class UserController extends Controller
     }
 
     /**
-     * @param User              $user
-     * @param ActiveUserRequest $request
-     * @param ActiveUserAction  $action
+     * @param User             $user
+     * @param ActiveRequest    $request
+     * @param ActiveUserAction $action
      *
      * @return RedirectResponse
      */

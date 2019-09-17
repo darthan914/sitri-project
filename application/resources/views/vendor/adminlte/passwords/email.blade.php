@@ -14,12 +14,12 @@
         <!-- /.login-logo -->
         <div class="login-box-body">
             <p class="login-box-msg">{{ trans('adminlte::adminlte.password_reset_message') }}</p>
-            @if (session('status'))
+            @if (session('success'))
                 <div class="alert alert-success">
-                    {{ session('status') }}
+                    {{ session('success') }}
                 </div>
             @endif
-            <form action="{{ url(config('adminlte.password_email_url', 'password/email')) }}" method="post">
+            <form action="{{ route('admin.forgotPassword') }}" method="post">
                 {{ csrf_field() }}
 
                 <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">

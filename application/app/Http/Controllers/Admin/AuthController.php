@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Auth\SendForgotPasswordRequest;
 use App\Http\Requests\Admin\LoginRequest;
 use App\Http\Requests\Admin\RegisterRequest;
 use App\Sitri\Actions\Auth\CheckTokenForgotPasswordAction;
+use App\Sitri\Actions\Auth\LogoutAction;
 use App\Sitri\Actions\Auth\ResetPasswordAction;
 use App\Sitri\Actions\Auth\SendForgotPasswordAction;
 use App\Sitri\Actions\Auth\VerifyEmailAction;
@@ -15,6 +16,7 @@ use App\Sitri\Actions\RegisterAction;
 use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -24,6 +26,10 @@ class AuthController extends Controller
 
     public function loginForm()
     {
+        if(Auth::check()) {
+            return redirect()->route('admin.home.index');
+        }
+
         return view('admin.auth.login');
     }
 
@@ -32,12 +38,19 @@ class AuthController extends Controller
         $request->validated();
 
         try {
-            $action->execute($request->email, $request->password, $request->remember_me);
+            $action->execute($request->email, $request->password, $request->remember);
         } catch (Exception $e) {
             return redirect()->route('admin.login')->with('failed', $e->getMessage());
         }
 
-        return redirect()->route('admin.home');
+        return redirect()->route('admin.home.index');
+    }
+
+    public function logout(LogoutAction $action)
+    {
+        $action->execute();
+
+        return redirect()->route('admin.login');
     }
 
     public function registerForm()
@@ -71,12 +84,12 @@ class AuthController extends Controller
             ;
     }
 
-    public function forgotPassword()
+    public function forgotPasswordForm()
     {
         return view('admin.auth.forgotPassword');
     }
 
-    public function sendForgotPassword(SendForgotPasswordRequest $request, SendForgotPasswordAction $action)
+    public function forgotPassword(SendForgotPasswordRequest $request, SendForgotPasswordAction $action)
     {
         $request->validated();
 
@@ -93,7 +106,7 @@ class AuthController extends Controller
             ;
     }
 
-    public function formResetPassword(Request $request, CheckTokenForgotPasswordAction $action)
+    public function resetPasswordForm(Request $request, CheckTokenForgotPasswordAction $action)
     {
         try {
             $action->execute($request->token);
@@ -102,8 +115,9 @@ class AuthController extends Controller
                          ->with('failed', $e->getMessage())
             ;
         }
+        $token = $request->token;
 
-        return view('admin.auth.resetPassword', compact('token'));
+        return view('admin.auth.reset', compact('token'));
     }
 
     public function resetPassword(ResetPasswordRequest $request, ResetPasswordAction $action)
