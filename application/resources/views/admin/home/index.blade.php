@@ -9,17 +9,46 @@
 @stop
 
 @section('css')
-<style>
-    .highlight-today{
-        background-color: #00e765;
-    }
-</style>
+    <style>
+        .highlight-today {
+            background-color: #00e765;
+        }
+    </style>
 @stop
 
 @section('content')
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
+                <div class="box-title">
+                    <h2>Student list not on schedule</h2>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Parent Name</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($studentNotOnSchedule as $student)
+                            <tr>
+                                <td>{{ $student->name }}</td>
+                                <td>{{ $student->user->name }}</td>
+                                <td><a href="{{ route('admin.student.view', $student) }}" class="btn btn-sm btn-primary">View</a></td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="box">
+                <div class="box-title">
+                    <h2>Schedule Table</h2>
+                </div>
                 <div class="box-body">
                     <table class="table table-bordered">
                         <thead>
@@ -50,7 +79,8 @@
                                                             <thead>
                                                             <tr>
                                                                 <th class="text-center">
-                                                                    <a class="btn btn-sm btn-info btn-block" href="{{ route('admin.absence.create', ['date' => $weekDates[$day], 'class_schedule_id' => $classSchedule->id]) }}">{{ $classSchedule->classRoom->name }}</a>
+                                                                    <a class="btn btn-sm btn-info btn-block"
+                                                                       href="{{ route('admin.absence.create', ['date' => $weekDates[$day], 'class_schedule_id' => $classSchedule->id]) }}">{{ $classSchedule->classRoom->name }}</a>
                                                                 </th>
                                                             </tr>
                                                             </thead>

@@ -44,4 +44,9 @@ class StudentRepository implements StudentRepositoryInterface
 
         return $student->orderBy('name')->get();
     }
+
+    public function getStudentNotOnSchedule()
+    {
+        return Student::query()->doesntHave('classStudents')->get();
+    }
 }

@@ -6,5 +6,5 @@ use App\Sitri\Interfaces\DataInterface;
 
 interface StudentRepositoryInterface extends DataInterface
 {
-
+    public function getStudentNotOnSchedule();
 }

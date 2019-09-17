@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Sitri\Repositories\Schedule\ScheduleRepositoryInterface;
+use App\Sitri\Repositories\Student\StudentRepositoryInterface;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -12,10 +13,21 @@ class HomeController extends Controller
      * @var ScheduleRepositoryInterface
      */
     private $scheduleRepository;
+    /**
+     * @var StudentRepositoryInterface
+     */
+    private $studentRepository;
 
-    public function __construct(ScheduleRepositoryInterface $scheduleRepository)
+    /**
+     * HomeController constructor.
+     *
+     * @param ScheduleRepositoryInterface $scheduleRepository
+     * @param StudentRepositoryInterface  $studentRepository
+     */
+    public function __construct(ScheduleRepositoryInterface $scheduleRepository, StudentRepositoryInterface $studentRepository)
     {
         $this->scheduleRepository = $scheduleRepository;
+        $this->studentRepository = $studentRepository;
     }
 
     public function index()
@@ -29,6 +41,8 @@ class HomeController extends Controller
             $weekDates[$week] = $startWeek->addDay()->toDateString();
         }
 
-        return view('admin.home.index', compact('schedules', 'activeDayLists', 'weekDates'));
+        $studentNotOnSchedule = $this->studentRepository->getStudentNotOnSchedule();
+
+        return view('admin.home.index', compact('schedules', 'activeDayLists', 'weekDates', 'studentNotOnSchedule'));
     }
 }
