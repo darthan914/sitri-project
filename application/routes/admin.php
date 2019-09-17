@@ -75,7 +75,6 @@ Route::prefix('classStudent')->name('classStudent.')->group(function () {
     Route::get('{classStudent}/edit', 'ClassStudentController@edit')->name('edit');
     Route::post('{classStudent}/update', 'ClassStudentController@update')->name('update');
     Route::post('{classStudent}/delete', 'ClassStudentController@delete')->name('delete');
-    Route::post('{classStudent}/active', 'ClassStudentController@active')->name('active');
 })
 ;
 
