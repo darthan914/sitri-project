@@ -115,3 +115,15 @@ Route::prefix('payment')->name('payment.')->group(function () {
     Route::post('{payment}/paid', 'PaymentController@paid')->name('paid');
 })
 ;
+
+Route::prefix('role')->name('role.')->group(function () {
+    Route::get('/', 'RoleController@index')->name('index');
+    Route::get('dataTable', 'RoleController@dataTable')->name('dataTable');
+    Route::get('create', 'RoleController@create')->name('create');
+    Route::post('store', 'RoleController@store')->name('store');
+    Route::get('{role}/edit', 'RoleController@edit')->name('edit');
+    Route::post('{role}/update', 'RoleController@update')->name('update');
+    Route::post('{role}/delete', 'RoleController@delete')->name('delete');
+    Route::post('{role}/active', 'RoleController@active')->name('active');
+})
+;

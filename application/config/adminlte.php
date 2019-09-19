@@ -184,6 +184,11 @@ return [
             'route' => 'admin.payment.index',
             'icon'  => 'fa fa-money',
         ],
+        [
+            'text'  => 'Role Management',
+            'route' => 'admin.role.index',
+            'icon'  => 'fa fa-cog',
+        ],
         ['header' => 'PARENT MENU'],
 
         ['header' => 'account_settings'],
