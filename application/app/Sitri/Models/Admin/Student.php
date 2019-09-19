@@ -6,6 +6,9 @@ use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property User user
+ */
 class Student extends Model
 {
     protected $fillable = ['user_id', 'name'];

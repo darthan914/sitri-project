@@ -5,6 +5,9 @@ namespace App\Sitri\Models\Admin;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property Student student
+ */
 class ClassStudent extends Model
 {
     protected $fillable = ['student_id', 'class_schedule_id'];
