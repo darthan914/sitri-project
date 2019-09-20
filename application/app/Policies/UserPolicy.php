@@ -36,7 +36,7 @@ class UserPolicy
 
     public function delete(User $auth, User $user)
     {
-        return $auth->hasAccess('delete-user') && $auth->id != $user->id;
+        return $auth->hasAccess('delete-user') && $auth->id !== $user->id && $user->id !== User::USER_MASTER;
     }
 
     public function full(User $auth)
