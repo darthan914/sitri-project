@@ -48,6 +48,7 @@ class ClassScheduleController extends Controller
         ClassRoomRepositoryInterface $classRoomRepository,
         ScheduleRepositoryInterface $scheduleRepository
     ) {
+        $this->middleware('auth');
         $this->classScheduleRepository = $classScheduleRepository;
         $this->classRoomRepository = $classRoomRepository;
         $this->scheduleRepository = $scheduleRepository;

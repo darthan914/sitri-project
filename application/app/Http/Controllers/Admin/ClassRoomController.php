@@ -33,6 +33,7 @@ class ClassRoomController extends Controller
      */
     public function __construct(ClassRoomRepositoryInterface $classRoomRepository)
     {
+        $this->middleware('auth');
         $this->classRoomRepository = $classRoomRepository;
     }
 

@@ -42,6 +42,8 @@ class ScheduleController extends Controller
      */
     public function __construct(ScheduleRepositoryInterface $scheduleRepository)
     {
+        $this->middleware('auth');
+
         $this->scheduleRepository = $scheduleRepository;
     }
 

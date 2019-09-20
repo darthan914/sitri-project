@@ -42,6 +42,8 @@ class AbsenceController extends Controller
         AbsenceRepositoryInterface $absenceRepository,
         ClassScheduleRepositoryInterface $scheduleRepository
     ) {
+        $this->middleware('auth');
+
         $this->absenceRepository = $absenceRepository;
         $this->scheduleRepository = $scheduleRepository;
     }

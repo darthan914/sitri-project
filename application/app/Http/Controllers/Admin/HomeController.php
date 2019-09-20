@@ -35,6 +35,7 @@ class HomeController extends Controller
         StudentRepositoryInterface $studentRepository,
         RescheduleRepositoryInterface $rescheduleRepository
     ) {
+        $this->middleware('auth');
         $this->scheduleRepository = $scheduleRepository;
         $this->studentRepository = $studentRepository;
         $this->rescheduleRepository = $rescheduleRepository;

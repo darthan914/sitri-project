@@ -40,6 +40,7 @@ class RescheduleController extends Controller
         RescheduleRepositoryInterface $rescheduleRepository,
         StudentRepositoryInterface $studentRepository
     ) {
+        $this->middleware('auth');
         $this->rescheduleRepository = $rescheduleRepository;
         $this->studentRepository = $studentRepository;
     }

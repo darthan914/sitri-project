@@ -42,6 +42,7 @@ class PaymentController extends Controller
         PaymentRepositoryInterface $paymentRepository,
         StudentRepositoryInterface $studentRepository
     ) {
+        $this->middleware('auth');
         $this->paymentRepository = $paymentRepository;
         $this->studentRepository = $studentRepository;
     }

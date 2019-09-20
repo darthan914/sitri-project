@@ -47,6 +47,7 @@ class ClassStudentController extends Controller
         ClassScheduleRepositoryInterface $scheduleRepository,
         StudentRepositoryInterface $studentRepository
     ) {
+        $this->middleware('auth');
         $this->classStudentRepository = $classStudentRepository;
         $this->scheduleRepository = $scheduleRepository;
         $this->studentRepository = $studentRepository;

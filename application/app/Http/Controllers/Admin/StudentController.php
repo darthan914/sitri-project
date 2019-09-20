@@ -38,6 +38,7 @@ class StudentController extends Controller
      */
     public function __construct(StudentRepositoryInterface $studentRepository, UserRepositoryInterface $userRepository)
     {
+        $this->middleware('auth');
 
         $this->studentRepository = $studentRepository;
         $this->userRepository = $userRepository;
