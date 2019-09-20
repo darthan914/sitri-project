@@ -25,6 +25,17 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        foreach (config('darthan.accesses') as $list) {
+            foreach ($list['data'] as $list2) {
+                if (isset($list2['policy'])) {
+                    Gate::define($list2['value'] . '-' . $list['id'], $list2['policy']);
+                    continue;
+                }
+
+                Gate::define($list2['value'] . '-' . $list['id'], function ($user) use ($list, $list2) {
+                    return $user->hasAccess($list2['value'] . '-' . $list['id']);
+                });
+            }
+        }
     }
 }

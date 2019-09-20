@@ -15,6 +15,6 @@ class Role extends Model
 
     public function getCanAttribute($value)
     {
-        return json_decode($value, true);
+        return null === $value ? [] : json_decode($value, true);
     }
 }
