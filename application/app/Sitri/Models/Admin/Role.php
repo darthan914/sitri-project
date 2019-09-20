@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    const ROLE_MASTER = 1;
+
+    const ROLE_ADMIN = 2;
+    
+    const ROLE_PARENT = 3;
+
     protected $fillable = ['name', 'can', 'active'];
 
     public function setCanAttribute($value)
