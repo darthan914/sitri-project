@@ -4,6 +4,9 @@ namespace App\Sitri\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property array can
+ */
 class Role extends Model
 {
     const ROLE_MASTER = 1;
