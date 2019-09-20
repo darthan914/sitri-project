@@ -2,14 +2,20 @@
 
 namespace App;
 
+use App\Sitri\Models\Admin\Role;
 use App\Sitri\Models\Admin\Student;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property Role role
+ */
 class User extends Authenticatable
 {
     use Notifiable;
+
+    const USER_MASTER = 1;
 
     /**
      * The attributes that are mass assignable.
@@ -52,8 +58,13 @@ class User extends Authenticatable
         return $this->hasMany(Student::class);
     }
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
     public function hasAccess($access)
     {
-        return true;
+        return in_array($access, $this->role->can);
     }
 }
