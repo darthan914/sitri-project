@@ -115,3 +115,22 @@ Route::prefix('payment')->name('payment.')->group(function () {
     Route::post('{payment}/paid', 'PaymentController@paid')->name('paid');
 })
 ;
+
+Route::prefix('trial')->name('trial.')->group(function () {
+    Route::get('/', 'TrialController@index')->name('index');
+    Route::get('dataTable', 'TrialController@dataTable')->name('dataTable');
+    Route::get('create', 'TrialController@create')->name('create');
+    Route::post('store', 'TrialController@store')->name('store');
+    Route::get('{parentTrial}/edit', 'TrialController@edit')->name('edit');
+    Route::post('{parentTrial}/update', 'TrialController@update')->name('update');
+    Route::post('{parentTrial}/delete', 'TrialController@delete')->name('delete');
+    Route::prefix('{parentTrial}/child')->name('child.')->group(function () {
+        Route::get('create', 'TrialController@createChild')->name('create');
+        Route::post('store', 'TrialController@storeChild')->name('store');
+        Route::get('{childTrial}/edit', 'TrialController@editChild')->name('edit');
+        Route::post('{childTrial}/update', 'TrialController@updateChild')->name('update');
+        Route::post('{childTrial}/delete', 'TrialController@deleteChild')->name('delete');
+    })
+    ;
+})
+;

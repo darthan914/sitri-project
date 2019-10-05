@@ -9,5 +9,5 @@ use App\Sitri\Interfaces\DataInterface;
 
 interface ClassScheduleRepositoryInterface extends DataInterface, ActiveInterface
 {
-
+    public function getIsTrial($active);
 }

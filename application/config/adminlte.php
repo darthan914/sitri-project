@@ -155,6 +155,11 @@ return [
             'icon'  => 'far fa-clock',
         ],
         [
+            'text'  => 'Trial Management',
+            'route' => 'admin.trial.index',
+            'icon'  => 'far fa-clock',
+        ],
+        [
             'text'    => 'Class Management',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [

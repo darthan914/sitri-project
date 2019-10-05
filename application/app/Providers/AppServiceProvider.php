@@ -19,6 +19,8 @@ use App\Sitri\Repositories\Schedule\ScheduleRepository;
 use App\Sitri\Repositories\Schedule\ScheduleRepositoryInterface;
 use App\Sitri\Repositories\Student\StudentRepository;
 use App\Sitri\Repositories\Student\StudentRepositoryInterface;
+use App\Sitri\Repositories\Trial\TrialRepository;
+use App\Sitri\Repositories\Trial\TrialRepositoryInterface;
 use App\Sitri\Repositories\User\UserRepository;
 use App\Sitri\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
@@ -54,6 +56,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(RescheduleRepositoryInterface::class, RescheduleRepository::class);
         $this->app->singleton(AbsenceRepositoryInterface::class, AbsenceRepository::class);
         $this->app->singleton(PaymentRepositoryInterface::class, PaymentRepository::class);
+        $this->app->singleton(TrialRepositoryInterface::class, TrialRepository::class);
 
     }
 }

@@ -57,4 +57,9 @@ class ClassScheduleRepository implements ClassScheduleRepositoryInterface
     {
         return ClassSchedule::query()->where('active', $active)->get();
     }
+
+    public function getIsTrial($active)
+    {
+        return ClassSchedule::query()->where('active', 1)->where('is_trial', $active)->get();
+    }
 }

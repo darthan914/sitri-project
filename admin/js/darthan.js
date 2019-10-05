@@ -61,6 +61,8 @@ $(function () {
         }
     });
 
+    $(".dataTable-general").DataTable();
+
 });
 
 const alertModal = function (selector) {
