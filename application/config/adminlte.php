@@ -150,104 +150,106 @@ return [
             'icon'  => 'far fa-smile',
         ],
         [
-            'text'  => 'Schedule Management',
-            'route' => 'admin.schedule.index',
-            'icon'  => 'far fa-clock',
-        ],
-        [
-            'text'  => 'Class Room Management',
-            'route' => 'admin.classRoom.index',
-            'icon'  => 'far fa-clock',
-        ],
-        [
             'text'  => 'Class Schedule Management',
             'route' => 'admin.classSchedule.index',
             'icon'  => 'far fa-clock',
         ],
         [
-            'text'  => 'Class Student Management',
-            'route' => 'admin.classStudent.index',
-            'icon'  => 'far fa-clock',
-        ],
-        [
-            'text'  => 'Reschedule Management',
-            'route' => 'admin.reschedule.index',
-            'icon'  => 'far fa-clock',
-        ],
-        [
-            'text'  => 'Absence Management',
-            'route' => 'admin.absence.index',
-            'icon'  => 'far fa-clock',
-        ],
-        [
-            'text'  => 'Payment Management',
-            'route' => 'admin.payment.index',
-            'icon'  => 'fa fa-money',
-        ],
-        ['header' => 'PARENT MENU'],
-
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text'    => 'multilevel',
+            'text'    => 'Class Management',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
+                    'text'  => 'Schedule Management',
+                    'route' => 'admin.schedule.index',
                 ],
                 [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'text'  => 'Class Room Management',
+                    'route' => 'admin.classRoom.index',
+                ],
+
+                [
+                    'text'  => 'Class Student Management',
+                    'route' => 'admin.classStudent.index',
                 ],
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
+                    'text'  => 'Reschedule Management',
+                    'route' => 'admin.reschedule.index',
+                ],
+                [
+                    'text'  => 'Absence Management',
+                    'route' => 'admin.absence.index',
+                ],
+                [
+                    'text'  => 'Payment Management',
+                    'route' => 'admin.payment.index',
                 ],
             ],
         ],
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'aqua',
-        ],
+
+//        ['header' => 'PARENT MENU'],
+//
+//        ['header' => 'account_settings'],
+//        [
+//            'text' => 'profile',
+//            'url'  => 'admin/settings',
+//            'icon' => 'fas fa-fw fa-user',
+//        ],
+//        [
+//            'text' => 'change_password',
+//            'url'  => 'admin/settings',
+//            'icon' => 'fas fa-fw fa-lock',
+//        ],
+//        [
+//            'text'    => 'multilevel',
+//            'icon'    => 'fas fa-fw fa-share',
+//            'submenu' => [
+//                [
+//                    'text' => 'level_one',
+//                    'url'  => '#',
+//                ],
+//                [
+//                    'text'    => 'level_one',
+//                    'url'     => '#',
+//                    'submenu' => [
+//                        [
+//                            'text' => 'level_two',
+//                            'url'  => '#',
+//                        ],
+//                        [
+//                            'text'    => 'level_two',
+//                            'url'     => '#',
+//                            'submenu' => [
+//                                [
+//                                    'text' => 'level_three',
+//                                    'url'  => '#',
+//                                ],
+//                                [
+//                                    'text' => 'level_three',
+//                                    'url'  => '#',
+//                                ],
+//                            ],
+//                        ],
+//                    ],
+//                ],
+//                [
+//                    'text' => 'level_one',
+//                    'url'  => '#',
+//                ],
+//            ],
+//        ],
+//        ['header' => 'labels'],
+//        [
+//            'text'       => 'important',
+//            'icon_color' => 'red',
+//        ],
+//        [
+//            'text'       => 'warning',
+//            'icon_color' => 'yellow',
+//        ],
+//        [
+//            'text'       => 'information',
+//            'icon_color' => 'aqua',
+//        ],
     ],
 
     /*

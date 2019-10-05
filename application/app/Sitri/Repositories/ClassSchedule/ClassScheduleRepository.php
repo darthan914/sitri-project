@@ -30,9 +30,7 @@ class ClassScheduleRepository implements ClassScheduleRepositoryInterface
 
         $date = $collect->get('f_date');
         if(null !== $date) {
-            $classSchedules->whereHas('schedule', function ($schedule) use ($date) {
-                $schedule->where('day', Carbon::parse($date)->dayOfWeek);
-            });
+            $classSchedules->where('day', Carbon::parse($date)->dayOfWeek);
         }
 
         $active = $collect->get('f_active');

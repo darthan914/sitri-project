@@ -86,7 +86,7 @@ class ClassScheduleController extends Controller
         });
 
         $dataTable->editColumn('schedule_id', function ($index) {
-            return $index->schedule->getSchedule();
+            return $index->getSchedule();
         });
 
 
@@ -95,8 +95,14 @@ class ClassScheduleController extends Controller
             return view('admin._general.datatable.active', compact('active'));
         });
 
+        $dataTable->editColumn('is_trial', function ($index) {
+            $active = $index->is_trial;
+            return view('admin._general.datatable.active', compact('active'));
+        });
 
-        $dataTable = $dataTable->rawColumns(['action', 'active'])->make(true);
+
+
+        $dataTable = $dataTable->rawColumns(['action', 'active', 'is_trial'])->make(true);
         return $dataTable;
     }
 
@@ -106,8 +112,9 @@ class ClassScheduleController extends Controller
     public function create()
     {
         $classRooms = $this->classRoomRepository->getIsActive(true);
-        $schedules = $this->scheduleRepository->getIsActive(true);
-        return view('admin.classSchedule.create', compact('classRooms', 'schedules'));
+        $day = config('sitri.day');
+        $time = config('sitri.time');
+        return view('admin.classSchedule.create', compact('classRooms', 'day', 'time'));
     }
 
     /**
@@ -137,8 +144,9 @@ class ClassScheduleController extends Controller
     public function edit(ClassSchedule $classSchedule)
     {
         $classRooms = $this->classRoomRepository->getIsActive(true);
-        $schedules = $this->scheduleRepository->getIsActive(true);
-        return view('admin.classSchedule.edit', compact('classSchedule', 'classRooms', 'schedules'));
+        $day = config('sitri.day');
+        $time = config('sitri.time');
+        return view('admin.classSchedule.edit', compact('classSchedule', 'classRooms', 'day', 'time'));
     }
 
     /**

@@ -18,9 +18,18 @@ class UpdateClassScheduleAction
      */
     public function execute(ClassSchedule $classSchedule, array $request)
     {
+        if (isset($request['time'])) {
+            $request['start_time'] = config('sitri.time')[$request['time']]['start_time'];
+            $request['end_time'] = config('sitri.time')[$request['time']]['end_time'];
+        }
+
+
         $checkClassRoom = ClassSchedule::query()->where('class_room_id', $request['class_room_id'])
-                                       ->where('schedule_id', $request['schedule_id'])
-                                       ->where('id', '<>', $classSchedule->id)->first()
+                                       ->where('day', $request['day'])
+                                       ->where('start_time', $request['start_time'])
+                                       ->where('end_time', $request['end_time'])
+                                       ->where('id', '<>', $classSchedule->id)
+                                       ->first()
         ;
 
         if (isset($checkClassRoom)) {

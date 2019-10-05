@@ -25,8 +25,10 @@ class StoreClassScheduleRequest extends FormRequest
     {
         return [
             'class_room_id' => 'required|integer',
-            'schedule_id'   => 'required|integer',
+            'day'           => 'required|integer',
+            'time'          => 'required|integer',
             'active'        => 'nullable|boolean',
+            'is_trial'      => 'nullable|boolean',
         ];
     }
 
@@ -34,7 +36,6 @@ class StoreClassScheduleRequest extends FormRequest
     {
         return [
             'class_room_id' => 'class room',
-            'schedule_id'   => 'schedule',
         ];
     }
 }

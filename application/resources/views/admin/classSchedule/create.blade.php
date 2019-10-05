@@ -26,20 +26,33 @@
                             </div>
                         </div>
 
-                        <div class="form-group @if($errors->first('schedule_id')) has-error @endif">
-                            <label for="schedule_id" class="col-sm-2 control-label">Schedule</label>
+                        <div class="form-group @if($errors->first('day')) has-error @endif">
+                            <label for="day" class="col-sm-2 control-label">Day</label>
 
                             <div class="col-sm-10">
-                                <select class="form-control select2" id="schedule_id" name="schedule_id"
-                                        data-placeholder="Select Schedule">
-                                    <option value=""></option>
-                                    @foreach($schedules as $schedule)
-                                        <option value="{{ $schedule->id }}"
-                                                @if($schedule->id == old('schedule_id')) selected @endif>{{ $schedule->getSchedule() }}
-                                        </option>
+                                <select class="form-control" id="day" name="day">
+                                    <option value="">Select Day</option>
+                                    @foreach($day as $key => $value)
+                                        <option value="{{ $key }}"
+                                                @if(old('day') == $key) selected @endif>{{ $value }}</option>
                                     @endforeach
                                 </select>
-                                <span class="help-block">{{ $errors->first('schedule_id') }}</span>
+                                <span class="help-block">{{ $errors->first('day') }}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group @if($errors->first('time')) has-error @endif">
+                            <label for="time" class="col-sm-2 control-label">Time</label>
+
+                            <div class="col-sm-10">
+                                <select class="form-control" id="time" name="time">
+                                    <option value="">Select Time</option>
+                                    @foreach($time as $key => $value)
+                                        <option value="{{ $key }}"
+                                                @if(old('time') == $key) selected @endif>{{ $value['start_time'] }} - {{ $value['end_time'] }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="help-block">{{ $errors->first('time') }}</span>
                             </div>
                         </div>
 
@@ -49,6 +62,15 @@
                                     <input type="checkbox" id="active" name="active" value="1"
                                            @if(old('active') == 1) checked @endif>Active</label>
                                 <span class="help-block">{{ $errors->first('active') }}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group @if($errors->first('is_trial')) has-error @endif">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="is_trial" name="is_trial" value="1"
+                                           @if(old('is_trial') == 1) checked @endif>Trail</label>
+                                <span class="help-block">{{ $errors->first('is_trial') }}</span>
                             </div>
                         </div>
 

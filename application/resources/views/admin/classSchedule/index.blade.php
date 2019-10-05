@@ -23,6 +23,7 @@
                     {data: 'class_room_id'},
                     {data: 'schedule_id'},
                     {data: 'active'},
+                    {data: 'is_trial'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
                 paging: true,
@@ -64,6 +65,9 @@
                             </th>
                             <th>
                                 Active
+                            </th>
+                            <th>
+                                Trial
                             </th>
                             <th>
 

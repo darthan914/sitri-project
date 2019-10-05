@@ -20,9 +20,12 @@ class ClassScheduleTableSeeder extends Seeder
         foreach ($schedules as $schedule) {
             foreach ($classes as $class) {
                 $values[] = [
-                    'class_room_id'    => $class->id,
-                    'schedule_id' => $schedule->id,
-                    'active'      => rand(1, 100) >= 25 ? 1 : 0,
+                    'class_room_id' => $class->id,
+                    'day'           => $schedule->day,
+                    'start_time'    => $schedule->start_time,
+                    'end_time'      => $schedule->end_time,
+                    'active'        => rand(1, 100) >= 25 ? 1 : 0,
+                    'is_trial'      => rand(1, 100) >= 80 ? 1 : 0,
                 ];
             }
         }
