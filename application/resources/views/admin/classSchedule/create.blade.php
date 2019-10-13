@@ -69,7 +69,7 @@
                             <div class="col-sm-10 col-sm-offset-2">
                                 <label class="checkbox-inline">
                                     <input type="checkbox" id="is_trial" name="is_trial" value="1"
-                                           @if(old('is_trial') == 1) checked @endif>Trail</label>
+                                           @if(old('is_trial') == 1) checked @endif>Trial</label>
                                 <span class="help-block">{{ $errors->first('is_trial') }}</span>
                             </div>
                         </div>

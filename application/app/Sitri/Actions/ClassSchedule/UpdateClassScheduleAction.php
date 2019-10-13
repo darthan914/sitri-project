@@ -36,6 +36,9 @@ class UpdateClassScheduleAction
             throw new Exception('Class schedule already exist');
         }
 
+        $request['active'] = isset($request['active']) ? 1 : 0;
+        $request['is_trial'] = isset($request['is_trial']) ? 1 : 0;
+
         return $classSchedule->update($request);
     }
 }
