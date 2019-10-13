@@ -16,6 +16,7 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::post('{user}/update', 'UserController@update')->name('update');
     Route::post('{user}/delete', 'UserController@delete')->name('delete');
     Route::post('{user}/active', 'UserController@active')->name('active');
+    Route::get('getUserByEmail', 'UserController@getUserByEmail')->name('getUserByEmail');
 })
 ;
 

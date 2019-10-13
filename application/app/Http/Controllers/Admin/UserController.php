@@ -18,6 +18,7 @@ use App\User;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -173,5 +174,10 @@ class UserController extends Controller
         $action->execute($user, $request->get('password'));
 
         return redirect()->route('admin.user.index')->with('success', 'Data has been updated');
+    }
+
+    public function getUserByEmail(Request $request)
+    {
+        return $this->userRepository->getUserByEmail($request->email)->toArray();
     }
 }

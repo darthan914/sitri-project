@@ -62,4 +62,9 @@ class UserRepository implements UserRepositoryInterface
 
         return $user->orderBy('name')->get();
     }
+
+    public function getUserByEmail($email)
+    {
+        return User::query()->where('email', $email)->first();
+    }
 }
