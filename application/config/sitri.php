@@ -2,13 +2,13 @@
 
 return [
     'day'  => [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
+        'Minggu',
+        'Senin',
+        'Selesa',
+        'Rabu',
+        'Kamis',
+        'Jumat',
+        'Sabtu'
     ],
     'time' => [
         [
@@ -31,5 +31,9 @@ return [
             'start_time' => '15:00:00',
             'end_time'   => '17:00:00',
         ],
-    ]
+    ],
+    'recommendation' => [
+        'IG' => 'IG',
+        'FRIEND' => 'Teman',
+    ],
 ];

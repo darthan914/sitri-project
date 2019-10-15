@@ -29,6 +29,8 @@ class StoreStudentRequest extends FormRequest
             'parent_name'  => ['required'],
             'name'         => ['required'],
             'birthday'     => ['required', 'date'],
+            'school'       => ['required'],
+            'grade'        => ['required'],
         ];
     }
 }

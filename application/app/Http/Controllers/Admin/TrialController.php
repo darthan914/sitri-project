@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\Trial\StoreChildTrialRequest;
 use App\Http\Requests\Admin\Trial\StoreTrialRequest;
 use App\Http\Requests\Admin\Trial\UpdateChildTrialRequest;
 use App\Http\Requests\Admin\Trial\UpdateTrialRequest;
+use App\Sitri\Actions\Schedule\StoreScheduleAction;
 use App\Sitri\Actions\Student\DeleteStudentAction;
 use App\Sitri\Actions\Student\StoreStudentAction;
 use App\Sitri\Actions\Student\UpdateStudentAction;
@@ -35,18 +36,18 @@ use Yajra\DataTables\Facades\DataTables;
 class TrialController extends Controller
 {
     /**
-     * @var TrialRepositoryInterface
+     * @var StudentRepositoryInterface
      */
-    private $trialRepository;
+    private $studentRepository;
     /**
      * @var ClassScheduleRepositoryInterface
      */
     private $classScheduleRepository;
 
-    public function __construct(TrialRepositoryInterface $trialRepository, ClassScheduleRepositoryInterface $classScheduleRepository)
+    public function __construct(StudentRepositoryInterface $studentRepository, ClassScheduleRepositoryInterface $classScheduleRepository)
     {
 
-        $this->trialRepository = $trialRepository;
+        $this->studentRepository = $studentRepository;
         $this->classScheduleRepository = $classScheduleRepository;
     }
 
@@ -71,8 +72,10 @@ class TrialController extends Controller
     public function dataTable(IndexTrialRequest $request)
     {
         $request->validated();
+        $request = $request->all();
+        $request['is_trial'] = 1;
 
-        $dataTable = Datatables::of($this->trialRepository->getByRequest($request->all()));
+        $dataTable = Datatables::of($this->studentRepository->getByRequest($request));
 
         $dataTable->addColumn('action', function ($index) {
             return view('admin.trial.datatable.action', compact('index'));
@@ -107,121 +110,49 @@ class TrialController extends Controller
     {
         $request->validated();
 
-        $action->execute($request->all());
+        $action->execute($request->all(), true);
 
         return redirect()->route('admin.trial.index')->with('success', 'Data has been added');
     }
 
     /**
-     * @param ParentTrial $parentTrial
+     * @param Student $student
      *
      * @return Factory|View
      */
-    public function edit(ParentTrial $parentTrial)
+    public function edit(Student $student)
     {
-        return view('admin.trial.edit', compact('parentTrial'));
+        return view('admin.trial.edit', compact('student'));
     }
 
     /**
-     * @param ParentTrial        $parentTrial
-     * @param UpdateTrialRequest $request
-     * @param UpdateTrialAction  $action
+     * @param Student             $student
+     * @param UpdateTrialRequest  $request
+     * @param UpdateStudentAction $action
      *
      * @return RedirectResponse
      */
-    public function update(ParentTrial $parentTrial, UpdateTrialRequest $request, UpdateTrialAction $action)
+    public function update(Student $student, UpdateTrialRequest $request, UpdateStudentAction $action)
     {
         $request->validated();
 
-        $action->execute($parentTrial, $request->all());
+        $action->execute($student, $request->all(), true);
 
         return redirect()->route('admin.trial.index')->with('success', 'Data has been updated');
     }
 
     /**
-     * @param ParentTrial       $parentTrial
-     * @param DeleteTrialAction $action
+     * @param Student             $student
+     * @param DeleteStudentAction $action
      *
      * @return RedirectResponse
      * @throws Exception
      */
-    public function delete(ParentTrial $parentTrial, DeleteTrialAction $action)
+    public function delete(Student $student, DeleteStudentAction $action)
     {
-        $action->execute($parentTrial);
+        $action->execute($student);
 
         return redirect()->route('admin.trial.index')->with('success', 'Data has been deleted');
     }
 
-    /**
-     * @param ParentTrial $parentTrial
-     *
-     * @return Factory|View
-     */
-    public function createChild(ParentTrial $parentTrial)
-    {
-        $classSchedules = $this->classScheduleRepository->getIsTrial(1);
-
-        return view('admin.trial.child.create', compact('parentTrial', 'classSchedules'));
-    }
-
-    /**
-     * @param ParentTrial            $parentTrial
-     * @param StoreChildTrialRequest $request
-     * @param StoreChildTrialAction  $action
-     *
-     * @return RedirectResponse
-     */
-    public function storeChild(ParentTrial $parentTrial, StoreChildTrialRequest $request, StoreChildTrialAction $action)
-    {
-        $request->validated();
-
-        $action->execute($parentTrial, $request->all());
-
-        return redirect()->route('admin.trial.edit', $parentTrial)->with('success', 'Data has been added!');
-    }
-
-    /**
-     * @param ParentTrial $parentTrial
-     * @param ChildTrial  $childTrial
-     *
-     * @return Factory|View
-     */
-    public function editChild(ParentTrial $parentTrial, ChildTrial $childTrial)
-    {
-        $classSchedules = $this->classScheduleRepository->getIsTrial(1);
-
-        return view('admin.trial.child.edit', compact('parentTrial', 'childTrial', 'classSchedules'));
-    }
-
-    /**
-     * @param ParentTrial             $parentTrial
-     * @param ChildTrial              $childTrial
-     * @param UpdateChildTrialRequest $request
-     * @param UpdateChildTrialAction  $action
-     *
-     * @return RedirectResponse
-     */
-    public function updateChild(ParentTrial $parentTrial, ChildTrial $childTrial, UpdateChildTrialRequest $request, UpdateChildTrialAction $action)
-    {
-        $request->validated();
-
-        $action->execute($childTrial, $request->all());
-
-        return redirect()->route('admin.trial.edit', $parentTrial)->with('success', 'Data has been updated!');
-    }
-
-    /**
-     * @param ParentTrial            $parentTrial
-     * @param ChildTrial             $childTrial
-     * @param DeleteChildTrialAction $action
-     *
-     * @return RedirectResponse
-     * @throws Exception
-     */
-    public function deleteChild(ParentTrial $parentTrial, ChildTrial $childTrial, DeleteChildTrialAction $action)
-    {
-        $action->execute($childTrial);
-
-        return redirect()->route('admin.trial.edit', $parentTrial)->with('success', 'Data has been deleted!');
-    }
 }

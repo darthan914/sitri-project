@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\Student\StoreStudentRequest;
 use App\Http\Requests\Admin\Student\UpdateStudentRequest;
 use App\Http\Requests\Admin\User\IndexUserRequest;
+use App\Sitri\Actions\Student\DeleteMultipleStudentAction;
 use App\Sitri\Actions\Student\DeleteStudentAction;
 use App\Sitri\Actions\Student\StoreStudentAction;
 use App\Sitri\Actions\Student\UpdateStudentAction;
@@ -66,6 +67,11 @@ class StudentController extends Controller
         $request->validated();
 
         $dataTable = Datatables::of($this->studentRepository->getByRequest($request->all()));
+
+        $dataTable->addColumn('check', function ($index) {
+            $value = $index->id;
+            return view('admin._general.datatable.check', compact('value'));
+        });
 
         $dataTable->addColumn('action', function ($index) {
             return view('admin.student.datatable.action', compact('index'));
@@ -153,6 +159,13 @@ class StudentController extends Controller
     public function delete(Student $student, DeleteStudentAction $action)
     {
         $action->execute($student);
+
+        return redirect()->route('admin.student.index')->with('success', 'Data has been deleted');
+    }
+
+    public function deleteMultiple(Request $request, DeleteMultipleStudentAction $action)
+    {
+        $action->execute($request->id);
 
         return redirect()->route('admin.student.index')->with('success', 'Data has been deleted');
     }

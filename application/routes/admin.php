@@ -29,6 +29,7 @@ Route::prefix('student')->name('student.')->group(function () {
     Route::get('{student}/edit', 'StudentController@edit')->name('edit');
     Route::post('{student}/update', 'StudentController@update')->name('update');
     Route::post('{student}/delete', 'StudentController@delete')->name('delete');
+    Route::post('deleteMultiple', 'StudentController@deleteMultiple')->name('deleteMultiple');
 })
 ;
 
@@ -122,16 +123,8 @@ Route::prefix('trial')->name('trial.')->group(function () {
     Route::get('dataTable', 'TrialController@dataTable')->name('dataTable');
     Route::get('create', 'TrialController@create')->name('create');
     Route::post('store', 'TrialController@store')->name('store');
-    Route::get('{parentTrial}/edit', 'TrialController@edit')->name('edit');
-    Route::post('{parentTrial}/update', 'TrialController@update')->name('update');
-    Route::post('{parentTrial}/delete', 'TrialController@delete')->name('delete');
-    Route::prefix('{parentTrial}/child')->name('child.')->group(function () {
-        Route::get('create', 'TrialController@createChild')->name('create');
-        Route::post('store', 'TrialController@storeChild')->name('store');
-        Route::get('{childTrial}/edit', 'TrialController@editChild')->name('edit');
-        Route::post('{childTrial}/update', 'TrialController@updateChild')->name('update');
-        Route::post('{childTrial}/delete', 'TrialController@deleteChild')->name('delete');
-    })
-    ;
+    Route::get('{student}/edit', 'TrialController@edit')->name('edit');
+    Route::post('{student}/update', 'TrialController@update')->name('update');
+    Route::post('{student}/delete', 'TrialController@delete')->name('delete');
 })
 ;

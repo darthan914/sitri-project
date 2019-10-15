@@ -25,10 +25,10 @@ class StoreTrialRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'                => ['required'],
-            'phone'               => ['required', 'min:7', 'max:14'],
-            'email'               => ['required', 'email'],
-            'child_name.*'        => ['required'],
+            'parent_name'         => ['required'],
+            'parent_phone'        => ['required', 'min:7', 'max:14'],
+            'parent_email'        => ['required', 'email'],
+            'name.*'              => ['required'],
             'class_schedule_id.*' => ['required'],
         ];
     }

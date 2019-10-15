@@ -19,6 +19,7 @@
                     },
                 },
                 columns: [
+                    {data: 'check', orderable: false},
                     {data: 'name'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
@@ -47,6 +48,15 @@
             <div class="box">
                 <div class="box-body">
                     <a href="{{ route('admin.student.create') }}" class="btn btn-default">Create</a>
+                    <button class="btn btn-danger"
+                            onclick="event.preventDefault(); if(confirm('Are you sure to delete this selected?')) {document.getElementById('action').submit();}">Delete
+                        Selected
+                    </button>
+                    <form id="action"
+                          action="{{ route('admin.student.deleteMultiple') }}"
+                          method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
                 </div>
                 <div class="box-body">
 
@@ -54,6 +64,10 @@
                     <table id="student-list" class="table table-bordered table-hover dataTable">
                         <thead>
                         <tr role="row">
+                            <th nowrap>
+                                <label class="checkbox-inline"><input type="checkbox" data-target="check"
+                                                                      class="check-all" id="check-all">S</label>
+                            </th>
                             <th>
                                 Information
                             </th>

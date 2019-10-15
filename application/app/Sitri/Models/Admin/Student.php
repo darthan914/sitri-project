@@ -8,7 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    protected $fillable = ['user_id', 'name', 'surname', 'birthday', 'school', 'grade', 'address'];
+    protected $fillable = [
+        'user_id',
+        'name',
+        'surname',
+        'birthday',
+        'school',
+        'grade',
+        'address',
+        'is_trial',
+        'recommendation'
+    ];
 
     protected static function boot()
     {
@@ -17,7 +27,7 @@ class Student extends Model
         static::addGlobalScope('isActive', function (Builder $builder) {
             $builder->whereHas('user', function (Builder $user) {
                 $user->where('active', 1);
-            });
+            })->orWhere('is_trial', 1);
         });
     }
 
@@ -45,5 +55,15 @@ class Student extends Model
     public function isReschedule($date)
     {
         return $this->reschedules()->where('from_date', $date)->count() !== 0;
+    }
+
+    public function setRecommendationAttribute($value)
+    {
+        $this->attributes['recommendation'] = json_encode($value);
+    }
+
+    public function getRecommendationAttribute($value)
+    {
+        return json_decode($value, true);
     }
 }

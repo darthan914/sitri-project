@@ -16,7 +16,7 @@ class StudentRepository implements StudentRepositoryInterface
      */
     public function all()
     {
-        return Student::query()->orderBy('name')->get();
+        return Student::query()->orderBy('name')->where('is_trial', 0)->get();
     }
 
 
@@ -42,11 +42,24 @@ class StudentRepository implements StudentRepositoryInterface
             });
         }
 
+        $isTrial = $collect->get('is_trial');
+
+        if (null !== $isTrial && 1 == $isTrial) {
+            $student->where('is_trial', 1)->withoutGlobalScope('isActive');
+        } else {
+            $student->where('is_trial', 0);
+        }
+
         return $student->orderBy('name')->get();
     }
 
     public function getStudentNotOnSchedule()
     {
         return Student::query()->doesntHave('classStudents')->get();
+    }
+
+    public function getStudentOnTrial()
+    {
+        return Student::query()->where('is_trial', 1)->get();
     }
 }

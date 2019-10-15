@@ -1,3 +1,3 @@
-<b>Parent</b> : {{ $index->name }}
+<b>Name</b> : {{ $index->name }}
 <br>
-<b>Count Child</b> : {{ $index->childTrials->count() }}
+<b>Parent</b> : {{ $index->user->name }}

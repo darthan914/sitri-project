@@ -24,8 +24,12 @@ class Schedule extends Model
         return Carbon::parse($value)->format('H:i');
     }
 
-    public function classSchedules()
+    public function getClassSchedulesAttribute()
     {
-        return $this->hasMany(ClassSchedule::class);
+        return ClassSchedule::query()
+                            ->where('day', $this->day)
+                            ->where('start_time', $this->start_time)
+                            ->where('end_time', $this->end_time)->get()
+            ;
     }
 }

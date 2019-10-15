@@ -24,9 +24,11 @@ class UpdateStudentAction
      * @param Student $student
      * @param array   $data
      *
+     * @param bool    $isTrial
+     *
      * @return bool
      */
-    public function execute(Student $student, array $data)
+    public function execute(Student $student, array $data, $isTrial = false)
     {
         $user = $this->userRepository->getUserByEmail($data['parent_email']);
 
@@ -44,6 +46,7 @@ class UpdateStudentAction
         }
 
         $data['user_id'] = $user->id;
+        $data['is_trial'] = $isTrial;
 
         return $student->update($data);
     }

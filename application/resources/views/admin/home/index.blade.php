@@ -5,7 +5,14 @@
 @section('title', 'Main Page')
 
 @section('js')
-
+    <script>
+        $(function () {
+            $('.alert-modal').click(function () {
+                $('#alert-modal form').attr('action', $(this).data('route'));
+                $('#alert-modal .modal-title').html($(this).data('title'));
+            });
+        })
+    </script>
 @stop
 
 @section('css')
@@ -30,6 +37,7 @@
 @stop
 
 @section('content')
+    @include('admin._general.modal.alert')
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -50,13 +58,49 @@
                             <tr>
                                 <td>{{ $student->name }}</td>
                                 <td>{{ $student->user->name }}</td>
-                                <td><a href="{{ route('admin.student.view', $student) }}" class="btn btn-sm btn-primary">View</a></td>
+                                <td><a href="{{ route('admin.student.view', $student) }}"
+                                       class="btn btn-sm btn-primary">View</a></td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            <div class="box">
+                <div class="box-title">
+                    <h2>Student On Trial</h2>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Parent Name</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($studentOnTrial as $student)
+                            <tr>
+                                <td>{{ $student->name }}</td>
+                                <td>{{ $student->user->name }}</td>
+                                <td>
+                                    <a href="{{ route('admin.student.edit', $student) }}"
+                                       class="btn btn-sm btn-success">OK</a>
+                                    <button type="button" data-toggle="modal" data-target="#alert-modal"
+                                            data-route="{{ route('admin.student.delete', $student) }}"
+                                            data-title="Delete {{ $student->name }}"
+                                            class="btn btn-sm btn-danger alert-modal">Cancel
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
 
             <div class="box content-overflow">
                 <div class="box-title">
@@ -109,13 +153,13 @@
                                                             @endforeach
                                                             @foreach($rescheduleTo as $reschedule)
                                                                 @if($weekDates[$day] === $reschedule->to_date && $reschedule->to_class_schedule_id === $classSchedule->id)
-                                                                <tr>
-                                                                    <td>
-                                                                        <a href="{{ route('admin.student.view', $reschedule->student) }}"
-                                                                           class="italic"
-                                                                        >{{ $reschedule->student->name }}</a>
-                                                                    </td>
-                                                                </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <a href="{{ route('admin.student.view', $reschedule->student) }}"
+                                                                               class="italic"
+                                                                            >{{ $reschedule->student->name }}</a>
+                                                                        </td>
+                                                                    </tr>
                                                                 @endif
                                                             @endforeach
                                                             </tbody>

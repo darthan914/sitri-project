@@ -106,6 +106,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group @if($errors->first('recommendation')) has-error @endif">
+                            <label for="recommendation" class="col-sm-2 control-label">Rekomendasi dari</label>
+
+                            <div class="col-sm-10">
+                                @foreach(config('sitri.recommendation') as $key => $recommendation)
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="recommendation[]"
+                                               value="{{ $key }}" @if(in_array($key, old('recommendation', []))) checked @endif>{{ $recommendation }}
+                                    </label>
+                                @endforeach
+                                <span class="help-block">{{ $errors->first('recommendation') }}</span>
+                            </div>
+                        </div>
+
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">

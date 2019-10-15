@@ -25,9 +25,11 @@ class StoreStudentAction
     /**
      * @param array $data
      *
+     * @param bool  $isTrial
+     *
      * @return Builder|Model
      */
-    public function execute(array $data)
+    public function execute(array $data, $isTrial = false)
     {
         $user = $this->userRepository->getUserByEmail($data['parent_email']);
 
@@ -45,6 +47,7 @@ class StoreStudentAction
         }
 
         $data['user_id'] = $user->id;
+        $data['is_trial'] = $isTrial;
 
         return Student::query()->create($data);
     }

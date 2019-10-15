@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Sitri\Repositories\ClassSchedule\ClassScheduleRepositoryInterface;
 use App\Sitri\Repositories\Reschedule\RescheduleRepositoryInterface;
 use App\Sitri\Repositories\Schedule\ScheduleRepositoryInterface;
 use App\Sitri\Repositories\Student\StudentRepositoryInterface;
@@ -22,22 +23,29 @@ class HomeController extends Controller
      * @var RescheduleRepositoryInterface
      */
     private $rescheduleRepository;
+    /**
+     * @var ClassScheduleRepositoryInterface
+     */
+    private $classScheduleRepository;
 
     /**
      * HomeController constructor.
      *
-     * @param ScheduleRepositoryInterface $scheduleRepository
-     * @param StudentRepositoryInterface $studentRepository
-     * @param RescheduleRepositoryInterface $rescheduleRepository
+     * @param ScheduleRepositoryInterface      $scheduleRepository
+     * @param StudentRepositoryInterface       $studentRepository
+     * @param RescheduleRepositoryInterface    $rescheduleRepository
+     * @param ClassScheduleRepositoryInterface $classScheduleRepository
      */
     public function __construct(
         ScheduleRepositoryInterface $scheduleRepository,
         StudentRepositoryInterface $studentRepository,
-        RescheduleRepositoryInterface $rescheduleRepository
+        RescheduleRepositoryInterface $rescheduleRepository,
+        ClassScheduleRepositoryInterface $classScheduleRepository
     ) {
         $this->scheduleRepository = $scheduleRepository;
         $this->studentRepository = $studentRepository;
         $this->rescheduleRepository = $rescheduleRepository;
+        $this->classScheduleRepository = $classScheduleRepository;
     }
 
     public function index()
@@ -61,8 +69,12 @@ class HomeController extends Controller
 
         $studentNotOnSchedule = $this->studentRepository->getStudentNotOnSchedule();
 
+        $studentOnTrial = $this->studentRepository->getStudentOnTrial();
+
+        $classSchedules = $this->classScheduleRepository->all();
+
         return view('admin.home.index',
             compact('schedules', 'activeDayLists', 'weekDates', 'studentNotOnSchedule', 'listRescheduleFrom',
-                'rescheduleTo'));
+                'rescheduleTo', 'studentOnTrial', 'classSchedules'));
     }
 }

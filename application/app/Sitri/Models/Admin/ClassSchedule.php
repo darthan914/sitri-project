@@ -2,6 +2,7 @@
 
 namespace App\Sitri\Models\Admin;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -32,5 +33,15 @@ class ClassSchedule extends Model
     public function getClassInfo()
     {
         return 'Class ' . $this->classRoom->name . ' : ' . $this->getSchedule();
+    }
+
+    public function getStartTimeAttribute($value)
+    {
+        return Carbon::parse($value)->format('H:i');
+    }
+
+    public function getEndTimeAttribute($value)
+    {
+        return Carbon::parse($value)->format('H:i');
     }
 }
