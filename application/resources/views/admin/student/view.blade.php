@@ -98,18 +98,18 @@
                 <h2>Information</h2>
                 <table class="table table-bordered">
                     <tr>
-                        <th>Student Name :</th>
+                        <th>Nama Murid :</th>
                         <td>{{ $student->name }}</td>
                     </tr>
                     <tr>
-                        <th>Parent Name :</th>
+                        <th>Nama Orang tua :</th>
                         <td>{{ $student->user->name }}</td>
                     </tr>
                 </table>
             </div>
 
             <div class="box">
-                <h2>Regular Schedule</h2>
+                <h2>Jadwal reguler</h2>
                 <div class="box-body">
                     <a href="{{ route('admin.classStudent.create', ['student_id' => $student->id]) }}" class="btn btn-default">Create</a>
                 </div>
@@ -117,7 +117,7 @@
                     <table class="table table-bordered" id="classSchedule-list">
                         <thead>
                         <tr>
-                            <th>Class</th>
+                            <th>Kelas</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -126,7 +126,7 @@
             </div>
 
             <div class="box">
-                <h2>Reschedule</h2>
+                <h2>Pindah jadwal</h2>
                 <div class="box-body">
                     <a href="{{ route('admin.reschedule.create', ['student_id' => $student->id]) }}" class="btn btn-default">Create</a>
                 </div>
@@ -134,8 +134,8 @@
                     <table class="table table-bordered" id="reschedule-list">
                         <thead>
                         <tr>
-                            <th>From</th>
-                            <th>To</th>
+                            <th>Dari</th>
+                            <th>Pindah ke</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -144,14 +144,14 @@
             </div>
 
             <div class="box">
-                <h2>Payment</h2>
+                <h2>Pembayaran</h2>
                 <div class="box-body">
                     <table class="table table-bordered" id="payment-list">
                         <thead>
                         <tr>
-                            <th>No. Payment</th>
-                            <th>Value</th>
-                            <th>Paid</th>
+                            <th>No. Pembayaran</th>
+                            <th>Tagihan</th>
+                            <th>Status</th>
                             <th></th>
                         </tr>
                         </thead>
