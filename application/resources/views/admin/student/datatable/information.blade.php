@@ -1,3 +1,7 @@
 <b>Name</b> : {{ $index->name }}
 <br>
-<b>Parent</b> : {{ $index->user->name }}
+<b>Umur</b> : {{ $index->age }}
+<br>
+<b>Orang Tua</b> : {{ $index->user->name ?? ''}}
+
+
