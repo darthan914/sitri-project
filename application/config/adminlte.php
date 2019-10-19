@@ -425,7 +425,7 @@ return [
                 [
                     'type'     => 'js',
                     'asset'    => true,
-                    'location' => '/admin/js/darthan.js',
+                    'location' => '/admin/js/darthan.js?1',
                 ],
             ],
         ],
