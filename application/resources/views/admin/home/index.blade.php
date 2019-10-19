@@ -57,7 +57,7 @@
                         @foreach($studentNotOnSchedule as $student)
                             <tr>
                                 <td>{{ $student->name }}</td>
-                                <td>{{ $student->user->name }}</td>
+                                <td>{{ $student->user->name ?? '' }}</td>
                                 <td><a href="{{ route('admin.student.view', $student) }}"
                                        class="btn btn-sm btn-primary">View</a></td>
                             </tr>
