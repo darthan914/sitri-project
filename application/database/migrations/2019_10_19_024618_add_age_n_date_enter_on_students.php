@@ -15,7 +15,7 @@ class AddAgeNDateEnterOnStudents extends Migration
     {
         Schema::table('students', function (Blueprint $table) {
             $table->integer('age');
-            $table->date('date_enter');
+            $table->date('date_enter')->default('2019-01-01');
         });
     }
 
