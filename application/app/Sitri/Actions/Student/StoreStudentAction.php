@@ -4,6 +4,8 @@
 namespace App\Sitri\Actions\Student;
 
 
+use App\Sitri\Models\Admin\ClassSchedule;
+use App\Sitri\Models\Admin\ClassStudent;
 use App\Sitri\Models\Admin\Student;
 use App\Sitri\Repositories\User\UserRepositoryInterface;
 use App\User;
@@ -49,6 +51,37 @@ class StoreStudentAction
         $data['user_id'] = $user->id;
         $data['is_trial'] = $isTrial;
 
-        return Student::query()->create($data);
+        $student = Student::query()->create($data);
+
+        $classSchedule = ClassSchedule::query()
+                                      ->where('class_room_id', $data['class_room_id'])
+                                      ->where('day', $data['day'])
+                                      ->where('start_time', config('sitri.time')[$data['day']]['start_time'])
+                                      ->where('end_time', config('sitri.time')[$data['day']]['end_time'])
+                                      ->first()
+        ;
+
+
+        $dataClassSchedule = [
+            'class_room_id' => $data['class_room_id'],
+            'day'           => $data['day'],
+            'start_time'    => config('sitri.time')[$data['day']]['start_time'],
+            'end_time'      => config('sitri.time')[$data['day']]['end_time'],
+            'teacher_name'  => $data['teacher_name'],
+            'active'        => 1,
+        ];
+
+        if (!$classSchedule) {
+            $dataParent['password'] = bcrypt(str_random());
+            $classSchedule = ClassSchedule::query()->create($dataClassSchedule);
+        } else {
+            ClassSchedule::query()->find($classSchedule['id'])->update($dataClassSchedule);
+        }
+
+
+
+        ClassStudent::query()->updateOrCreate(['student_id' => $student->id], ['class_schedule_id' => $classSchedule->id]);
+
+        return $student;
     }
 }

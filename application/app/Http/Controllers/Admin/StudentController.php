@@ -10,6 +10,7 @@ use App\Sitri\Actions\Student\DeleteStudentAction;
 use App\Sitri\Actions\Student\StoreStudentAction;
 use App\Sitri\Actions\Student\UpdateStudentAction;
 use App\Sitri\Models\Admin\Student;
+use App\Sitri\Repositories\ClassRoom\ClassRoomRepositoryInterface;
 use App\Sitri\Repositories\Student\StudentRepositoryInterface;
 use App\Sitri\Repositories\User\UserRepositoryInterface;
 use Exception;
@@ -30,18 +31,27 @@ class StudentController extends Controller
      * @var UserRepositoryInterface
      */
     private $userRepository;
+    /**
+     * @var ClassRoomRepositoryInterface
+     */
+    private $classRoomRepository;
 
     /**
      * StudentController constructor.
      *
-     * @param StudentRepositoryInterface $studentRepository
-     * @param UserRepositoryInterface    $userRepository
+     * @param StudentRepositoryInterface   $studentRepository
+     * @param UserRepositoryInterface      $userRepository
+     * @param ClassRoomRepositoryInterface $classRoomRepository
      */
-    public function __construct(StudentRepositoryInterface $studentRepository, UserRepositoryInterface $userRepository)
-    {
+    public function __construct(
+        StudentRepositoryInterface $studentRepository,
+        UserRepositoryInterface $userRepository,
+        ClassRoomRepositoryInterface $classRoomRepository
+    ) {
 
         $this->studentRepository = $studentRepository;
         $this->userRepository = $userRepository;
+        $this->classRoomRepository = $classRoomRepository;
     }
 
     /**
@@ -91,9 +101,11 @@ class StudentController extends Controller
      */
     public function create()
     {
-        $users = $this->userRepository->getIsActive(true);
+        $classRooms = $this->classRoomRepository->all();
+        $day = config('sitri.day');
+        $time = config('sitri.time');
 
-        return view('admin.student.create', compact('users'));
+        return view('admin.student.create', compact( 'classRooms', 'day', 'time'));
     }
 
     /**
@@ -128,9 +140,11 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        $users = $this->userRepository->getIsActive(true);
+        $classRooms = $this->classRoomRepository->all();
+        $day = config('sitri.day');
+        $time = config('sitri.time');
 
-        return view('admin.student.edit', compact('users', 'student'));
+        return view('admin.student.edit', compact('classRooms', 'student', 'day', 'time'));
     }
 
     /**

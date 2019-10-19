@@ -89,6 +89,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group @if($errors->first('age')) has-error @endif">
+                            <label for="age" class="col-sm-2 control-label">Umur</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="age" name="age" placeholder="Umur"
+                                       value="{{ old('age', $student->age) }}">
+                                <span class="help-block">{{ $errors->first('age') }}</span>
+                            </div>
+                        </div>
+
                         <div class="form-group @if($errors->first('school')) has-error @endif">
                             <label for="school" class="col-sm-2 control-label">Sekolah</label>
 
@@ -109,6 +119,17 @@
                             </div>
                         </div>
 
+                        <div class="form-group @if($errors->first('date_enter')) has-error @endif">
+                            <label for="date_enter" class="col-sm-2 control-label">Tanggal Masuk</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control datepicker" id="date_enter" name="date_enter"
+                                       placeholder="Tanggal Masuk"
+                                       value="{{ old('date_enter', $student->date_enter) }}">
+                                <span class="help-block">{{ $errors->first('date_enter') }}</span>
+                            </div>
+                        </div>
+
 
                         <div class="form-group @if($errors->first('recommendation')) has-error @endif">
                             <label for="recommendation" class="col-sm-2 control-label">Rekomendasi dari</label>
@@ -118,10 +139,68 @@
                                     <label class="checkbox-inline">
                                         <input type="checkbox" name="recommendation[]"
                                                value="{{ $key }}"
-                                               @if(in_array($key, old('recommendation', $student->recommendation))) checked @endif>{{ $recommendation }}
+                                               @if(in_array($key, old('recommendation', $student->recommendation ?? []))) checked @endif>{{ $recommendation }}
                                     </label>
                                 @endforeach
                                 <span class="help-block">{{ $errors->first('recommendation') }}</span>
+                            </div>
+                        </div>
+
+                        <h3>Jadwal Les</h3>
+
+                        <div class="form-group @if($errors->first('class_room_id')) has-error @endif">
+                            <label for="class_room_id" class="col-sm-2 control-label">Kelas</label>
+
+                            <div class="col-sm-10">
+                                <select class="form-control select2" id="class_room_id" name="class_room_id"
+                                        data-placeholder="Pilih Kelas">
+                                    <option value=""></option>
+                                    @foreach($classRooms as $classRoom)
+                                        <option value="{{ $classRoom->id }}"
+                                                @if($classRoom->id == old('class_room_id', $student->class_schedule->class_room_id ?? '')) selected @endif>{{ $classRoom->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="help-block">{{ $errors->first('class_room_id') }}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group @if($errors->first('day')) has-error @endif">
+                            <label for="day" class="col-sm-2 control-label">Hari</label>
+
+                            <div class="col-sm-10">
+                                <select class="form-control" id="day" name="day">
+                                    <option value="">Pilih Hari</option>
+                                    @foreach($day as $key => $value)
+                                        <option value="{{ $key }}"
+                                                @if(old('day', $student->class_schedule->day ?? '') == $key) selected @endif>{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="help-block">{{ $errors->first('day') }}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group @if($errors->first('time')) has-error @endif">
+                            <label for="time" class="col-sm-2 control-label">Jam</label>
+
+                            <div class="col-sm-10">
+                                <select class="form-control" id="time" name="time">
+                                    <option value="">Pilih Jam</option>
+                                    @foreach($time as $key => $value)
+                                        <option value="{{ $key }}"
+                                                @if(old('time') == $key || (isset($student->class_schedule->start_time) && $value['start_time'] === $student->class_schedule->start_time)) selected @endif>{{ $value['start_time'] }} - {{ $value['end_time'] }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="help-block">{{ $errors->first('time') }}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group @if($errors->first('teacher_name')) has-error @endif">
+                            <label for="name" class="col-sm-2 control-label">Nama Guru</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="teacher_name" name="teacher_name" placeholder="Nama Guru"
+                                       value="{{ old('teacher_name', $student->class_schedule->teacher_name ?? '') }}">
+                                <span class="help-block">{{ $errors->first('teacher_name') }}</span>
                             </div>
                         </div>
 

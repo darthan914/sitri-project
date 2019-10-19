@@ -27,6 +27,8 @@ class UpdateClassRoomAction
             throw new Exception('Name already exist');
         }
 
+        $request['active'] = isset($request['active']) ? 1 : 0;
+
         return $classRoom->update($request);
     }
 }

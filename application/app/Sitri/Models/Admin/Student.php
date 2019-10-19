@@ -6,6 +6,9 @@ use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property ClassStudent classStudent
+ */
 class Student extends Model
 {
     protected $fillable = [
@@ -17,18 +20,20 @@ class Student extends Model
         'grade',
         'address',
         'is_trial',
-        'recommendation'
+        'recommendation',
+        'age',
+        'date_enter',
     ];
 
     protected static function boot()
     {
         parent::boot();
 
-        static::addGlobalScope('isActive', function (Builder $builder) {
-            $builder->whereHas('user', function (Builder $user) {
-                $user->where('active', 1);
-            })->orWhere('is_trial', 1);
-        });
+//        static::addGlobalScope('isActive', function (Builder $builder) {
+//            $builder->whereHas('user', function (Builder $user) {
+//                $user->where('active', 1);
+//            })->orWhere('is_trial', 1);
+//        });
     }
 
 
@@ -40,6 +45,11 @@ class Student extends Model
     public function classStudents()
     {
         return $this->hasMany(ClassStudent::class);
+    }
+
+    public function classStudent()
+    {
+        return $this->hasOne(ClassStudent::class);
     }
 
     public function reschedules()
@@ -65,5 +75,10 @@ class Student extends Model
     public function getRecommendationAttribute($value)
     {
         return json_decode($value, true);
+    }
+
+    public function getClassScheduleAttribute()
+    {
+        return $this->classStudent->classSchedule ?? [];
     }
 }

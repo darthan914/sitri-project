@@ -25,12 +25,18 @@ class StoreStudentRequest extends FormRequest
     public function rules()
     {
         return [
-            'parent_email' => ['required', 'email'],
-            'parent_name'  => ['required'],
-            'name'         => ['required'],
-            'birthday'     => ['required', 'date'],
-            'school'       => ['required'],
-            'grade'        => ['required'],
+            'parent_email'  => ['required', 'email'],
+            'parent_name'   => ['required'],
+            'name'          => ['required'],
+            'birthday'      => ['required', 'date'],
+            'school'        => ['required'],
+            'grade'         => ['required'],
+            'age'           => ['required', 'integer'],
+            'date_enter'    => ['required', 'date'],
+            'class_room_id' => ['required', 'integer'],
+            'day'           => ['required'],
+            'time'          => ['required'],
+            'teacher_name'  => ['required'],
         ];
     }
 }

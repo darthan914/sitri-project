@@ -29,6 +29,7 @@ class StoreClassScheduleRequest extends FormRequest
             'time'          => 'required|integer',
             'active'        => 'nullable|boolean',
             'is_trial'      => 'nullable|boolean',
+            'teacher_name'  => 'required',
         ];
     }
 
