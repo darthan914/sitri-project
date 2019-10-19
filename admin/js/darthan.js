@@ -53,6 +53,11 @@ $(function () {
         scrollbar: true
     });
 
+    $('input[type=text].dropdown-datepicker').dropdownDatepicker({
+        defaultDateFormat: 'yyyy-mm-dd',
+        submitFormat: 'yyyy-mm-dd'
+    });
+
     $(".check-all").click(function () {
         if ($(this).is(':checked')) {
             $('.' + $(this).attr('data-target')).prop('checked', true);

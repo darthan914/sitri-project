@@ -408,6 +408,17 @@ return [
             ],
         ],
         [
+            'name'   => 'DROPDOWN DATEPICKER',
+            'active' => true,
+            'files'  => [
+                [
+                    'type'     => 'js',
+                    'asset'    => true,
+                    'location' => '/admin/vendor/jquery-dropdown-datepicker.min.js',
+                ],
+            ],
+        ],
+        [
             'name'   => 'Darthan',
             'active' => true,
             'files'  => [

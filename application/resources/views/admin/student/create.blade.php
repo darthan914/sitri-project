@@ -82,7 +82,7 @@
                             <label for="birthday" class="col-sm-2 control-label">Tanggal lahir</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control datepicker" id="birthday" name="birthday"
+                                <input type="text" class="form-control dropdown-datepicker" id="birthday" name="birthday"
                                        placeholder="Tanggal lahir"
                                        value="{{ old('birthday') }}">
                                 <span class="help-block">{{ $errors->first('birthday') }}</span>
@@ -123,7 +123,7 @@
                             <label for="date_enter" class="col-sm-2 control-label">Tanggal Masuk</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control datepicker" id="date_enter" name="date_enter"
+                                <input type="text" class="form-control dropdown-datepicker" id="date_enter" name="date_enter"
                                        placeholder="Tanggal Masuk"
                                        value="{{ old('date_enter') }}">
                                 <span class="help-block">{{ $errors->first('date_enter') }}</span>
