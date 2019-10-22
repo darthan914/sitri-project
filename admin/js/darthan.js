@@ -18,28 +18,25 @@ $(function () {
     $(".select2").select2();
     $(".select2-full").select2({width: '100%'});
 
-    $('input[type=text].datetimepicker').daterangepicker({
-        singleDatePicker: true,
-        timePicker: true,
-        timePicker24Hour: true,
-        autoUpdateInput: false,
-        locale: {
-            cancelLabel: 'Clear',
-            format: 'YYYY-MM-DD',
-        }
-    }).on('apply.daterangepicker', function (ev, picker) {
-        $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm'));
-    });
+    // $('input[type=text].datetimepicker').daterangepicker({
+    //     singleDatePicker: true,
+    //     timePicker: true,
+    //     timePicker24Hour: true,
+    //     autoUpdateInput: false,
+    //     locale: {
+    //         cancelLabel: 'Clear',
+    //         format: 'YYYY-MM-DD',
+    //     }
+    // }).on('apply.daterangepicker', function (ev, picker) {
+    //     $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm'));
+    // });
 
-    $('input[type=text].datepicker').daterangepicker({
-        singleDatePicker: true,
-        autoUpdateInput: false,
-        locale: {
-            cancelLabel: 'Clear',
-            format: 'YYYY-MM-DD',
-        }
-    }).on('apply.daterangepicker', function (ev, picker) {
-        $(this).val(picker.startDate.format('YYYY-MM-DD'));
+    $('input[type=text].datepicker').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        maxDate: "",
+        dateFormat: "yy-mm-dd",
+        yearRange: "c-75:c+0"
     });
 
     $('.timepicker').timepicker({
@@ -51,11 +48,6 @@ $(function () {
         dynamic: true,
         dropdown: true,
         scrollbar: true
-    });
-
-    $('input[type=text].dropdown-datepicker').dropdownDatepicker({
-        defaultDateFormat: 'yyyy-mm-dd',
-        submitFormat: 'yyyy-mm-dd'
     });
 
     $(".check-all").click(function () {

@@ -82,9 +82,9 @@
                             <label for="birthday" class="col-sm-2 control-label">Tanggal lahir</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control dropdown-datepicker" id="birthday" name="birthday"
+                                <input type="text" class="form-control datepicker" id="birthday" name="birthday"
                                        placeholder="Tanggal lahir"
-                                       value="{{ old('birthday') }}">
+                                       value="{{ old('birthday') }}" autocomplete="off">
                                 <span class="help-block">{{ $errors->first('birthday') }}</span>
                             </div>
                         </div>
@@ -123,9 +123,9 @@
                             <label for="date_enter" class="col-sm-2 control-label">Tanggal Masuk</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control dropdown-datepicker" id="date_enter" name="date_enter"
+                                <input type="text" class="form-control datepicker" id="date_enter" name="date_enter"
                                        placeholder="Tanggal Masuk"
-                                       value="{{ old('date_enter') }}">
+                                       value="{{ old('date_enter') }}" autocomplete="off">
                                 <span class="help-block">{{ $errors->first('date_enter') }}</span>
                             </div>
                         </div>
@@ -137,7 +137,8 @@
                                 @foreach(config('sitri.recommendation') as $key => $recommendation)
                                     <label class="checkbox-inline">
                                         <input type="checkbox" name="recommendation[]"
-                                               value="{{ $key }}" @if(in_array($key, old('recommendation', []))) checked @endif>{{ $recommendation }}
+                                               value="{{ $key }}"
+                                               @if(in_array($key, old('recommendation', []))) checked @endif>{{ $recommendation }}
                                     </label>
                                 @endforeach
                                 <span class="help-block">{{ $errors->first('recommendation') }}</span>
@@ -185,7 +186,8 @@
                                     <option value="">Pilih Jam</option>
                                     @foreach($time as $key => $value)
                                         <option value="{{ $key }}"
-                                                @if(old('time') == $key) selected @endif>{{ $value['start_time'] }} - {{ $value['end_time'] }}</option>
+                                                @if(old('time') == $key) selected @endif>{{ $value['start_time'] }}
+                                            - {{ $value['end_time'] }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('time') }}</span>
@@ -196,7 +198,8 @@
                             <label for="name" class="col-sm-2 control-label">Nama Guru</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="teacher_name" name="teacher_name" placeholder="Nama Guru"
+                                <input type="text" class="form-control" id="teacher_name" name="teacher_name"
+                                       placeholder="Nama Guru"
                                        value="{{ old('teacher_name') }}">
                                 <span class="help-block">{{ $errors->first('teacher_name') }}</span>
                             </div>
@@ -235,7 +238,13 @@
                         }
                     }
                 );
-            })
+            });
+
+            $('input[name=birthday]').change(function () {
+                let year = new Date().getFullYear();
+
+                $('input[name=age]').val(year - $(this).datepicker("getDate").getFullYear());
+            });
         })
     </script>
 

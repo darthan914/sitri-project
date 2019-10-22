@@ -84,7 +84,7 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control datepicker" id="birthday" name="birthday"
                                        placeholder="Tanggal lahir"
-                                       value="{{ old('birthday', $student->birthday) }}">
+                                       value="{{ old('birthday', $student->birthday) }}" autocomplete="off">
                                 <span class="help-block">{{ $errors->first('birthday') }}</span>
                             </div>
                         </div>
@@ -125,7 +125,7 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control datepicker" id="date_enter" name="date_enter"
                                        placeholder="Tanggal Masuk"
-                                       value="{{ old('date_enter', $student->date_enter) }}">
+                                       value="{{ old('date_enter', $student->date_enter) }}" autocomplete="off">
                                 <span class="help-block">{{ $errors->first('date_enter') }}</span>
                             </div>
                         </div>
@@ -218,3 +218,33 @@
         </div>
     </div>
 @stop
+
+@push('js')
+    <script>
+        $(function () {
+            $('input[name=parent_email]').change(function () {
+                $.ajax(
+                    {
+                        url: '{{ route('admin.user.getUserByEmail') }}',
+                        data: {
+                            email: $(this).val()
+                        },
+                        success: function (data) {
+                            if (data) {
+                                $('input[name=parent_name]').val(data.name);
+                                $('input[name=parent_phone]').val(data.phone);
+                            }
+                        }
+                    }
+                );
+            });
+
+            $('input[name=birthday]').change(function () {
+                let year = new Date().getFullYear();
+
+                $('input[name=age]').val(year - $(this).datepicker("getDate").getFullYear());
+            });
+        })
+    </script>
+
+@endpush

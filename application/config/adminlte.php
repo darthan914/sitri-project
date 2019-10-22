@@ -408,13 +408,18 @@ return [
             ],
         ],
         [
-            'name'   => 'DROPDOWN DATEPICKER',
+            'name'   => 'jqueryUI',
             'active' => true,
             'files'  => [
                 [
+                    'type'     => 'css',
+                    'asset'    => false,
+                    'location' => '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css',
+                ],
+                [
                     'type'     => 'js',
-                    'asset'    => true,
-                    'location' => '/admin/vendor/jquery-dropdown-datepicker.min.js',
+                    'asset'    => false,
+                    'location' => '//code.jquery.com/ui/1.12.1/jquery-ui.js',
                 ],
             ],
         ],
@@ -425,7 +430,7 @@ return [
                 [
                     'type'     => 'js',
                     'asset'    => true,
-                    'location' => '/admin/js/darthan.js?1',
+                    'location' => '/admin/js/darthan.js?2',
                 ],
             ],
         ],
