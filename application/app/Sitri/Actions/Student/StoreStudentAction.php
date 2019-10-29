@@ -56,8 +56,8 @@ class StoreStudentAction
         $classSchedule = ClassSchedule::query()
                                       ->where('class_room_id', $data['class_room_id'])
                                       ->where('day', $data['day'])
-                                      ->where('start_time', config('sitri.time')[$data['day']]['start_time'])
-                                      ->where('end_time', config('sitri.time')[$data['day']]['end_time'])
+                                      ->where('start_time', config('sitri.time')[$data['time']]['start_time'])
+                                      ->where('end_time', config('sitri.time')[$data['time']]['end_time'])
                                       ->first()
         ;
 
@@ -65,8 +65,8 @@ class StoreStudentAction
         $dataClassSchedule = [
             'class_room_id' => $data['class_room_id'],
             'day'           => $data['day'],
-            'start_time'    => config('sitri.time')[$data['day']]['start_time'],
-            'end_time'      => config('sitri.time')[$data['day']]['end_time'],
+            'start_time'    => config('sitri.time')[$data['time']]['start_time'],
+            'end_time'      => config('sitri.time')[$data['time']]['end_time'],
             'teacher_name'  => $data['teacher_name'],
             'active'        => 1,
         ];
