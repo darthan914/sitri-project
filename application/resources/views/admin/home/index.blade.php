@@ -147,7 +147,7 @@
                                                                     <td>
                                                                         <a href="{{ route('admin.student.view', $classStudent->student) }}"
                                                                            class="@if(isset($listRescheduleFrom[$weekDates[$day]][$classStudent->student_id])) strikethrough @endif"
-                                                                        >{{ $classStudent->student->name }}</a>
+                                                                        >{{ $classStudent->student->name ?? '' }}</a>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
