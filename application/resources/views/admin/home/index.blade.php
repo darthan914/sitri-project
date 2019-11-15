@@ -28,6 +28,8 @@
         .italic {
             font-style: italic;
             font-weight: bold;
+            background-color: yellow;
+
         }
 
         .content-overflow {
@@ -56,7 +58,7 @@
                         <tbody>
                         @foreach($studentNotOnSchedule as $student)
                             <tr>
-                                <td>{{ $student->name }}</td>
+                                <td>{{ $student->surname ?? $student->name }}</td>
                                 <td>{{ $student->user->name ?? '' }}</td>
                                 <td><a href="{{ route('admin.student.view', $student) }}"
                                        class="btn btn-sm btn-primary">View</a></td>
@@ -83,7 +85,7 @@
                         <tbody>
                         @foreach($studentOnTrial as $student)
                             <tr>
-                                <td>{{ $student->name }}</td>
+                                <td>{{ $student->surname ?? $student->name }}</td>
                                 <td>{{ $student->user->name }}</td>
                                 <td>
                                     <a href="{{ route('admin.student.edit', $student) }}"
@@ -122,7 +124,7 @@
                             <td class="@if($day == date('w')) highlight-today @endif">
                                 @foreach($schedules as $schedule)
                                     @if($schedule->day === $day)
-                                        <table class="table table-bordered">
+                                        <table class="table table-bordered" style="min-height: 300px">
                                             <thead>
                                             <th colspan="{{ $schedule->classSchedules->count() }}" class="text-center">
                                                 {{ $schedule->start_time }} - {{ $schedule->end_time }}
@@ -137,17 +139,18 @@
                                                             <tr>
                                                                 <th class="text-center" style="width: 7em;">
                                                                     <a class="btn btn-sm btn-info btn-block"
-                                                                       href="{{ route('admin.absence.create', ['date' => $weekDates[$day], 'class_schedule_id' => $classSchedule->id]) }}">{{ $classSchedule->classRoom->name }}</a>
+                                                                       href="{{ route('admin.absence.create', ['date' => $weekDates[$day], 'class_schedule_id' => $classSchedule->id]) }}">{{ $classSchedule->classRoom->name }} - {{ $classSchedule->teacher_name }}</a>
                                                                 </th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
+                                                            @php $num = 1 @endphp
                                                             @foreach($classSchedule->classStudents as $classStudent)
                                                                 <tr>
                                                                     <td>
                                                                         <a href="{{ route('admin.student.view', $classStudent->student) }}"
                                                                            class="@if(isset($listRescheduleFrom[$weekDates[$day]][$classStudent->student_id])) strikethrough @endif"
-                                                                        >{{ $classStudent->student->name ?? '' }}</a>
+                                                                        >{{ $num++ }}. {{ $classStudent->student->surname ?? $classStudent->student->name ?? '' }}</a>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -157,7 +160,7 @@
                                                                         <td>
                                                                             <a href="{{ route('admin.student.view', $reschedule->student) }}"
                                                                                class="italic"
-                                                                            >{{ $reschedule->student->name }}</a>
+                                                                            >{{ $num++ }}. {{ $classStudent->student->surname ?? $reschedule->student->name }}</a>
                                                                         </td>
                                                                     </tr>
                                                                 @endif
