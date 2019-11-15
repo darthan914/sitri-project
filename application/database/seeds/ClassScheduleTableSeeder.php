@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class ClassScheduleTableSeeder extends Seeder
 {
@@ -14,6 +15,7 @@ class ClassScheduleTableSeeder extends Seeder
     {
         $classes = DB::select('select * from class_rooms');
         $schedules = DB::select('select * from schedules');
+        $faker = Faker::create('id_ID');
 
         $values = [];
 
@@ -21,11 +23,10 @@ class ClassScheduleTableSeeder extends Seeder
             foreach ($classes as $class) {
                 $values[] = [
                     'class_room_id' => $class->id,
-                    'day'           => $schedule->day,
-                    'start_time'    => $schedule->start_time,
-                    'end_time'      => $schedule->end_time,
+                    'schedule_id'   => $schedule->id,
                     'active'        => rand(1, 100) >= 25 ? 1 : 0,
                     'is_trial'      => rand(1, 100) >= 80 ? 1 : 0,
+                    'teacher_name'      => $faker->firstName,
                 ];
             }
         }

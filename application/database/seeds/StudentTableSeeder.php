@@ -28,6 +28,7 @@ class StudentTableSeeder extends Seeder
                     $values[] = [
                         'user_id'    => $user->id,
                         'name'       => $faker->firstName,
+                        'age'       => rand(2, 10),
                         'created_at' => $now,
                         'updated_at' => $now,
                     ];

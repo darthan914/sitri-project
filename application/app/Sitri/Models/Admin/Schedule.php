@@ -5,6 +5,11 @@ namespace App\Sitri\Models\Admin;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int    day
+ * @property string start_time
+ * @property string end_time
+ */
 class Schedule extends Model
 {
     protected $fillable = ['day', 'start_time', 'end_time', 'active'];
@@ -24,12 +29,8 @@ class Schedule extends Model
         return Carbon::parse($value)->format('H:i');
     }
 
-    public function getClassSchedulesAttribute()
+    public function classSchedules()
     {
-        return ClassSchedule::query()
-                            ->where('day', $this->day)
-                            ->where('start_time', $this->start_time)
-                            ->where('end_time', $this->end_time)->get()
-            ;
+        return $this->hasMany(ClassSchedule::class);
     }
 }

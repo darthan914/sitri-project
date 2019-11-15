@@ -34,7 +34,7 @@
                                     <option value="">Select Day</option>
                                     @foreach($day as $key => $value)
                                         <option value="{{ $key }}"
-                                                @if(old('day', $classSchedule->day) == $key) selected @endif>{{ $value }}</option>
+                                                @if(old('day', $classSchedule->schedule->day) == $key) selected @endif>{{ $value }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('day') }}</span>
@@ -49,7 +49,7 @@
                                     <option value="">Select Time</option>
                                     @foreach($time as $key => $value)
                                         <option value="{{ $key }}"
-                                                @if(old('time') == $key || (null == old('key') && $classSchedule->start_time == $value['start_time'])) selected @endif>{{ $value['start_time'] }} - {{ $value['end_time'] }}</option>
+                                                @if(old('time') == $key || (null == old('key') && $classSchedule->schedule->start_time == $value['start_time'])) selected @endif>{{ $value['start_time'] }} - {{ $value['end_time'] }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('time') }}</span>

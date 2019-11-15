@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property ClassRoom classRoom
- * @property integer   day
- * @property string    start_time
- * @property string    end_time
+ * @property Schedule  schedule
  */
 class ClassSchedule extends Model
 {
@@ -25,9 +23,14 @@ class ClassSchedule extends Model
         return $this->hasMany(ClassStudent::class);
     }
 
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
+    }
+
     public function getSchedule()
     {
-        return config('sitri.day')[$this->day] . ' (' . $this->start_time . ' - ' . $this->end_time . ')';
+        return config('sitri.day')[$this->schedule->day] . ' (' . $this->schedule->start_time . ' - ' . $this->schedule->end_time . ')';
     }
 
     public function getClassInfo()

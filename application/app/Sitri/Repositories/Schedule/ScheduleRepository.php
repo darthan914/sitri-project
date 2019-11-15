@@ -41,4 +41,9 @@ class ScheduleRepository implements ScheduleRepositoryInterface
     {
         return $this->getIsActive(true)->map(function ($schedule) { return $schedule->day; })->unique()->all();
     }
+
+    public function getScheduleByDay($day)
+    {
+        return Schedule::query()->where('day', $day)->get();
+    }
 }
