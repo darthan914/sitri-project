@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ClassRoom extends Model
 {
-    protected $fillable = ['name', 'active'];
+    protected $fillable = ['name', 'active', 'max_student'];
 }
