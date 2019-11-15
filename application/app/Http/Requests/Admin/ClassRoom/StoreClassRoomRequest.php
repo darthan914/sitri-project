@@ -25,6 +25,7 @@ class StoreClassRoomRequest extends FormRequest
     {
         return [
             'name'   => 'required|unique:class_rooms',
+            'max_student'   => 'required|integer',
             'active' => 'nullable|boolean',
         ];
     }

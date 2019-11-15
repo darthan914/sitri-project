@@ -22,6 +22,7 @@
                 },
                 columns: [
                     {data: 'name'},
+                    {data: 'max_student'},
                     {data: 'active'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
@@ -58,6 +59,9 @@
                         <tr role="row">
                             <th>
                                 Name
+                            </th>
+                            <th>
+                                Max Student
                             </th>
                             <th>
                                 Active
