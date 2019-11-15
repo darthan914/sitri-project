@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ClassSchedule extends Model
 {
-    protected $fillable = ['class_room_id', 'day', 'start_time', 'end_time', 'is_trial', 'active', 'teacher_name'];
+    protected $fillable = ['class_room_id', 'schedule_id', 'is_trial', 'active', 'teacher_name'];
 
     public function classRoom()
     {

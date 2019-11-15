@@ -41,18 +41,25 @@
                             </div>
                         </div>
 
-                        <div class="form-group @if($errors->first('time')) has-error @endif">
-                            <label for="time" class="col-sm-2 control-label">Time</label>
+                        <div class="form-group @if($errors->first('schedule_id')) has-error @endif">
+                            <label for="schedule_id" class="col-sm-2 control-label">Time</label>
 
                             <div class="col-sm-10">
-                                <select class="form-control" id="time" name="time">
+                                <select class="form-control select2" id="schedule_id" name="schedule_id"
+                                        data-placeholder="Select Time">
                                     <option value="">Select Time</option>
-                                    @foreach($time as $key => $value)
-                                        <option value="{{ $key }}"
-                                                @if(old('time') == $key || (null == old('key') && $classSchedule->schedule->start_time == $value['start_time'])) selected @endif>{{ $value['start_time'] }} - {{ $value['end_time'] }}</option>
-                                    @endforeach
                                 </select>
-                                <span class="help-block">{{ $errors->first('time') }}</span>
+                                <span class="help-block">{{ $errors->first('schedule_id') }}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group @if($errors->first('teacher_name')) has-error @endif">
+                            <label for="teacher_name" class="col-sm-2 control-label">Teacher</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="teacher_name" name="teacher_name"
+                                        placeholder="Teacher" value="{{ old('teacher_name') }}">
+                                <span class="help-block">{{ $errors->first('teacher_name') }}</span>
                             </div>
                         </div>
 
@@ -87,4 +94,48 @@
 
         </div>
     </div>
+@stop
+
+@section('js')
+    <script>
+        $(function () {
+            let old_time = '{{ old('schedule_id', $classSchedule->schedule_id) }}';
+
+            let daySelector = $('select[name=day]');
+            let scheduleSelector = $('select[name=schedule_id]');
+            scheduleSelector.prop("disabled", true);
+
+            const dynamicSchedule = function () {
+                if (daySelector.val() === '') {
+                    scheduleSelector.val('').trigger('change').prop("disabled", true);
+                } else {
+                    scheduleSelector.prop("disabled", false);
+                    $.get("{{ route('admin.classSchedule.getTimeByDay') }}",
+                        {
+                            day: daySelector.val(),
+                        },
+                        function (data) {
+                            scheduleSelector.empty();
+                            $.each(data, function (i, field) {
+                                if (old_time === field.id) {
+                                    scheduleSelector.append("<option value='" + field.id + "' selected>" + field.start_time + " - " + field.end_time + "</option>");
+                                } else {
+                                    scheduleSelector.append("<option value='" + field.id + "'>" + field.start_time + " - " + field.end_time + "</option>");
+                                }
+                                scheduleSelector.val(old_time).trigger('change');
+                            });
+                        });
+                }
+            };
+
+            dynamicSchedule();
+
+
+            $(document).on('change', 'select[name=day]', function () {
+                dynamicSchedule();
+            });
+
+        });
+
+    </script>
 @stop

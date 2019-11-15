@@ -18,6 +18,7 @@ use App\Sitri\Repositories\Schedule\ScheduleRepositoryInterface;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -113,7 +114,6 @@ class ClassScheduleController extends Controller
     {
         $classRooms = $this->classRoomRepository->getIsActive(true);
         $day = config('sitri.day');
-        $time = config('sitri.time');
         return view('admin.classSchedule.create', compact('classRooms', 'day', 'time'));
     }
 
@@ -200,5 +200,10 @@ class ClassScheduleController extends Controller
         $action->execute($classSchedule, $request->active);
 
         return redirect()->route('admin.classSchedule.index')->with('success', 'Data has been updated');
+    }
+
+    public function getTimeByDay(Request $request)
+    {
+        return $this->scheduleRepository->getScheduleByDay($request->day);
     }
 }

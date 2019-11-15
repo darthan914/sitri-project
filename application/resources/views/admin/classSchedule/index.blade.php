@@ -22,6 +22,7 @@
                 columns: [
                     {data: 'class_room_id'},
                     {data: 'schedule_id'},
+                    {data: 'teacher_name'},
                     {data: 'active'},
                     {data: 'is_trial'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
@@ -62,6 +63,9 @@
                             </th>
                             <th>
                                 Schedule
+                            </th>
+                            <th>
+                                Teacher
                             </th>
                             <th>
                                 Active

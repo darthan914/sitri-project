@@ -25,10 +25,7 @@ class StoreClassScheduleRequest extends FormRequest
     {
         return [
             'class_room_id' => 'required|integer',
-            'day'           => 'required|integer',
-            'time'          => 'required|integer',
-            'active'        => 'nullable|boolean',
-            'is_trial'      => 'nullable|boolean',
+            'schedule_id'   => 'required|integer',
             'teacher_name'  => 'required',
         ];
     }

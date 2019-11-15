@@ -19,23 +19,18 @@ class StoreClassScheduleAction
      */
     public function execute(array $request)
     {
-        if(isset($request['time'])) {
-            $request['start_time'] = config('sitri.time')[$request['time']]['start_time'];
-            $request['end_time'] = config('sitri.time')[$request['time']]['end_time'];
-        }
 
-
-        $checkClassRoom = ClassSchedule::query()->where('class_room_id', $request['class_room_id'])
-                                       ->where('day', $request['day'])
-                                       ->where('start_time', $request['start_time'])
-                                       ->where('end_time', $request['end_time'])
-                                       ->first()
+        return ClassSchedule::query()->updateOrCreate(
+            [
+                'class_room_id' => $request['class_room_id'],
+                'schedule_id'   => $request['schedule_id']
+            ],
+            [
+                'teacher_name' => $request['teacher_name'],
+                'is_trial'     => isset($request['is_trial']) ? 1 : 0,
+                'id_active'    => isset($request['teacher_name']) ? 1 : 0,
+            ]
+        )
         ;
-
-        if (isset($checkClassRoom)) {
-            throw new Exception('Class schedule already exist');
-        }
-
-        return ClassSchedule::query()->create($request);
     }
 }

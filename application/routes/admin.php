@@ -66,6 +66,7 @@ Route::prefix('classSchedule')->name('classSchedule.')->group(function () {
     Route::post('{classSchedule}/update', 'ClassScheduleController@update')->name('update');
     Route::post('{classSchedule}/delete', 'ClassScheduleController@delete')->name('delete');
     Route::post('{classSchedule}/active', 'ClassScheduleController@active')->name('active');
+    Route::get('getTimeByDay', 'ClassScheduleController@getTimeByDay')->name('getTimeByDay');
 })
 ;
 
