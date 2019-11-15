@@ -5,6 +5,7 @@ namespace App\Sitri\Actions\Student;
 
 
 use App\Sitri\Actions\ClassSchedule\StoreClassScheduleAction;
+use App\Sitri\Models\Admin\ClassRoom;
 use App\Sitri\Models\Admin\ClassSchedule;
 use App\Sitri\Models\Admin\ClassStudent;
 use App\Sitri\Models\Admin\Student;
@@ -55,6 +56,13 @@ class UpdateStudentAction
 
         $return = $student->update($data);
         $classSchedule = (new StoreClassScheduleAction())->execute($data);
+
+        $classRoom = ClassRoom::query()->find($data['class_room_id']);
+        $classStudentCount = ClassStudent::query()->where('class_schedule_id', $classSchedule->id)->count();
+
+        if($classRoom->max_student < $classStudentCount + 1) {
+            throw new Exception('Class room is full');
+        }
 
         ClassStudent::query()->updateOrCreate(
             ['student_id' => $student->id],
