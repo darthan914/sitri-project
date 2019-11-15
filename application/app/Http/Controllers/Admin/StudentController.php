@@ -103,9 +103,8 @@ class StudentController extends Controller
     {
         $classRooms = $this->classRoomRepository->all();
         $day = config('sitri.day');
-        $time = config('sitri.time');
 
-        return view('admin.student.create', compact( 'classRooms', 'day', 'time'));
+        return view('admin.student.create', compact( 'classRooms', 'day'));
     }
 
     /**
@@ -113,6 +112,7 @@ class StudentController extends Controller
      * @param StoreStudentAction  $action
      *
      * @return RedirectResponse
+     * @throws Exception
      */
     public function store(StoreStudentRequest $request, StoreStudentAction $action)
     {
@@ -142,9 +142,8 @@ class StudentController extends Controller
     {
         $classRooms = $this->classRoomRepository->all();
         $day = config('sitri.day');
-        $time = config('sitri.time');
 
-        return view('admin.student.edit', compact('classRooms', 'student', 'day', 'time'));
+        return view('admin.student.edit', compact('classRooms', 'student', 'day'));
     }
 
     /**
@@ -153,6 +152,7 @@ class StudentController extends Controller
      * @param UpdateStudentAction  $action
      *
      * @return RedirectResponse
+     * @throws Exception
      */
     public function update(Student $student, UpdateStudentRequest $request, UpdateStudentAction $action)
     {

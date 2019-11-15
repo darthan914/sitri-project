@@ -34,8 +34,7 @@ class StoreStudentRequest extends FormRequest
             'age'           => ['required', 'integer'],
             'date_enter'    => ['required', 'date'],
             'class_room_id' => ['required', 'integer'],
-            'day'           => ['required'],
-            'time'          => ['required'],
+            'schedule_id'   => ['required', 'integer'],
             'teacher_name'  => ['required'],
         ];
     }

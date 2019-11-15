@@ -164,11 +164,11 @@
                         </div>
 
                         <div class="form-group @if($errors->first('day')) has-error @endif">
-                            <label for="day" class="col-sm-2 control-label">Hari</label>
+                            <label for="day" class="col-sm-2 control-label">Day</label>
 
                             <div class="col-sm-10">
-                                <select class="form-control" id="day" name="day">
-                                    <option value="">Pilih Hari</option>
+                                <select class="form-control select2" id="day" name="day" data-placeholder="Select Day">
+                                    <option value="">Select Day</option>
                                     @foreach($day as $key => $value)
                                         <option value="{{ $key }}"
                                                 @if(old('day') == $key) selected @endif>{{ $value }}</option>
@@ -178,19 +178,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group @if($errors->first('time')) has-error @endif">
-                            <label for="time" class="col-sm-2 control-label">Jam</label>
+                        <div class="form-group @if($errors->first('schedule_id')) has-error @endif">
+                            <label for="schedule_id" class="col-sm-2 control-label">Time</label>
 
                             <div class="col-sm-10">
-                                <select class="form-control" id="time" name="time">
-                                    <option value="">Pilih Jam</option>
-                                    @foreach($time as $key => $value)
-                                        <option value="{{ $key }}"
-                                                @if(old('time') == $key) selected @endif>{{ $value['start_time'] }}
-                                            - {{ $value['end_time'] }}</option>
-                                    @endforeach
+                                <select class="form-control select2" id="schedule_id" name="schedule_id"
+                                        data-placeholder="Select Time">
+                                    <option value="">Select Time</option>
                                 </select>
-                                <span class="help-block">{{ $errors->first('time') }}</span>
+                                <span class="help-block">{{ $errors->first('schedule_id') }}</span>
                             </div>
                         </div>
 
@@ -244,6 +240,41 @@
                 let year = new Date().getFullYear();
 
                 $('input[name=age]').val(year - $(this).datepicker("getDate").getFullYear());
+            });
+
+            let old_time = '{{ old('schedule_id') }}';
+
+            let daySelector = $('select[name=day]');
+            let scheduleSelector = $('select[name=schedule_id]');
+            scheduleSelector.prop("disabled", true);
+
+            const dynamicSchedule = function () {
+                if (daySelector.val() === '') {
+                    scheduleSelector.val('').trigger('change').prop("disabled", true);
+                } else {
+                    scheduleSelector.prop("disabled", false);
+                    $.get("{{ route('admin.classSchedule.getTimeByDay') }}",
+                        {
+                            day: daySelector.val(),
+                        },
+                        function (data) {
+                            scheduleSelector.empty();
+                            $.each(data, function (i, field) {
+                                if (old_time === field.id) {
+                                    scheduleSelector.append("<option value='" + field.id + "' selected>" + field.start_time + " - " + field.end_time + "</option>");
+                                } else {
+                                    scheduleSelector.append("<option value='" + field.id + "'>" + field.start_time + " - " + field.end_time + "</option>");
+                                }
+                                scheduleSelector.val(old_time).trigger('change');
+                            });
+                        });
+                }
+            };
+
+            dynamicSchedule();
+
+            $(document).on('change', 'select[name=day]', function () {
+                dynamicSchedule();
             });
         })
     </script>
