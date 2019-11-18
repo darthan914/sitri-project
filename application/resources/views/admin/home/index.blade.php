@@ -139,7 +139,7 @@
                                                             <tr>
                                                                 <th class="text-center" style="width: 7em;">
                                                                     <a class="btn btn-sm btn-info btn-block"
-                                                                       href="{{ route('admin.absence.create', ['date' => $weekDates[$day], 'class_schedule_id' => $classSchedule->id]) }}">{{ $classSchedule->classRoom->name }} - {{ $classSchedule->teacher_name }}</a>
+                                                                       href="{{ route('admin.absence.create', ['date' => $weekDates[$day], 'class_schedule_id' => $classSchedule->id]) }}">{{ $classSchedule->classRoom->name }}</a>
                                                                 </th>
                                                             </tr>
                                                             </thead>
@@ -150,7 +150,7 @@
                                                                     <td>
                                                                         <a href="{{ route('admin.student.view', $classStudent->student) }}"
                                                                            class="@if(isset($listRescheduleFrom[$weekDates[$day]][$classStudent->student_id])) strikethrough @endif"
-                                                                        >{{ $num++ }}. {{ $classStudent->student->surname ?? $classStudent->student->name ?? '' }}</a>
+                                                                        >{{ $num++ }}. {{ $classStudent->student->surname ?? $classStudent->student->name ?? '' }} - {{ $classStudent->teacher_name }}</a>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -160,7 +160,7 @@
                                                                         <td>
                                                                             <a href="{{ route('admin.student.view', $reschedule->student) }}"
                                                                                class="italic"
-                                                                            >{{ $num++ }}. {{ $classStudent->student->surname ?? $reschedule->student->name }}</a>
+                                                                            >{{ $num++ }}. {{ $classStudent->student->surname ?? $reschedule->student->name }} - {{ $classStudent->teacher_name }}</a>
                                                                         </td>
                                                                     </tr>
                                                                 @endif

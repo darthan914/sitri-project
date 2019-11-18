@@ -196,7 +196,7 @@
 
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="teacher_name" name="teacher_name" placeholder="Nama Guru"
-                                       value="{{ old('teacher_name', $student->class_schedule->teacher_name ?? '') }}">
+                                       value="{{ old('teacher_name', $student->classStudent->teacher_name ?? '') }}">
                                 <span class="help-block">{{ $errors->first('teacher_name') }}</span>
                             </div>
                         </div>
