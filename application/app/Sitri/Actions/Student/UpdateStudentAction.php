@@ -58,7 +58,9 @@ class UpdateStudentAction
         $classSchedule = (new StoreClassScheduleAction())->execute($data);
 
         $classRoom = ClassRoom::query()->find($data['class_room_id']);
-        $classStudentCount = ClassStudent::query()->where('class_schedule_id', $classSchedule->id)->count();
+        $classStudentCount = ClassStudent::query()->where('class_schedule_id', $classSchedule->id)
+                                         ->where('student_id', '<>', $student->id)->count()
+        ;
 
         if ($classRoom->max_student < $classStudentCount + 1) {
             throw new Exception('Class room is full');
