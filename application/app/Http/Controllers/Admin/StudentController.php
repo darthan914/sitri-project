@@ -152,13 +152,17 @@ class StudentController extends Controller
      * @param UpdateStudentAction  $action
      *
      * @return RedirectResponse
-     * @throws Exception
      */
     public function update(Student $student, UpdateStudentRequest $request, UpdateStudentAction $action)
     {
         $request->validated();
 
-        $action->execute($student, $request->all());
+        try {
+            $action->execute($student, $request->all());
+        } catch (Exception $e) {
+            return redirect()->back()->with('failed', $e->getMessage());
+
+        }
 
         return redirect()->route('admin.student.index')->with('success', 'Data has been updated');
     }
