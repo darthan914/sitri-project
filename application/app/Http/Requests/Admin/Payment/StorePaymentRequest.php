@@ -24,8 +24,12 @@ class StorePaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required',
-            'value.*' => 'nullable|numeric'
+            'no_payment' => 'required|unique:payments',
+            'student_id' => 'required',
+            'registration_value' => 'numeric',
+            'monthly_value' => 'numeric',
+            'day_off_value' => 'numeric',
+            'shopping_value' => 'numeric',
         ];
     }
 }

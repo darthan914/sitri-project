@@ -6,36 +6,18 @@ namespace App\Sitri\Actions\Payment;
 
 use App\Sitri\Models\Admin\Payment;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class StorePaymentAction
 {
     /**
      * @param array $request
      *
-     * @return bool
-     * @throws Exception
+     * @return Builder|Model
      */
     public function execute(array $request)
     {
-        $noPayment = Payment::query()
-                           ->where('no_payment', 'like', $request['code'] . '%')
-                           ->orderBy('no_payment', 'desc')->first();
-
-        $startNum = intval(substr($noPayment->no_payment ?? 0, -3, 3)) + 1;
-
-        $massInsert = [];
-        foreach ($request['check'] as $key => $student) {
-            if('' !== $request['value'][$key]) {
-                $massInsert[] = [
-                    'no_payment' => $request['code'] . str_pad($startNum++, 3, '0', STR_PAD_LEFT),
-                    'student_id' => $key,
-                    'value'      => $request['value'][$key],
-                ];
-            }
-        }
-
-        Payment::query()->insert($massInsert);
-
-        return true;
+        return Payment::query()->create($request);
     }
 }

@@ -7,6 +7,10 @@ class UpdatePaymentRequest extends StorePaymentRequest
 {
     public function rules()
     {
-        return ['value' => 'required|numeric'];
+        $validation = parent::rules();
+        unset($validation['no_payment']);
+        unset($validation['student_id']);
+
+        return $validation;
     }
 }

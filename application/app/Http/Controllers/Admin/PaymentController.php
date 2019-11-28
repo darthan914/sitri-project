@@ -79,7 +79,7 @@ class PaymentController extends Controller
         });
 
         $dataTable->editColumn('value', function ($payment) {
-            return 'Rp. ' . number_format($payment->value);
+            return 'Rp. ' . number_format($payment->total);
         });
 
         $dataTable->editColumn('date_paid', function ($payment) {
@@ -140,7 +140,7 @@ class PaymentController extends Controller
         $request->validated();
 
         try {
-            $action->execute($payment, $request->value);
+            $action->execute($payment, $request->all());
         } catch (Exception $e) {
             return redirect()->route('admin.payment.index')->with('failed', $e->getMessage());
         }

@@ -8,9 +8,9 @@ use App\Sitri\Models\Admin\Payment;
 
 class UpdatePaymentAction
 {
-    public function execute(Payment $payment, $value)
+    public function execute(Payment $payment, array $request)
     {
-        $payment->update(['value' => $value]);
+        $payment->update($request);
 
         return true;
     }
