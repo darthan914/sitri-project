@@ -1,38 +1,12 @@
 @extends('adminlte::page')
 
 @section('title')
-    {{ $student->user->name }} - {{ $student->name }}
+    {{ $student->name }}
 @stop
 
 @section('js')
     <script>
         $(function () {
-            let classScheduleSelector = $('#classSchedule-list');
-            classScheduleSelector.DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('admin.classStudent.dataTable') }}",
-                    type: "get",
-                    data: {
-                        f_student: '{{ $student->id }}',
-                        f_active: 1,
-                    },
-                },
-                columns: [
-                    {data: 'class_schedule_id'},
-                    {data: 'action', orderable: false, searchable: false, width: '6em'},
-                ],
-                paging: true,
-                lengthChange: true,
-                searching: false,
-                ordering: true,
-                info: true,
-                autoWidth: false
-            });
-            alertModal(classScheduleSelector);
-            activeModal(classScheduleSelector);
-
             let rescheduleSelector = $('#reschedule-list');
             rescheduleSelector.DataTable({
                 processing: true,
@@ -50,7 +24,7 @@
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
                 paging: true,
-                lengthChange: true,
+                lengthChange: false,
                 searching: false,
                 ordering: true,
                 info: true,
@@ -76,7 +50,7 @@
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
                 paging: true,
-                lengthChange: true,
+                lengthChange: false,
                 searching: false,
                 ordering: true,
                 info: true,
@@ -85,7 +59,7 @@
 
             alertModal(paymentSelector);
             activeModal(paymentSelector);
-        })
+        });
     </script>
 @stop
 
@@ -99,30 +73,18 @@
                 <table class="table table-bordered">
                     <tr>
                         <th>Nama Murid :</th>
-                        <td>{{ $student->name }}</td>
+                        <td>{{ $student->name }} - {{ $student->age }}</td>
                     </tr>
                     <tr>
                         <th>Nama Orang tua :</th>
-                        <td>{{ $student->user->name }}</td>
+                        <td>{{ $student->user->name }} - {{ $student->user->phone ?? 0 }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Kelas :</th>
+                        <td>{{ $student->classStudent->classSchedule->getClassInfo() }}</td>
                     </tr>
                 </table>
-            </div>
-
-            <div class="box">
-                <h2>Jadwal reguler</h2>
-                <div class="box-body">
-                    <a href="{{ route('admin.classStudent.create', ['student_id' => $student->id]) }}" class="btn btn-default">Create</a>
-                </div>
-                <div class="box-body">
-                    <table class="table table-bordered" id="classSchedule-list">
-                        <thead>
-                        <tr>
-                            <th>Kelas</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
             </div>
 
             <div class="box">
