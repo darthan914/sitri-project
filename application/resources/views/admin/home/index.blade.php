@@ -137,7 +137,7 @@
                                                         <table class="table table-bordered">
                                                             <thead>
                                                             <tr>
-                                                                <th class="text-center" style="width: 7em;">
+                                                                <th class="text-center" style="width: 7em;" colspan="3">
                                                                     <a class="btn btn-sm btn-info btn-block"
                                                                        href="{{ route('admin.absence.create', ['date' => $weekDates[$day], 'class_schedule_id' => $classSchedule->id]) }}">{{ $classSchedule->classRoom->name }}</a>
                                                                 </th>
@@ -147,10 +147,22 @@
                                                             @php $num = 1 @endphp
                                                             @foreach($classSchedule->classStudents as $classStudent)
                                                                 <tr>
-                                                                    <td>
+                                                                    <td nowrap>
                                                                         <a href="{{ route('admin.student.view', $classStudent->student) }}"
                                                                            class="@if(isset($listRescheduleFrom[$weekDates[$day]][$classStudent->student_id])) strikethrough @endif"
-                                                                        >{{ $num++ }}. {{ $classStudent->student->surname ?? $classStudent->student->name ?? '' }} - {{ $classStudent->teacher_name }}</a>
+                                                                        >{{ $num++ }}</a>
+                                                                    </td>
+
+                                                                    <td nowrap>
+                                                                        <a href="{{ route('admin.student.view', $classStudent->student) }}"
+                                                                           class="@if(isset($listRescheduleFrom[$weekDates[$day]][$classStudent->student_id])) strikethrough @endif"
+                                                                        >{{ $classStudent->student->surname ?? $classStudent->student->name ?? '' }}</a>
+                                                                    </td>
+
+                                                                    <td nowrap>
+                                                                        <a href="{{ route('admin.student.view', $classStudent->student) }}"
+                                                                           class="@if(isset($listRescheduleFrom[$weekDates[$day]][$classStudent->student_id])) strikethrough @endif"
+                                                                        >{{ $classStudent->teacher_name }}</a>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -160,10 +172,27 @@
                                                                         <td>
                                                                             <a href="{{ route('admin.student.view', $reschedule->student) }}"
                                                                                class="italic"
-                                                                            >{{ $num++ }}. {{ $classStudent->student->surname ?? $reschedule->student->name }} - {{ $classStudent->teacher_name }}</a>
+                                                                            >{{ $num++ }}</a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="{{ route('admin.student.view', $reschedule->student) }}"
+                                                                               class="italic"
+                                                                            >{{ $classStudent->student->surname ?? $reschedule->student->name }}</a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="{{ route('admin.student.view', $reschedule->student) }}"
+                                                                               class="italic"
+                                                                            >{{ $classStudent->teacher_name }}</a>
                                                                         </td>
                                                                     </tr>
                                                                 @endif
+                                                            @endforeach
+                                                            @foreach(range(1, 16 - count($classSchedule->classStudents)) as $number)
+                                                                <tr>
+                                                                    <td nowrap>{{ $num++ }}</td>
+                                                                    <td nowrap></td>
+                                                                    <td nowrap></td>
+                                                                </tr>
                                                             @endforeach
                                                             </tbody>
                                                         </table>
