@@ -42,13 +42,11 @@
                         </div>
 
                         <div class="form-group @if($errors->first('from_class_schedule_id')) has-error @endif">
-                            <label for="from_class_schedule_id" class="col-sm-2 control-label">From Class
-                                Schedule</label>
+                            <label for="from_class_schedule_id" class="col-sm-2 control-label">Regular Class</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control select2" id="from_class_schedule_id"
-                                        name="from_class_schedule_id" data-placeholder="Select From Class
-                                Schedule">
+                                        name="from_class_schedule_id" data-placeholder="Select Regular Class">
                                     <option value=""></option>
                                 </select>
                                 <span class="help-block">{{ $errors->first('from_class_schedule_id') }}</span>
@@ -67,11 +65,11 @@
                         </div>
 
                         <div class="form-group @if($errors->first('to_class_schedule_id')) has-error @endif">
-                            <label for="to_class_schedule_id" class="col-sm-2 control-label">To Class Schedule</label>
+                            <label for="to_class_schedule_id" class="col-sm-2 control-label">Reschedule Class</label>
 
                             <div class="col-sm-10">
                                 <select class="form-control select2" id="to_class_schedule_id"
-                                        name="to_class_schedule_id" data-placeholder="Select To Class Schedule">
+                                        name="to_class_schedule_id" data-placeholder="Select Reschedule Class">
                                     <option value=""></option>
                                 </select>
                                 <span class="help-block">{{ $errors->first('to_class_schedule_id') }}</span>

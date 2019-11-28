@@ -88,7 +88,7 @@
             </div>
 
             <div class="box">
-                <h2>Pindah jadwal</h2>
+                <h2>Reschedule Class</h2>
                 <div class="box-body">
                     <a href="{{ route('admin.reschedule.create', ['student_id' => $student->id]) }}" class="btn btn-default">Create</a>
                 </div>
