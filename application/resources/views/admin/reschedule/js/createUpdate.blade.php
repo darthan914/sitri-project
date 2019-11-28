@@ -13,7 +13,7 @@
             toDateSelector.val('');
         });
 
-        $(document).on('blur', 'input[name=from_date]', function () {
+        $(document).on('change', 'input[name=from_date]', function () {
             $.get("{{ route('admin.reschedule.getRegularStudent') }}",
                 {
                     student_id: studentSelector.val(),
@@ -29,7 +29,7 @@
 
         });
 
-        $(document).on('blur', 'input[name=to_date]', function () {
+        $(document).on('change', 'input[name=to_date]', function () {
             if (fromDateSelector.val() !== '') {
                 $.get("{{ route('admin.reschedule.getScheduleAvailable') }}",
                     {
