@@ -24,7 +24,7 @@ class Reschedule extends Model
         static::addGlobalScope('isActive', function (Builder $builder) {
             $builder->whereHas('student', function (Builder $student) {
                 $student->whereHas('user', function (Builder $user) {
-                    $user->where('active', 1);
+//                    $user->where('active', 1);
                 });
             });
         });

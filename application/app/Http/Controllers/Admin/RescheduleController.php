@@ -116,6 +116,10 @@ class RescheduleController extends Controller
             return redirect()->route('admin.reschedule.index')->with('failed', $e->getMessage());
         }
 
+        if(isset($request->go_to_student) && $request->go_to_student == 'yes') {
+            return redirect()->route('admin.student.view', $request->student_id)->with('success', 'Data has been added');
+        }
+
         return redirect()->route('admin.reschedule.index')->with('success', 'Data has been added');
     }
 

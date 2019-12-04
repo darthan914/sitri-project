@@ -79,6 +79,7 @@
                     <!-- /.box-body -->
                     <div class="box-footer">
                         {{ csrf_field() }}
+                        <input type="hidden" name="go_to_student" value="{{ $request->student_id ? 'yes' : '' }}">
                         <button type="submit" class="btn btn-info pull-right">Create</button>
                         <a href="{{ route('admin.reschedule.index') }}" class="btn btn-default pull-right">Cancel</a>
                     </div>
