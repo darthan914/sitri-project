@@ -113,7 +113,7 @@
                         <thead>
                         <tr>
                             @foreach($activeDayLists as $day)
-                                <th class="text-center @if($day == date('w')) highlight-today @endif">
+                                <th class="text-center @if($day == date('w')) highlight-today @endif" nowrap>
                                     {{ config('sitri.day')[$day] }} {{ \Carbon\Carbon::parse($weekDates[$day])->format('d/m/y') }}
                                 </th>
                             @endforeach
@@ -126,7 +126,7 @@
                                     @if($schedule->day === $day)
                                         <table class="table table-bordered" style="min-height: 300px">
                                             <thead>
-                                            <th colspan="{{ $schedule->classSchedules->count() }}" class="text-center">
+                                            <th colspan="{{ $schedule->classSchedules->count() }}" class="text-center" nowrap>
                                                 {{ $schedule->start_time }} - {{ $schedule->end_time }}
                                             </th>
                                             </thead>
@@ -150,7 +150,7 @@
                                                                     <td nowrap>
                                                                         <a href="{{ route('admin.student.view', $classStudent->student) }}"
                                                                            class="@if(isset($listRescheduleFrom[$weekDates[$day]][$classStudent->student_id])) strikethrough @endif"
-                                                                        >{{ $num++ }}</a>
+                                                                        >{{ $num++ }} {{ $classStudent->id }}</a>
                                                                     </td>
 
                                                                     <td nowrap>
@@ -177,12 +177,12 @@
                                                                         <td>
                                                                             <a href="{{ route('admin.student.view', $reschedule->student) }}"
                                                                                class="italic"
-                                                                            >{{ $classStudent->student->surname ?? $reschedule->student->name }}</a>
+                                                                            >{{ $reschedule->student->surname ?? $reschedule->student->name }}</a>
                                                                         </td>
                                                                         <td>
                                                                             <a href="{{ route('admin.student.view', $reschedule->student) }}"
                                                                                class="italic"
-                                                                            >{{ $classStudent->teacher_name }}</a>
+                                                                            >{{ $reschedule->student->classStudent->teacher_name }}</a>
                                                                         </td>
                                                                     </tr>
                                                                 @endif
