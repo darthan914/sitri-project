@@ -150,7 +150,7 @@
                                                                     <td nowrap>
                                                                         <a href="{{ route('admin.student.view', $classStudent->student) }}"
                                                                            class="@if(isset($listRescheduleFrom[$weekDates[$day]][$classStudent->student_id])) strikethrough @endif"
-                                                                        >{{ $num++ }} {{ $classStudent->id }}</a>
+                                                                        >{{ $num++ }}</a>
                                                                     </td>
 
                                                                     <td nowrap>
