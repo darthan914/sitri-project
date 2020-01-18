@@ -4,6 +4,7 @@
 namespace App\Sitri\Actions\Trial;
 
 
+use app\Sitri\Actions\Student\CreateOrUpdateStudentParentAction;
 use App\Sitri\Models\Admin\ChildTrial;
 use App\Sitri\Models\Admin\ClassStudent;
 use App\Sitri\Models\Admin\ParentTrial;
@@ -30,22 +31,7 @@ class StoreTrialAction
      */
     public function execute(array $data)
     {
-        $user = $this->userRepository->getUserByEmail($data['parent_email']);
-
-        $dataParent = [
-            'name'  => $data['parent_name'],
-            'email' => $data['parent_email'],
-            'phone' => $data['parent_phone'],
-        ];
-
-        if (!$user) {
-            $dataParent['password'] = bcrypt(str_random());
-            $user = User::query()->create($dataParent);
-        } else {
-            User::query()->find($user['id'])->update($dataParent);
-        }
-
-        $data['user_id'] = $user->id;
+        (new CreateOrUpdateStudentParentAction)->execute($data);
         $data['is_trial'] = 1;
 
 
