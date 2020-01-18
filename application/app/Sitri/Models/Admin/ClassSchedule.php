@@ -13,6 +13,8 @@ class ClassSchedule extends Model
 {
     protected $fillable = ['class_room_id', 'schedule_id', 'is_trial', 'active'];
 
+    protected $appends = ['class_info', 'schedule_info'];
+
     public function classRoom()
     {
         return $this->belongsTo(ClassRoom::class);
@@ -28,14 +30,14 @@ class ClassSchedule extends Model
         return $this->belongsTo(Schedule::class);
     }
 
-    public function getSchedule()
+    public function getScheduleInfoAttribute()
     {
         return config('sitri.day')[$this->schedule->day] . ' (' . $this->schedule->start_time . ' - ' . $this->schedule->end_time . ')';
     }
 
-    public function getClassInfo()
+    public function getClassInfoAttribute()
     {
-        return 'Class ' . $this->classRoom->name . ' : ' . $this->getSchedule();
+        return 'Class ' . $this->classRoom->name . ' : ' . $this->schedule_info;
     }
 
     public function getStartTimeAttribute($value)
