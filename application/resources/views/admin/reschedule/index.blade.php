@@ -8,7 +8,7 @@
     <script>
         $(function () {
             let rescheduleSelector = $('#reschedule-list');
-            rescheduleSelector.DataTable({
+            let dataTableReschedule = rescheduleSelector.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -20,7 +20,7 @@
                     },
                 },
                 columns: [
-                    {data: 'student_id'},
+                    {data: 'student.name'},
                     {data: 'from_date'},
                     {data: 'to_date'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
@@ -33,15 +33,15 @@
                 autoWidth: false
             });
 
-            alertModal(rescheduleSelector);
+            sweetAlertDelete(rescheduleSelector, function () {
+                dataTableReschedule.ajax.reload();
+            });
         })
     </script>
 @stop
 
 @section('content')
-    @include('admin._general.modal.alert')
-    @include('admin._general.modal.alertActive')
-    @include('admin.reschedule.filter.index')
+{{--    @include('admin.reschedule.filter.index')--}}
 
     <div class="row">
         <div class="col-xs-12">
