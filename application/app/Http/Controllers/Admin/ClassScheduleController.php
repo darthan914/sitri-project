@@ -112,7 +112,7 @@ class ClassScheduleController extends Controller
      */
     public function create()
     {
-        $classRooms = $this->classRoomRepository->getIsActive(true);
+        $classRooms = $this->classRoomRepository->getActive(true);
         $day = config('sitri.day');
         return view('admin.classSchedule.create', compact('classRooms', 'day', 'time'));
     }
@@ -143,7 +143,7 @@ class ClassScheduleController extends Controller
      */
     public function edit(ClassSchedule $classSchedule)
     {
-        $classRooms = $this->classRoomRepository->getIsActive(true);
+        $classRooms = $this->classRoomRepository->getActive(true);
         $day = config('sitri.day');
         $time = config('sitri.time');
         return view('admin.classSchedule.edit', compact('classSchedule', 'classRooms', 'day', 'time'));
