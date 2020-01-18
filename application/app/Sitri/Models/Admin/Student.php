@@ -25,18 +25,6 @@ class Student extends Model
         'date_enter',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-//        static::addGlobalScope('isActive', function (Builder $builder) {
-//            $builder->whereHas('user', function (Builder $user) {
-//                $user->where('active', 1);
-//            })->orWhere('is_trial', 1);
-//        });
-    }
-
-
     public function user()
     {
         return $this->belongsTo(User::class);
