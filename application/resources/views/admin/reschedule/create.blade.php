@@ -22,8 +22,8 @@
                                         data-placeholder="Select Student">
                                     <option value=""></option>
                                     @foreach($students  as $student)
-                                        <option value="{{ $student->id }}"
-                                                @if(old('student_id', $request->student_id) == $student->id) selected @endif>{{ $student->name }}</option>
+                                        <option value="{{ $student['id'] }}"
+                                                @if(old('student_id', $request['student_id']) == $student['id']) selected @endif>{{ $student['name']}}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('student_id') }}</span>
@@ -36,7 +36,8 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control datepicker" id="from_date" name="from_date"
                                        placeholder="From Date"
-                                       value="{{ old('from_date') }}">
+                                       value="{{ old('from_date') }}" autocomplete="off"
+                                >
                                 <span class="help-block">{{ $errors->first('from_date') }}</span>
                             </div>
                         </div>
@@ -59,7 +60,8 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control datepicker" id="to_date" name="to_date"
                                        placeholder="To Date"
-                                       value="{{ old('to_date') }}">
+                                       value="{{ old('to_date') }}" autocomplete="off"
+                                       data-only-day="{{ $toDateDayAvailable }}">
                                 <span class="help-block">{{ $errors->first('to_date') }}</span>
                             </div>
                         </div>
@@ -79,7 +81,7 @@
                     <!-- /.box-body -->
                     <div class="box-footer">
                         {{ csrf_field() }}
-                        <input type="hidden" name="go_to_student" value="{{ $request->student_id ? 'yes' : '' }}">
+                        <input type="hidden" name="go_to_student" value="{{ $request['student_id'] ? 'yes' : '' }}">
                         <button type="submit" class="btn btn-info pull-right">Create</button>
                         <a href="{{ route('admin.reschedule.index') }}" class="btn btn-default pull-right">Cancel</a>
                     </div>
