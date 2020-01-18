@@ -4,6 +4,9 @@ namespace App\Http\Requests\Admin\General;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property bool active
+ */
 class ActiveRequest extends FormRequest
 {
     /**
