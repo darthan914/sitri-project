@@ -10,13 +10,13 @@ use Exception;
 class DeleteStudentAction
 {
     /**
-     * @param Student $student
+     * @param int $studentId
      *
      * @return bool
      * @throws Exception
      */
-    public function execute(Student $student)
+    public function execute($studentId)
     {
-        return $student->delete();
+        return Student::query()->find($studentId)->delete();
     }
 }
