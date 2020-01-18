@@ -8,38 +8,61 @@ use App\Sitri\Models\Admin\ClassStudent;
 
 class ClassStudentRepository implements ClassStudentRepositoryInterface
 {
-
     /**
-     * @return mixed
+     * @param array $with
+     *
+     * @return array
      */
-    public function all()
+    public function all(array $with = [])
     {
-        return ClassStudent::query()->get();
+        return ClassStudent::query()->with($with)->get()->toArray();
     }
 
     /**
-     * @param array $data
+     * @param int   $classStudentId
+     * @param array $with
      *
-     * @return mixed
+     * @return array
      */
-    public function getByRequest(array $data)
+    public function find($classStudentId, array $with = [])
     {
-        $classStudent = ClassStudent::query();
+        return ClassStudent::query()->with($with)->find($classStudentId)->toArray();
+    }
 
-        $collect = collect($data);
+    /**
+     * @param array $request
+     * @param array $with
+     *
+     * @return array
+     */
+    public function getByRequest(array $request, array $with = [])
+    {
+        $classStudent = ClassStudent::query()->with($with);
 
-        $search = $collect->get('f_search');
-        if (null !== $search && '' !== $search) {
-            $classStudent->whereHas('student', function ($student) use ($search) {
-                $student->where('name', 'like', '%' . $search . '%');
-            });
-        }
+        $collect = collect($request);
 
         $student = $collect->get('f_student');
         if (null !== $student) {
             $classStudent->where('student_id', $student);
         }
 
-        return $classStudent->get();
+        return $classStudent->get()->toArray();
+    }
+
+    /**
+     * @param int      $classScheduleId
+     * @param int|null $exceptStudentId
+     *
+     * @return int
+     */
+    public function countClassStudent($classScheduleId, $exceptStudentId = null)
+    {
+        $classStudents = ClassStudent::query()->where('class_schedule_id', $classScheduleId);
+
+        if (null !== $exceptStudentId) {
+            $classStudents->where('student_id', '<>', $exceptStudentId)->count();
+        }
+
+        return $classStudents->count();
     }
 }
