@@ -91,6 +91,7 @@ Route::prefix('reschedule')->name('reschedule.')->group(function () {
     Route::post('{reschedule}/delete', 'RescheduleController@delete')->name('delete');
     Route::get('getRegularStudent', 'RescheduleController@getRegularStudent')->name('getRegularStudent');
     Route::get('getScheduleAvailable', 'RescheduleController@getScheduleAvailable')->name('getScheduleAvailable');
+    Route::get('getDayAvailable', 'RescheduleController@getDayAvailable')->name('getDayAvailable');
 })
 ;
 

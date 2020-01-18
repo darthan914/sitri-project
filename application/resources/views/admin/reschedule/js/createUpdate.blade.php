@@ -5,12 +5,15 @@
         let fromScheduleClassSelector = $('select[name=from_class_schedule_id]');
         let toDateSelector = $('input[name=to_date]');
         let toScheduleClassSelector = $('select[name=to_class_schedule_id]');
+        getDayAvailable();
 
         $(document).on('change', 'select[name=student_id]', function () {
             fromScheduleClassSelector.empty().val('').trigger('change');
             toScheduleClassSelector.empty().val('').trigger('change');
             fromDateSelector.val('');
             toDateSelector.val('');
+
+            getDayAvailable();
         });
 
         $(document).on('change', 'input[name=from_date]', function () {
@@ -48,5 +51,15 @@
 
 
         });
+
+        function getDayAvailable() {
+            $.get("{{ route('admin.reschedule.getDayAvailable') }}",
+                {
+                    student_id: studentSelector.val(),
+                },
+                function (data) {
+                    fromDateSelector.attr('data-only-day', data)
+                });
+        }
     });
 </script>
