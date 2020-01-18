@@ -36,7 +36,17 @@ $(function () {
         changeYear: true,
         maxDate: "",
         dateFormat: "yy-mm-dd",
-        yearRange: "c-75:c+0"
+        yearRange: "c-75:c+0",
+        beforeShowDay: function (date) {
+            let day = date.getDay();
+            let onlyDay = $(this).attr('data-only-day');
+            if(onlyDay === undefined){
+                return [true];
+            }
+
+            let array = onlyDay.split(',');
+            return [array.includes(day.toString()) || array === []];
+        }
     });
 
     $('input[type=text].timepicker').timepicker({
