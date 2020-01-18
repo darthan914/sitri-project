@@ -67,7 +67,7 @@ class RescheduleController extends Controller
     {
         $request->validated();
 
-        $reschedules = $this->rescheduleRepository->getByRequest($request->all(), ['fromClassSchedule', 'toClassSchedule']);
+        $reschedules = $this->rescheduleRepository->getByRequest($request->all(), ['fromClassSchedule', 'toClassSchedule', 'student']);
         $dataTable = Datatables::of($reschedules);
 
         $dataTable->addColumn('action', function ($reschedule) {
