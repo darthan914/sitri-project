@@ -17,6 +17,7 @@ use App\Sitri\Repositories\User\UserRepositoryInterface;
 use App\User;
 use Exception;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -61,23 +62,20 @@ class UserController extends Controller
     public function dataTable(IndexUserRequest $request)
     {
         $request->validated();
+        $users = $this->userRepository->getByRequest($request->all());
+        $dataTable = Datatables::of($users);
 
-        $dataTable = Datatables::of($this->userRepository->getByRequest($request->all()));
-
-        $dataTable->addColumn('action', function ($index) {
-            return view('admin.user.datatable.action', compact('index'));
+        $dataTable->addColumn('action', function ($user) {
+            return view('admin.user.datatable.action', compact('user'));
         });
 
-        $dataTable->editColumn('name', function ($index) {
-            return view('admin.user.datatable.information', compact('index'));
-        });
-
-        $dataTable->editColumn('active', function ($index) {
-            $active = $index->active;
+        $dataTable->editColumn('active', function ($user) {
+            $active = $user['active'];
             return view('admin._general.datatable.active', compact('active'));
         });
 
-        $dataTable = $dataTable->rawColumns(['check', 'active', 'action', 'name'])->make(true);
+        $dataTable = $dataTable->addIndexColumn()->make(true);
+
         return $dataTable;
     }
 
@@ -105,12 +103,14 @@ class UserController extends Controller
     }
 
     /**
-     * @param User $user
+     * @param int $id
      *
      * @return Factory|View
      */
-    public function edit(User $user)
+    public function edit($id)
     {
+        $user = $this->userRepository->find($id);
+
         return view('admin.user.edit', compact('user'));
     }
 
@@ -121,57 +121,56 @@ class UserController extends Controller
      *
      * @return RedirectResponse
      */
-    public function update(User $user, UpdateUserRequest $request, UpdateUserAction $action)
+    public function update($id, UpdateUserRequest $request, UpdateUserAction $action)
     {
         $request->validated();
 
-        $action->execute($user, $request->except(['password']));
+        $action->execute($id, $request->except(['password']));
 
         return redirect()->route('admin.user.index')->with('success', 'Data has been updated');
     }
 
     /**
-     * @param User             $user
+     * @param int              $id
      * @param DeleteUserAction $action
      *
-     * @return RedirectResponse
-     * @throws Exception
+     * @return JsonResponse
      */
-    public function delete(User $user, DeleteUserAction $action)
+    public function delete($id, DeleteUserAction $action)
     {
-        $action->execute($user);
+        $action->execute($id);
 
-        return redirect()->route('admin.user.index')->with('success', 'Data has been deleted');
+        return response()->json(['messages' => 'Data has been deleted!']);
     }
 
     /**
-     * @param User             $user
+     * @param int              $id
      * @param ActiveRequest    $request
      * @param ActiveUserAction $action
      *
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function active(User $user, ActiveRequest $request, ActiveUserAction $action)
+    public function active($id, ActiveRequest $request, ActiveUserAction $action)
     {
         $request->validated();
 
-        $action->execute($user, $request->get('active'));
+        $action->execute($id, $request->active);
 
-        return redirect()->route('admin.user.index')->with('success', 'Data has been updated');
+        return response()->json(['messages' => 'Data has been updated!']);
     }
 
     /**
-     * @param User                      $user
+     * @param int                       $id
      * @param ChangePasswordUserRequest $request
      * @param ChangePasswordUserActions $action
      *
      * @return RedirectResponse
      */
-    public function changePassword(User $user, ChangePasswordUserRequest $request, ChangePasswordUserActions $action)
+    public function changePassword($id, ChangePasswordUserRequest $request, ChangePasswordUserActions $action)
     {
         $request->validated();
 
-        $action->execute($user, $request->get('password'));
+        $action->execute($id, $request->get('password'));
 
         return redirect()->route('admin.user.index')->with('success', 'Data has been updated');
     }
