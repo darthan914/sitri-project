@@ -12,54 +12,66 @@ class StudentRepository implements StudentRepositoryInterface
 {
 
     /**
-     * @return mixed
+     * @param array $with
+     *
+     * @return array
      */
-    public function all()
+    public function all(array $with = [])
     {
-        return Student::query()->orderBy('name')->where('is_trial', 0)->get();
+        return Student::query()->with($with)->orderBy('name')->get()->toArray();
     }
 
+    /**
+     * @param int   $studentId
+     * @param array $with
+     *
+     * @return array
+     */
+    public function find($studentId, array $with = [])
+    {
+        return Student::query()->with($with)->find($studentId)->orderBy('name')->get()->toArray();
+    }
 
     /**
-     * @param array $data
+     * @param array $request
+     * @param array $with
      *
      * @return mixed
      */
-    public function getByRequest(array $data)
+    public function getByRequest(array $request, array $with = [])
     {
         $student = Student::query();
 
-        $collect = collect($data);
-
-        $search = $collect->get('f_search');
-        if (null !== $search && '' !== $search) {
-            $student->where(function ($student) use ($search) {
-                $student->where('name', 'like', '%' . $search . '%')
-                        ->orWhereHas('user', function (Builder $query) use ($search) {
-                            $query->where('name', 'like', '%' . $search . '%');
-                        })
-                ;
-            });
-        }
+        $collect = collect($request);
 
         $isTrial = $collect->get('is_trial');
-
         if (null !== $isTrial && 1 == $isTrial) {
-            $student->where('is_trial', 1)->withoutGlobalScope('isActive');
+            $student->where('is_trial', 1);
         } else {
             $student->where('is_trial', 0);
         }
 
-        return $student->orderBy('name')->get();
+        return $student->orderBy('name')->get()->toArray();
     }
 
-    public function getStudentNotOnSchedule()
+    /**
+     * @param array $with
+     *
+     * @return array
+     */
+    public function getStudentsNotOnSchedule(array $with = [])
     {
-        return Student::query()->doesntHave('classStudents')->get();
+        return Student::query()->with($with)->doesntHave('classStudents')->get()->toArray();
     }
 
-    public function getStudentOnTrial()
+    /**
+     * @param bool  $trial
+     * @param array $with
+     *
+     * @return array
+     */
+    public function getStudentsOnTrial($trial = true, array $with = [])
     {
-        return Student::query()->where('is_trial', 1)->get();
+        return Student::query()->with($with)->where('is_trial', $trial)->get()->toArray();
     }
 }

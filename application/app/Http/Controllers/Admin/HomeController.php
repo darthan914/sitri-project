@@ -67,9 +67,9 @@ class HomeController extends Controller
 
         $rescheduleTo = $this->rescheduleRepository->getToRangeDate($weekDates[0], $weekDates[6]);
 
-        $studentNotOnSchedule = $this->studentRepository->getStudentNotOnSchedule();
+        $studentNotOnSchedule = $this->studentRepository->getStudentsNotOnSchedule();
 
-        $studentOnTrial = $this->studentRepository->getStudentOnTrial();
+        $studentOnTrial = $this->studentRepository->getStudentsOnTrial();
 
         $classSchedules = $this->classScheduleRepository->all();
 
