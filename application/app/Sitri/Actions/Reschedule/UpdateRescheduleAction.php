@@ -21,16 +21,16 @@ class UpdateRescheduleAction
     }
 
     /**
-     * @param Reschedule $reschedule
-     * @param array      $request
+     * @param int   $rescheduleId
+     * @param array $request
      *
      * @return bool
      * @throws Exception
      */
-    public function execute(Reschedule $reschedule, array $request)
+    public function execute($rescheduleId, array $request)
     {
         (new CheckRescheduleAction($this->rescheduleRepository))->check($request);
 
-        return $reschedule->update($request);
+        return Reschedule::query()->find($rescheduleId)->update($request);
     }
 }

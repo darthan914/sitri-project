@@ -10,13 +10,13 @@ use Exception;
 class DeleteRescheduleAction
 {
     /**
-     * @param Reschedule $reschedule
+     * @param int $rescheduleId
      *
      * @return bool
      * @throws Exception
      */
-    public function execute(Reschedule $reschedule)
+    public function execute($rescheduleId)
     {
-        return $reschedule->delete();
+        return Reschedule::query()->find($rescheduleId)->delete();
     }
 }

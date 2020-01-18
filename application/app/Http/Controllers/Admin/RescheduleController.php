@@ -68,7 +68,8 @@ class RescheduleController extends Controller
     {
         $request->validated();
 
-        $reschedules = $this->rescheduleRepository->getByRequest($request->all(), ['fromClassSchedule', 'toClassSchedule', 'student']);
+        $reschedules = $this->rescheduleRepository->getByRequest($request->all(),
+            ['fromClassSchedule', 'toClassSchedule', 'student']);
         $dataTable = Datatables::of($reschedules);
 
         $dataTable->addColumn('action', function ($reschedule) {
@@ -127,16 +128,17 @@ class RescheduleController extends Controller
     }
 
     /**
-     * @param Reschedule $reschedule
+     * @param int $id
      *
      * @return Factory|View
      */
-    public function edit(Reschedule $reschedule)
+    public function edit($id)
     {
-        $fromClassSchedules = $this->rescheduleRepository->getRegularStudentScheduleByDate($reschedule->student_id,
-            $reschedule->from_date);
-        $toClassSchedules = $this->rescheduleRepository->getRescheduleStudentAvailableByDate($reschedule->student_id,
-            $reschedule->to_date, $reschedule->from_date);
+        $reschedule = $this->rescheduleRepository->find($id);
+        $fromClassSchedules = $this->rescheduleRepository->getRegularStudentScheduleByDate($reschedule['student_id'],
+            $reschedule['from_date']);
+        $toClassSchedules = $this->rescheduleRepository->getRescheduleStudentAvailableByDate($reschedule['student_id'],
+            $reschedule['to_date'], $reschedule['from_date']);
         $students = $this->studentRepository->all();
         $toDateDayAvailable = implode(',', $this->rescheduleRepository->getDayAvailable());
 
@@ -145,18 +147,18 @@ class RescheduleController extends Controller
     }
 
     /**
-     * @param Reschedule              $reschedule
+     * @param int                     $id
      * @param UpdateRescheduleRequest $request
      * @param UpdateRescheduleAction  $action
      *
      * @return RedirectResponse
      */
-    public function update(Reschedule $reschedule, UpdateRescheduleRequest $request, UpdateRescheduleAction $action)
+    public function update($id, UpdateRescheduleRequest $request, UpdateRescheduleAction $action)
     {
         $request->validated();
 
         try {
-            $action->execute($reschedule, $request->all());
+            $action->execute($id, $request->all());
         } catch (Exception $e) {
             return redirect()->route('admin.reschedule.index')->with('failed', $e->getMessage());
         }
@@ -165,15 +167,15 @@ class RescheduleController extends Controller
     }
 
     /**
-     * @param Reschedule             $reschedule
+     * @param int             $id
      * @param DeleteRescheduleAction $action
      *
      * @return JsonResponse
      * @throws Exception
      */
-    public function delete(Reschedule $reschedule, DeleteRescheduleAction $action)
+    public function delete($id, DeleteRescheduleAction $action)
     {
-        $action->execute($reschedule);
+        $action->execute($id);
 
         return response()->json(['messages' => 'Data has been deleted']);
     }

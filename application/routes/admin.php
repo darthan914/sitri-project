@@ -86,9 +86,9 @@ Route::prefix('reschedule')->name('reschedule.')->group(function () {
     Route::get('dataTable', 'RescheduleController@dataTable')->name('dataTable');
     Route::get('create', 'RescheduleController@create')->name('create');
     Route::post('store', 'RescheduleController@store')->name('store');
-    Route::get('{reschedule}/edit', 'RescheduleController@edit')->name('edit');
-    Route::post('{reschedule}/update', 'RescheduleController@update')->name('update');
-    Route::post('{reschedule}/delete', 'RescheduleController@delete')->name('delete');
+    Route::get('{id}/edit', 'RescheduleController@edit')->name('edit');
+    Route::post('{id}/update', 'RescheduleController@update')->name('update');
+    Route::post('{id}/delete', 'RescheduleController@delete')->name('delete');
     Route::get('getRegularStudent', 'RescheduleController@getRegularStudent')->name('getRegularStudent');
     Route::get('getScheduleAvailable', 'RescheduleController@getScheduleAvailable')->name('getScheduleAvailable');
     Route::get('getDayAvailable', 'RescheduleController@getDayAvailable')->name('getDayAvailable');
