@@ -34,19 +34,16 @@ class CheckRescheduleAction
             throw new Exception('Class reschedule can not same date and class.');
         }
 
-        $checkFromSchedule = $this->rescheduleRepository
-            ->getRegularStudentScheduleByDate($request['student_id'], $request['from_date'])
-            ->count()
-        ;
+        $checkFromSchedule = count($this->rescheduleRepository
+            ->getRegularStudentScheduleByDate($request['student_id'], $request['from_date']));
 
         if (0 === $checkFromSchedule) {
             throw new Exception('Class student at date not on list.');
         }
 
-        $classSchedules = $this->rescheduleRepository
+        $classSchedules = count($this->rescheduleRepository
             ->getRescheduleStudentAvailableByDate($request['student_id'], $request['to_date'], $request['from_date'])
-            ->count()
-        ;
+        );
 
         if (0 === $classSchedules) {
             throw new Exception('Class schedule at date not on list.');
