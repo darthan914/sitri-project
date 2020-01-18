@@ -9,14 +9,16 @@ use App\User;
 class UpdateUserAction
 {
     /**
-     * @param User  $user
+     * @param int   $userId
      * @param array $data
      *
      * @return bool
      */
-    public function execute(User $user, array $data)
+    public function execute($userId, array $data)
     {
-        if($user->email !== $data['email']) {
+        $user = User::query()->find($userId);
+
+        if ($user->email !== $data['email']) {
             $data['token_verify'] = str_random();
         }
 

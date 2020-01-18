@@ -9,13 +9,13 @@ use App\User;
 class ActiveUserAction
 {
     /**
-     * @param User $user
+     * @param int  $userId
      * @param bool $setActive
      *
      * @return bool
      */
-    public function execute(User $user, $setActive)
+    public function execute($userId, $setActive)
     {
-        return $user->update(['active' => $setActive]);
+        return User::query()->find($userId)->update(['active' => $setActive]);
     }
 }

@@ -7,13 +7,13 @@ use App\User;
 class ChangePasswordUserActions
 {
     /**
-     * @param User   $user
+     * @param int    $userId
      * @param string $password
      *
      * @return bool
      */
-    public function execute(User $user, $password)
+    public function execute($userId, $password)
     {
-        return $user->update(['password' => bcrypt($password)]);
+        return User::query()->find($userId)->update(['password' => bcrypt($password)]);
     }
 }

@@ -10,13 +10,12 @@ use Exception;
 class DeleteUserAction
 {
     /**
-     * @param User $user
+     * @param int $userId
      *
      * @return bool
-     * @throws Exception
      */
-    public function execute(User $user)
+    public function execute($userId)
     {
-        return $user->delete();
+        return User::query()->where('id', $userId)->delete();
     }
 }
