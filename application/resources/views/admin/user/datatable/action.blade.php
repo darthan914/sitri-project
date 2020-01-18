@@ -4,27 +4,21 @@
         <span class="sr-only">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        {{--@if(Auth::user()->can('update-user'))--}}
         <li>
-            <a href="{{ route('admin.user.edit', $index) }}">Edit</a>
+            <a href="{{ route('admin.user.edit', $user['id']) }}">Edit</a>
         </li>
-        {{--@endif--}}
-        {{--@if(Auth::user()->can('active-user'))--}}
         <li>
-            <a href="#" class="active-modal" data-toggle="modal" data-target="#active-modal"
-               data-route="{{ route('admin.user.active', $index) }}"
-               data-active="{{ $index->active ? '0' : '1' }}"
-               data-title="{{ $index->active ? 'Inactive' : 'Active' }} user {{ $index->name }}?"
-            >Set {{ $index->active ? 'Inactive' : 'Active' }}</a>
+            <a href="#" class="sweet-alert-active"
+               data-route="{{ route('admin.user.active', $user['id']) }}"
+               data-active="{{ $user['active'] ? '0' : '1' }}"
+               data-title="{{ $user['active'] ? 'Inactive' : 'Active' }} user {{ $user['name'] }}?"
+            >Set {{ $user['active'] ? 'Inactive' : 'Active' }}</a>
         </li>
-        {{--@endif--}}
-        {{--@if(Auth::user()->can('delete-user'))--}}
         <li>
-            <a href="#" class="alert-modal" data-toggle="modal" data-target="#alert-modal"
-               data-route="{{ route('admin.user.delete', $index) }}"
-               data-title="Delete user {{ $index->name }}?"
+            <a href="#" class="sweet-alert-delete"
+               data-route="{{ route('admin.user.delete', $user['id']) }}"
+               data-title="Delete user {{ $user['name'] }}?"
             >Delete</a>
         </li>
-        {{--@endif--}}
     </ul>
 </div>

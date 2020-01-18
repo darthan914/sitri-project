@@ -8,55 +8,53 @@
     <script>
         $(function () {
             let userSelector = $('#user-list');
-            userSelector.DataTable({
+            let dataTableUser = userSelector.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
                     url: "{{ route('admin.user.dataTable') }}",
                     type: "get",
                     data: {
-                        f_search: $('*[name=f_search]').val(),
                         f_active: $('*[name=f_active]').val(),
                     },
                 },
                 columns: [
                     {data: 'name'},
+                    {data: 'email'},
                     {data: 'active'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
                 paging: true,
                 lengthChange: true,
-                searching: false,
                 ordering: true,
                 info: true,
                 autoWidth: false
             });
 
-            alertModal(userSelector);
-            activeModal(userSelector);
+            sweetAlertActive(userSelector, function () {dataTableUser.ajax.reload()});
+            sweetAlertDelete(userSelector, function () {dataTableUser.ajax.reload()});
         })
     </script>
 @stop
 
 @section('content')
-    @include('admin._general.modal.alert')
-    @include('admin._general.modal.alertActive')
-    @include('admin.user.filter.index')
+{{--    @include('admin.user.filter.index')--}}
 
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-body">
-                    <a href="{{ route('admin.user.create') }}" class="btn btn-default">Create</a>
+                    <a href="{{ route('admin.user.create') }}" class="btn btn-default pull-right">Create</a>
                 </div>
                 <div class="box-body">
-
-
                     <table id="user-list" class="table table-bordered table-hover dataTable">
                         <thead>
                         <tr role="row">
                             <th>
-                                Information
+                                Name
+                            </th>
+                            <th>
+                                Email
                             </th>
                             <th>
                                 Active
