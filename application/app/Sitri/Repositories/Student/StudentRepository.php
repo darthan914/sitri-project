@@ -29,7 +29,7 @@ class StudentRepository implements StudentRepositoryInterface
      */
     public function find($studentId, array $with = [])
     {
-        return Student::query()->with($with)->find($studentId)->orderBy('name')->get()->toArray();
+        return Student::query()->with($with)->find($studentId)->toArray();
     }
 
     /**
