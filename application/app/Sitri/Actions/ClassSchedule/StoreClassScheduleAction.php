@@ -14,8 +14,7 @@ class StoreClassScheduleAction
     /**
      * @param array $request
      *
-     * @return Builder|Model
-     * @throws Exception
+     * @return array
      */
     public function execute(array $request)
     {
@@ -30,7 +29,7 @@ class StoreClassScheduleAction
                 'is_trial'     => isset($request['is_trial']) ? 1 : 0,
                 'id_active'    => isset($request['teacher_name']) ? 1 : 0,
             ]
-        )
+        )->toArray()
         ;
     }
 }
