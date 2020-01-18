@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Sitri\Repositories\Student\StudentRepositoryInterface;
 use Exception;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -167,14 +168,14 @@ class RescheduleController extends Controller
      * @param Reschedule             $reschedule
      * @param DeleteRescheduleAction $action
      *
-     * @return RedirectResponse
+     * @return JsonResponse
      * @throws Exception
      */
     public function delete(Reschedule $reschedule, DeleteRescheduleAction $action)
     {
         $action->execute($reschedule);
 
-        return redirect()->route('admin.reschedule.index')->with('success', 'Data has been deleted');
+        return response()->json(['messages' => 'Data has been deleted']);
     }
 
     public function getRegularStudent(Request $request)
