@@ -25,7 +25,8 @@ class User extends Authenticatable
         'token_forgot_password',
         'expired_forgot_password',
         'token_verify',
-        'email_verified_at'
+        'email_verified_at',
+        'active'
 
     ];
 
