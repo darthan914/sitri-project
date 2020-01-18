@@ -127,7 +127,7 @@ class StudentController extends Controller
      */
     public function view($id)
     {
-        $student = $this->studentRepository->find($id);
+        $student = $this->studentRepository->find($id, ['user', 'classStudent.classSchedule']);
         return view('admin.student.view', compact('student'));
     }
 
@@ -138,7 +138,7 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        $student = $this->studentRepository->find($id);
+        $student = $this->studentRepository->find($id, ['user', 'classStudent.classSchedule.schedule']);
         $classRooms = $this->classRoomRepository->all();
         $day = config('sitri.day');
 
