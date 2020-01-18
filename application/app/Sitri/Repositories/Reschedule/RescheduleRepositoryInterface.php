@@ -71,4 +71,16 @@ interface RescheduleRepositoryInterface
      * @return array
      */
     public function getToRangeDate($startDate, $endDate);
+
+    /**
+     * @param int $studentId
+     *
+     * @return array
+     */
+    public function getDayStudentAvailable($studentId);
+
+    /**
+     * @return array
+     */
+    public function getDayAvailable();
 }
