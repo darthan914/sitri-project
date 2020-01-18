@@ -12,25 +12,21 @@ use Carbon\Carbon;
 
 class RescheduleRepository implements RescheduleRepositoryInterface
 {
-
-    /**
-     * @return mixed
-     */
-    public function all()
+    public function all(array $with = [])
     {
-        return Reschedule::query()->get();
+        return Reschedule::query()->with($with)->get()->toArray();
     }
 
-    /**
-     * @param array $data
-     *
-     * @return mixed
-     */
-    public function getByRequest(array $data)
+    public function find($rescheduleId, array $with = [])
     {
-        $collect = collect($data);
-        $reschedule = Reschedule::query();
+        return Reschedule::query()->with($with)->find($rescheduleId)->toArray();
+    }
 
+    public function getByRequest(array $request, array $with = [])
+    {
+        $reschedule = Reschedule::query()->with($with);
+
+        $collect = collect($request);
         $student = $collect->get('f_student');
         if (null !== $student) {
             $reschedule->where('student_id', $student);
@@ -46,9 +42,8 @@ class RescheduleRepository implements RescheduleRepositoryInterface
             $reschedule->whereBetween('to_date', $rangeToDate);
         }
 
-        return $reschedule->get();
+        return $reschedule->get()->toArray();
     }
-
 
     public function getRegularStudentScheduleByDate($studentId, $date)
     {
@@ -60,6 +55,7 @@ class RescheduleRepository implements RescheduleRepositoryInterface
                                 $classStudents->where('student_id', $studentId);
                             })
                             ->get()
+                            ->toArray()
             ;
     }
 
@@ -77,16 +73,21 @@ class RescheduleRepository implements RescheduleRepositoryInterface
             });
         }
 
-        return $classSchedule->get();
+        return $classSchedule->get()->toArray();
     }
 
-    public function getFromRangeDate($start, $end)
+    public function getByStudentId($studentId)
     {
-        return $this->getByRequest(['f_range_from_date' => [$start, $end]]);
+        return $this->getByRequest(['f_student' => $studentId]);
     }
 
-    public function getToRangeDate($start, $end)
+    public function getFromRangeDate($startDate, $endDate)
     {
-        return $this->getByRequest(['f_range_to_date' => [$start, $end]]);
+        return $this->getByRequest(['f_range_from_date' => [$startDate, $endDate]]);
+    }
+
+    public function getToRangeDate($startDate, $endDate)
+    {
+        return $this->getByRequest(['f_range_to_date' => [$startDate, $endDate]]);
     }
 }

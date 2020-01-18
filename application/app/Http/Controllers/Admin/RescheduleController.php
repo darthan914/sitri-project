@@ -67,10 +67,11 @@ class RescheduleController extends Controller
     {
         $request->validated();
 
-        $dataTable = Datatables::of($this->rescheduleRepository->getByRequest($request->all()));
+        $reschedules = $this->rescheduleRepository->getByRequest($request->all());
+        $dataTable = Datatables::of($reschedules);
 
-        $dataTable->addColumn('action', function ($index) {
-            return view('admin.reschedule.datatable.action', compact('index'));
+        $dataTable->addColumn('action', function ($reschedule) {
+            return view('admin.reschedule.datatable.action', compact('reschedule'));
         });
 
         $dataTable->editColumn('from_date', function ($reschedule) {
@@ -81,9 +82,6 @@ class RescheduleController extends Controller
             return view('admin.reschedule.datatable.to', compact('reschedule'));
         });
 
-        $dataTable->editColumn('student_id', function ($reschedule) {
-            return $reschedule->student->name;
-        });
 
         $dataTable = $dataTable->rawColumns(['action', 'from_date', 'to_date'])->make(true);
         return $dataTable;
