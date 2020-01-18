@@ -40,7 +40,7 @@ class StudentRepository implements StudentRepositoryInterface
      */
     public function getByRequest(array $request, array $with = [])
     {
-        $student = Student::query();
+        $student = Student::query()->with($with);
 
         $collect = collect($request);
 
