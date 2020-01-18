@@ -21,32 +21,29 @@
                 columns: [
                     {data: 'check', orderable: false},
                     {data: 'name'},
+                    {data: 'age'},
+                    {data: 'user.name'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
                 paging: true,
                 lengthChange: true,
-                searching: false,
                 ordering: true,
                 info: true,
                 autoWidth: false
-            }).on('click', '.alert-modal', function () {
-                $('#alert-modal form').attr('action', $(this).data('route'));
-                $('#alert-modal .modal-title').html($(this).data('title'));
-            })
+            });
 
-            alertModal(studentSelector);
+            sweetAlertDelete(studentSelector);
         })
     </script>
 @stop
 
 @section('content')
-    @include('admin._general.modal.alert')
-    @include('admin.student.filter.index')
+{{--    @include('admin.student.filter.index')--}}
 
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-body">
+                <div class="box-body text-right">
                     <a href="{{ route('admin.student.create') }}" class="btn btn-default">Create</a>
                     <button class="btn btn-danger"
                             onclick="event.preventDefault(); if(confirm('Are you sure to delete this selected?')) {document.getElementById('action').submit();}">Delete
@@ -69,7 +66,13 @@
                                                                       class="check-all" id="check-all">S</label>
                             </th>
                             <th>
-                                Information
+                                Nama Murid
+                            </th>
+                            <th>
+                                Umur
+                            </th>
+                            <th>
+                                Nama Orang tua
                             </th>
                             <th>
 

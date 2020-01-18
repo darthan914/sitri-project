@@ -76,23 +76,20 @@ class StudentController extends Controller
     {
         $request->validated();
 
-        $dataTable = Datatables::of($this->studentRepository->getByRequest($request->all()));
+        $students = $this->studentRepository->getByRequest($request->all(), ['user']);
 
-        $dataTable->addColumn('check', function ($index) {
-            $value = $index->id;
+        $dataTable = Datatables::of($students);
+
+        $dataTable->addColumn('check', function ($student) {
+            $value = $student['id'];
             return view('admin._general.datatable.check', compact('value'));
         });
 
-        $dataTable->addColumn('action', function ($index) {
-            return view('admin.student.datatable.action', compact('index'));
+        $dataTable->addColumn('action', function ($student) {
+            return view('admin.student.datatable.action', compact('student'));
         });
 
-        $dataTable->editColumn('name', function ($index) {
-            return view('admin.student.datatable.information', compact('index'));
-        });
-
-
-        $dataTable = $dataTable->rawColumns(['check', 'action', 'name'])->make(true);
+        $dataTable = $dataTable->make(true);
         return $dataTable;
     }
 
@@ -124,21 +121,21 @@ class StudentController extends Controller
     }
 
     /**
-     * @param Student $student
+     * @param int $id
      *
      * @return Factory|View
      */
-    public function view(Student $student)
+    public function view($id)
     {
         return view('admin.student.view', compact('student'));
     }
 
     /**
-     * @param Student $student
+     * @param int $id
      *
      * @return Factory|View
      */
-    public function edit(Student $student)
+    public function edit($id)
     {
         $classRooms = $this->classRoomRepository->all();
         $day = config('sitri.day');
@@ -153,7 +150,7 @@ class StudentController extends Controller
      *
      * @return RedirectResponse
      */
-    public function update(Student $student, UpdateStudentRequest $request, UpdateStudentAction $action)
+    public function update($id, UpdateStudentRequest $request, UpdateStudentAction $action)
     {
         $request->validated();
 
@@ -174,7 +171,7 @@ class StudentController extends Controller
      * @return RedirectResponse
      * @throws Exception
      */
-    public function delete(Student $student, DeleteStudentAction $action)
+    public function delete($id, DeleteStudentAction $action)
     {
         $action->execute($student);
 

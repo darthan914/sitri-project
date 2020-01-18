@@ -25,10 +25,10 @@ Route::prefix('student')->name('student.')->group(function () {
     Route::get('dataTable', 'StudentController@dataTable')->name('dataTable');
     Route::get('create', 'StudentController@create')->name('create');
     Route::post('store', 'StudentController@store')->name('store');
-    Route::get('{student}/view', 'StudentController@view')->name('view');
-    Route::get('{student}/edit', 'StudentController@edit')->name('edit');
-    Route::post('{student}/update', 'StudentController@update')->name('update');
-    Route::post('{student}/delete', 'StudentController@delete')->name('delete');
+    Route::get('{id}/view', 'StudentController@view')->name('view');
+    Route::get('{id}/edit', 'StudentController@edit')->name('edit');
+    Route::post('{id}/update', 'StudentController@update')->name('update');
+    Route::post('{id}/delete', 'StudentController@delete')->name('delete');
     Route::post('deleteMultiple', 'StudentController@deleteMultiple')->name('deleteMultiple');
 })
 ;
