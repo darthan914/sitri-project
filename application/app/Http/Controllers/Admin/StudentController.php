@@ -15,6 +15,7 @@ use App\Sitri\Repositories\Student\StudentRepositoryInterface;
 use App\Sitri\Repositories\User\UserRepositoryInterface;
 use Exception;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -89,8 +90,7 @@ class StudentController extends Controller
             return view('admin.student.datatable.action', compact('student'));
         });
 
-        $dataTable = $dataTable->make(true);
-        return $dataTable;
+        return $dataTable->make(true);
     }
 
     /**
@@ -101,7 +101,7 @@ class StudentController extends Controller
         $classRooms = $this->classRoomRepository->all();
         $day = config('sitri.day');
 
-        return view('admin.student.create', compact( 'classRooms', 'day'));
+        return view('admin.student.create', compact('classRooms', 'day'));
     }
 
     /**
@@ -127,6 +127,7 @@ class StudentController extends Controller
      */
     public function view($id)
     {
+        $student = $this->studentRepository->find($id);
         return view('admin.student.view', compact('student'));
     }
 
@@ -137,6 +138,7 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
+        $student = $this->studentRepository->find($id);
         $classRooms = $this->classRoomRepository->all();
         $day = config('sitri.day');
 
@@ -144,7 +146,7 @@ class StudentController extends Controller
     }
 
     /**
-     * @param Student              $student
+     * @param int                  $id
      * @param UpdateStudentRequest $request
      * @param UpdateStudentAction  $action
      *
@@ -155,7 +157,7 @@ class StudentController extends Controller
         $request->validated();
 
         try {
-            $action->execute($student, $request->all());
+            $action->execute($id, $request->all());
         } catch (Exception $e) {
             return redirect()->back()->with('failed', $e->getMessage());
 
@@ -165,19 +167,29 @@ class StudentController extends Controller
     }
 
     /**
-     * @param Student             $student
+     * @param int                 $id
      * @param DeleteStudentAction $action
+     *
+     * @return JsonResponse
+     */
+    public function delete($id, DeleteStudentAction $action)
+    {
+        try {
+            $action->execute($id);
+        } catch (Exception $e) {
+            return response()->json(['messages' => $e->getMessage()]);
+        }
+
+        return response()->json(['messages' => 'Data has been deleted!']);
+    }
+
+    /**
+     * @param Request                     $request
+     * @param DeleteMultipleStudentAction $action
      *
      * @return RedirectResponse
      * @throws Exception
      */
-    public function delete($id, DeleteStudentAction $action)
-    {
-        $action->execute($student);
-
-        return redirect()->route('admin.student.index')->with('success', 'Data has been deleted');
-    }
-
     public function deleteMultiple(Request $request, DeleteMultipleStudentAction $action)
     {
         $action->execute($request->id);
