@@ -20,7 +20,7 @@ return [
          * Case insensitive will search the keyword in lower case format.
          * SQL: LOWER(column) LIKE LOWER(keyword)
          */
-        'case_insensitive' => false,
+        'case_insensitive' => true,
 
         /*
          * Wild card will add "%" in between every characters of the keyword.
@@ -97,7 +97,7 @@ return [
          * List of columns that are allowed to display html content.
          * Note: Adding columns to list will make us available to XSS attacks.
          */
-        'raw' => ['action', 'information', 'check'],
+        'raw' => ['action', 'information', 'check', 'active'],
 
         /*
          * List of columns are are forbidden from being searched/sorted.
