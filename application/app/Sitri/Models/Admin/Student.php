@@ -64,9 +64,4 @@ class Student extends Model
     {
         return json_decode($value, true);
     }
-
-    public function getClassScheduleAttribute()
-    {
-        return $this->classStudent->classSchedule ?? [];
-    }
 }
