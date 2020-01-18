@@ -5,66 +5,67 @@ namespace App\Sitri\Repositories\User;
 
 
 use App\User;
-use Illuminate\Http\Request;
 
 class UserRepository implements UserRepositoryInterface
 {
-
     /**
-     * @param bool $active
+     * @param array $with
      *
-     * @return mixed
+     * @return array
      */
-    public function getIsActive($active)
+    public function all(array $with = [])
     {
-        return User::query()
-                   ->where('active', $active)
-                   ->orderBy('name')
-                   ->get()
-            ;
+        return User::query()->with($with)->orderBy('name')->get()->toArray();
     }
 
     /**
-     * @return mixed
+     * @param int   $id
+     * @param array $with
+     *
+     * @return array
      */
-    public function all()
+    public function find($id, array $with = [])
     {
-        return User::query()
-                   ->orderBy('name')
-                   ->get()
-            ;
+        return User::query()->with($with)->find($id)->toArray();
     }
 
     /**
-     * @param array
+     * @param array $request
+     * @param array $with
      *
-     * @return mixed
+     * @return array
      */
-    public function getByRequest(array $data)
+    public function getByRequest(array $request, array $with = [])
     {
-        $user = User::query();
+        $user = User::query()->with($with);
 
-        $collect = collect($data);
-
-        $search = $collect->get('f_search');
-        if (null !== $search && '' !== $search) {
-            $user->where(function ($user) use ($search) {
-                $user->where('name', 'like', '%' . $search . '%')
-                     ->orWhere('email', 'like', '%' . $search . '%')
-                ;
-            });
-        }
+        $collect = collect($request);
 
         $active = $collect->get('f_active');
         if (null !== $active && '' !== $active) {
             $user->where('active', $active);
         }
 
-        return $user->orderBy('name')->get();
+        return $user->orderBy('name')->get()->toArray();
     }
 
+    /**
+     * @param bool $active
+     *
+     * @return array
+     */
+    public function getActive($active = true)
+    {
+        return User::query()->where('active', $active)->orderBy('name')->get()->toArray();
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return array
+     */
     public function getUserByEmail($email)
     {
-        return User::query()->where('email', $email)->first();
+        return User::query()->where('email', $email)->first()->toArray();
     }
 }
