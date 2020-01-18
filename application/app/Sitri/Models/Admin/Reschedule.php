@@ -17,18 +17,6 @@ class Reschedule extends Model
         'to_class_schedule_id'
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('isActive', function (Builder $builder) {
-            $builder->whereHas('student', function (Builder $student) {
-                $student->whereHas('user', function (Builder $user) {
-//                    $user->where('active', 1);
-                });
-            });
-        });
-    }
 
     public function student()
     {
