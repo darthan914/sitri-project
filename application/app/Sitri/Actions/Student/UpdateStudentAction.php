@@ -56,7 +56,7 @@ class UpdateStudentAction
      */
     public function execute($studentId, array $data, $isTrial = false)
     {
-        (new CreateOrUpdateStudentParentAction)->execute($data);
+        (new CreateOrUpdateStudentParentAction($this->userRepository))->execute($data);
         $data['is_trial'] = $isTrial;
 
         $return = Student::query()->find($studentId)->update($data);
