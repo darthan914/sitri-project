@@ -67,7 +67,7 @@ class RescheduleController extends Controller
     {
         $request->validated();
 
-        $reschedules = $this->rescheduleRepository->getByRequest($request->all());
+        $reschedules = $this->rescheduleRepository->getByRequest($request->all(), ['fromClassSchedule', 'toClassSchedule']);
         $dataTable = Datatables::of($reschedules);
 
         $dataTable->addColumn('action', function ($reschedule) {
@@ -95,7 +95,9 @@ class RescheduleController extends Controller
     public function create(Request $request)
     {
         $students = $this->studentRepository->all();
-        return view('admin.reschedule.create', compact('students', 'request'));
+        $toDateDayAvailable = implode(',', $this->rescheduleRepository->getDayAvailable());
+
+        return view('admin.reschedule.create', compact('students', 'request', 'toDateDayAvailable'));
     }
 
     /**
@@ -114,8 +116,10 @@ class RescheduleController extends Controller
             return redirect()->route('admin.reschedule.index')->with('failed', $e->getMessage());
         }
 
-        if(isset($request->go_to_student) && $request->go_to_student == 'yes') {
-            return redirect()->route('admin.student.view', $request->student_id)->with('success', 'Data has been added');
+        if (isset($request->go_to_student) && $request->go_to_student == 'yes') {
+            return redirect()->route('admin.student.view', $request->student_id)
+                             ->with('success', 'Data has been added')
+                ;
         }
 
         return redirect()->route('admin.reschedule.index')->with('success', 'Data has been added');
@@ -174,13 +178,14 @@ class RescheduleController extends Controller
 
     public function getRegularStudent(Request $request)
     {
-        $classSchedules = $this->rescheduleRepository->getRegularStudentScheduleByDate($request->student_id, $request->date);
+        $classSchedules = $this->rescheduleRepository->getRegularStudentScheduleByDate($request->student_id,
+            $request->date);
 
         $result = [];
         foreach ($classSchedules as $classSchedule) {
             $result[] = [
-                'id'   => $classSchedule->id,
-                'name' => $classSchedule->getClassInfo(),
+                'id'   => $classSchedule['id'],
+                'name' => $classSchedule['class_info'],
             ];
         }
 
@@ -195,11 +200,16 @@ class RescheduleController extends Controller
         $result = [];
         foreach ($classSchedules as $classSchedule) {
             $result[] = [
-                'id'   => $classSchedule->id,
-                'name' => $classSchedule->getClassInfo(),
+                'id'   => $classSchedule['id'],
+                'name' => $classSchedule['class_info'],
             ];
         }
 
         return $result;
+    }
+
+    public function getDayAvailable(Request $request)
+    {
+        return implode(',', $this->rescheduleRepository->getDayStudentAvailable($request->student_id));
     }
 }
