@@ -8,7 +8,7 @@
     <script>
         $(function () {
             let studentSelector = $('#student-list');
-            studentSelector.DataTable({
+            let dataTableStudent = studentSelector.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -32,7 +32,9 @@
                 autoWidth: false
             });
 
-            sweetAlertDelete(studentSelector);
+            sweetAlertDelete(studentSelector, function () {
+                dataTableStudent.ajax.reload();
+            });
         })
     </script>
 @stop

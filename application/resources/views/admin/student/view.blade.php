@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('title')
-    {{ $student->name }}
+    {{ $student['name'] }}
 @stop
 
 @section('js')
@@ -15,7 +15,7 @@
                     url: "{{ route('admin.reschedule.dataTable') }}",
                     type: "get",
                     data: {
-                        f_student: '{{ $student->id }}',
+                        f_student: '{{ $student['id'] }}',
                     },
                 },
                 columns: [
@@ -40,7 +40,7 @@
                     url: "{{ route('admin.payment.dataTable') }}",
                     type: "get",
                     data: {
-                        f_student: '{{ $student->id }}',
+                        f_student: '{{ $student['id'] }}',
                     },
                 },
                 columns: [
@@ -73,16 +73,16 @@
                 <table class="table table-bordered">
                     <tr>
                         <th>Nama Murid :</th>
-                        <td>{{ $student->name }} - {{ $student->age }}</td>
+                        <td>{{ $student['name'] }} - {{ $student['age'] }}</td>
                     </tr>
                     <tr>
                         <th>Nama Orang tua :</th>
-                        <td>{{ $student->user->name }} - {{ $student->user->phone ?? 0 }}</td>
+                        <td>{{ $student['user']['name'] }} - {{ $student['user']['phone'] }}</td>
                     </tr>
 
                     <tr>
                         <th>Kelas :</th>
-                        <td>{{ $student->classStudent->classSchedule->getClassInfo() }}</td>
+                        <td>{{ $student['class_student']['class_schedule']['class_info'] }}</td>
                     </tr>
                 </table>
             </div>
@@ -90,7 +90,7 @@
             <div class="box">
                 <h2>Reschedule Class</h2>
                 <div class="box-body">
-                    <a href="{{ route('admin.reschedule.create', ['student_id' => $student->id]) }}" class="btn btn-default">Create</a>
+                    <a href="{{ route('admin.reschedule.create', ['student_id' => $student['id']]) }}" class="btn btn-default">Create</a>
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered" id="reschedule-list">

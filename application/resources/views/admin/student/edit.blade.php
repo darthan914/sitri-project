@@ -8,7 +8,8 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <form class="form-horizontal" method="post" action="{{ route('admin.student.update', $student) }}">
+                <form class="form-horizontal" method="post"
+                      action="{{ route('admin.student.update', $student['id']) }}">
                     <div class="box-body">
                         <h3>Orang tua</h3>
                         <div class="form-group @if($errors->first('parent_email')) has-error @endif">
@@ -17,7 +18,7 @@
                             <div class="col-sm-10">
                                 <input type="email" class="form-control" id="parent_email" name="parent_email"
                                        placeholder="Email"
-                                       value="{{ old('parent_email', $student->user->email) }}">
+                                       value="{{ old('parent_email', $student['user']['email']) }}">
                                 <span class="help-block">{{ $errors->first('parent_email') }}</span>
                             </div>
                         </div>
@@ -28,7 +29,7 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="parent_name" name="parent_name"
                                        placeholder="Nama Lengkap"
-                                       value="{{ old('parent_name', $student->user->name) }}">
+                                       value="{{ old('parent_name', $student['user']['name']) }}">
                                 <span class="help-block">{{ $errors->first('parent_name') }}</span>
                             </div>
                         </div>
@@ -40,7 +41,7 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="parent_phone" name="parent_phone"
                                        placeholder="Telepon"
-                                       value="{{ old('parent_phone', $student->user->phone) }}">
+                                       value="{{ old('parent_phone', $student['user']['phone']) }}">
                                 <span class="help-block">{{ $errors->first('parent_phone') }}</span>
                             </div>
                         </div>
@@ -50,7 +51,7 @@
 
                             <div class="col-sm-10">
                                 <textarea class="form-control" id="address" name="address"
-                                          placeholder="Alamat">{{ old('address', $student->address) }}</textarea>
+                                          placeholder="Alamat">{{ old('address', $student['address']) }}</textarea>
                                 <span class="help-block">{{ $errors->first('address') }}</span>
                             </div>
                         </div>
@@ -62,7 +63,7 @@
 
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Nama Lengkap"
-                                       value="{{ old('name', $student->name) }}">
+                                       value="{{ old('name', $student['name']) }}">
                                 <span class="help-block">{{ $errors->first('name') }}</span>
                             </div>
                         </div>
@@ -73,7 +74,7 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="surname" name="surname"
                                        placeholder="Nama Panggilan"
-                                       value="{{ old('surname', $student->surname) }}">
+                                       value="{{ old('surname', $student['surname']) }}">
                                 <span class="help-block">{{ $errors->first('surname') }}</span>
                             </div>
                         </div>
@@ -84,7 +85,7 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control datepicker" id="birthday" name="birthday"
                                        placeholder="Tanggal lahir"
-                                       value="{{ old('birthday', $student->birthday) }}" autocomplete="off">
+                                       value="{{ old('birthday', $student['birthday']) }}" autocomplete="off">
                                 <span class="help-block">{{ $errors->first('birthday') }}</span>
                             </div>
                         </div>
@@ -94,7 +95,7 @@
 
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="age" name="age" placeholder="Umur"
-                                       value="{{ old('age', $student->age) }}">
+                                       value="{{ old('age', $student['age']) }}">
                                 <span class="help-block">{{ $errors->first('age') }}</span>
                             </div>
                         </div>
@@ -104,7 +105,7 @@
 
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="school" name="school" placeholder="Sekolah"
-                                       value="{{ old('school', $student->school) }}">
+                                       value="{{ old('school', $student['school']) }}">
                                 <span class="help-block">{{ $errors->first('school') }}</span>
                             </div>
                         </div>
@@ -114,7 +115,7 @@
 
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="grade" name="grade" placeholder="Kelas"
-                                       value="{{ old('grade', $student->grade) }}">
+                                       value="{{ old('grade', $student['grade']) }}">
                                 <span class="help-block">{{ $errors->first('grade') }}</span>
                             </div>
                         </div>
@@ -125,7 +126,7 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control datepicker" id="date_enter" name="date_enter"
                                        placeholder="Tanggal Masuk"
-                                       value="{{ old('date_enter', $student->date_enter) }}" autocomplete="off">
+                                       value="{{ old('date_enter', $student['date_enter']) }}" autocomplete="off">
                                 <span class="help-block">{{ $errors->first('date_enter') }}</span>
                             </div>
                         </div>
@@ -139,7 +140,7 @@
                                     <label class="checkbox-inline">
                                         <input type="checkbox" name="recommendation[]"
                                                value="{{ $key }}"
-                                               @if(in_array($key, old('recommendation', $student->recommendation ?? []))) checked @endif>{{ $recommendation }}
+                                               @if(in_array($key, old('recommendation', $student['recommendation'] ?? []))) checked @endif>{{ $recommendation }}
                                     </label>
                                 @endforeach
                                 <span class="help-block">{{ $errors->first('recommendation') }}</span>
@@ -156,8 +157,8 @@
                                         data-placeholder="Pilih Kelas">
                                     <option value=""></option>
                                     @foreach($classRooms as $classRoom)
-                                        <option value="{{ $classRoom->id }}"
-                                                @if($classRoom->id == old('class_room_id', $student->classSchedule->class_room_id ?? '')) selected @endif>{{ $classRoom->name }}</option>
+                                        <option value="{{ $classRoom['id'] }}"
+                                                @if($classRoom['id'] == old('class_room_id', $student['class_student']['class_schedule']['class_room_id'] ?? '')) selected @endif>{{ $classRoom['name'] }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('class_room_id') }}</span>
@@ -172,7 +173,7 @@
                                     <option value="">Select Day</option>
                                     @foreach($day as $key => $value)
                                         <option value="{{ $key }}"
-                                                @if(old('day', $student->classSchedule->schedule->day ?? '') == $key) selected @endif>{{ $value }}</option>
+                                                @if(old('day', $student['class_student']['class_schedule']['schedule']['day'] ?? '') == $key) selected @endif>{{ $value }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('day') }}</span>
@@ -195,8 +196,9 @@
                             <label for="name" class="col-sm-2 control-label">Nama Guru</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="teacher_name" name="teacher_name" placeholder="Nama Guru"
-                                       value="{{ old('teacher_name', $student->classStudent->teacher_name ?? '') }}">
+                                <input type="text" class="form-control" id="teacher_name" name="teacher_name"
+                                       placeholder="Nama Guru"
+                                       value="{{ old('teacher_name', $student['class_student']['teacher_name'] ?? '') }}">
                                 <span class="help-block">{{ $errors->first('teacher_name') }}</span>
                             </div>
                         </div>
@@ -205,7 +207,7 @@
                     <!-- /.box-body -->
                     <div class="box-footer">
                         {{ csrf_field() }}
-                        <button type="submit" class="btn btn-info pull-right">Create</button>
+                        <button type="submit" class="btn btn-info pull-right">Update</button>
                         <a href="{{ route('admin.student.index') }}" class="btn btn-default pull-right">Cancel</a>
                     </div>
                     <!-- /.box-footer -->
@@ -243,7 +245,7 @@
             });
 
 
-            let old_time = '{{ old('schedule_id', $student->classSchedule->schedule_id ?? '') }}';
+            let old_time = '{{ old('schedule_id', $student['class_student']['class_schedule']['schedule_id'] ?? '') }}';
 
             let daySelector = $('select[name=day]');
             let scheduleSelector = $('select[name=schedule_id]');
