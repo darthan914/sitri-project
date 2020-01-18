@@ -137,9 +137,10 @@ class RescheduleController extends Controller
         $toClassSchedules = $this->rescheduleRepository->getRescheduleStudentAvailableByDate($reschedule->student_id,
             $reschedule->to_date, $reschedule->from_date);
         $students = $this->studentRepository->all();
+        $toDateDayAvailable = implode(',', $this->rescheduleRepository->getDayAvailable());
 
         return view('admin.reschedule.edit',
-            compact('reschedule', 'students', 'fromClassSchedules', 'toClassSchedules'));
+            compact('reschedule', 'students', 'fromClassSchedules', 'toClassSchedules', 'toDateDayAvailable'));
     }
 
     /**
