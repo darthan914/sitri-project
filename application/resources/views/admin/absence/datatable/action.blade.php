@@ -4,18 +4,14 @@
         <span class="sr-only">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        {{--@if(Auth::user()->can('update-user'))--}}
         <li>
-            <a href="{{ route('admin.absence.edit', $index) }}">Edit</a>
+            <a href="{{ route('admin.absence.edit', $absence['id']) }}">Edit</a>
         </li>
-        {{--@endif--}}
-        {{--@if(Auth::user()->can('delete-user'))--}}
         <li>
-            <a href="#" class="alert-modal" data-toggle="modal" data-target="#alert-modal"
-               data-route="{{ route('admin.absence.delete', $index) }}"
-               data-title="Delete absence {{ $index->name }}?"
+            <a href="#" class="sweet-alert-delete"
+               data-route="{{ route('admin.absence.delete', $absence['id']) }}"
+               data-title="Delete absence?"
             >Delete</a>
         </li>
-        {{--@endif--}}
     </ul>
 </div>

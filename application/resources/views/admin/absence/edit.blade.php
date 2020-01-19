@@ -12,17 +12,17 @@
         <div class="col-xs-12">
             <div class="box">
                 <form class="form-horizontal" method="post"
-                      action="{{ route('admin.absence.update', $absence) }}">
+                      action="{{ route('admin.absence.update', $absence['id']) }}">
                     <div class="box-body">
                         <div class="form-group @if($errors->first('date')) has-error @endif">
                             <table class="table table-bordered">
                                 <tr>
                                     <th>Date :</th>
-                                    <td>{{ \Carbon\Carbon::parse($absence->date)->format('d F Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($absence['date'])->format('d F Y') }}</td>
                                 </tr>
                                 <tr>
                                     <th>Class :</th>
-                                    <td>{{ $absence->classSchedule->getClassInfo() }}</td>
+                                    <td>{{ $absence['class_schedule']['class_info'] }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -36,28 +36,28 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($absence->absenceDetails as $absenceDetail)
+                                @foreach($absence['absence_details'] as $absenceDetail)
                                     <tr>
-                                        <td>{{ $absenceDetail->student->name }}</td>
+                                        <td>{{ $absenceDetail['student']['name'] }}</td>
                                         <td>
-                                            @if($absenceDetail->student->isReschedule($absence->date))
-                                                <input type="hidden" name="status[{{ $absenceDetail->student->id }}]"
-                                                       value="RESCHEDULE">
-                                                RESCHEDULE
+                                            @if($absenceDetail['status'] === \App\Sitri\Models\Admin\AbsenceDetail::STATUS_RESCHEDULE)
+                                                <input type="hidden" name="status[{{ $absenceDetail['student']['id'] }}]"
+                                                       value="{{ \App\Sitri\Models\Admin\AbsenceDetail::STATUS_RESCHEDULE }}">
+                                                Reschedule
                                             @else
                                                 <label class="radio-inline">
                                                     <input type="radio"
-                                                           name="status[{{ $absenceDetail->student->id }}]"
-                                                           value="PRESENT"
-                                                           @if($absenceDetail->status === 'PRESENT') checked @endif
+                                                           name="status[{{ $absenceDetail['student']['id'] }}]"
+                                                           value="{{ \App\Sitri\Models\Admin\AbsenceDetail::STATUS_PRESENT }}"
+                                                           @if($absenceDetail['status'] === \App\Sitri\Models\Admin\AbsenceDetail::STATUS_PRESENT) checked @endif
                                                     >
                                                     Present
                                                 </label>
                                                 <label class="radio-inline">
                                                     <input type="radio"
-                                                           name="status[{{ $absenceDetail->student->id }}]"
-                                                           value="ABSENCE"
-                                                           @if($absenceDetail->status === 'ABSENCE') checked @endif
+                                                           name="status[{{ $absenceDetail['student']['id'] }}]"
+                                                           value="{{ \App\Sitri\Models\Admin\AbsenceDetail::STATUS_ABSENCE }}"
+                                                           @if($absenceDetail['status'] === \App\Sitri\Models\Admin\AbsenceDetail::STATUS_ABSENCE) checked @endif
                                                     >
                                                     Absence
                                                 </label>

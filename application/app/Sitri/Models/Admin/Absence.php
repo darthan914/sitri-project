@@ -8,6 +8,8 @@ class Absence extends Model
 {
     protected $fillable = ['class_schedule_id', 'date'];
 
+    protected $with = ['absenceDetails'];
+
     public function absenceDetails()
     {
         return $this->hasMany(AbsenceDetail::class);

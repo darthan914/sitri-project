@@ -12,22 +12,22 @@ use Exception;
 class UpdateAbsenceAction
 {
     /**
-     * @param Absence $absence
-     * @param array      $request
+     * @param int   $absenceId
+     * @param array $request
      *
      * @return bool
      * @throws Exception
      */
-    public function execute(Absence $absence, array $request)
+    public function execute($absenceId, array $request)
     {
-        $absence->absenceDetails()->delete();
+        Absence::query()->find($absenceId)->absenceDetails()->delete();
 
         $massInsert = [];
         foreach ($request['status'] as $key => $list) {
             $massInsert[] = [
-                'absence_id' => $absence->id,
+                'absence_id' => $absenceId,
                 'student_id' => $key,
-                'status' => $list,
+                'status'     => $list,
             ];
         }
 

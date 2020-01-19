@@ -8,14 +8,14 @@
     <tbody>
     @foreach($students as $student)
         <tr>
-            <td>{{ $student->name }}</td>
+            <td>{{ $student['name'] }}</td>
             <td>
-                @if($student->isReschedule($date))
-                    <input type="hidden" name="status[{{ $student->id }}]" value="RESCHEDULE"> RESCHEDULE
+                @if($student['is_reschedule'])
+                    <input type="hidden" name="status[{{ $student['id'] }}]" value="{{ \App\Sitri\Models\Admin\AbsenceDetail::STATUS_RESCHEDULE }}"> RESCHEDULE
                 @else
-                    <label class="radio-inline"><input type="radio" name="status[{{ $student->id }}]" value="PRESENT">
+                    <label class="radio-inline"><input type="radio" name="status[{{ $student['id'] }}]" value="{{ \App\Sitri\Models\Admin\AbsenceDetail::STATUS_PRESENT}}">
                         Present</label>
-                    <label class="radio-inline"><input type="radio" name="status[{{ $student->id }}]" value="ABSENCE"
+                    <label class="radio-inline"><input type="radio" name="status[{{ $student['id'] }}]" value="{{ \App\Sitri\Models\Admin\AbsenceDetail::STATUS_ABSENCE }}"
                                                        checked>
                         Absence</label>
                 @endif

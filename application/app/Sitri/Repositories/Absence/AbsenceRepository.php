@@ -14,38 +14,62 @@ class AbsenceRepository implements AbsenceRepositoryInterface
 {
 
     /**
-     * @return mixed
+     * @param array $with
+     *
+     * @return array
      */
-    public function all()
+    public function all(array $with = [])
     {
-        return Absence::query()->get();
+        return Absence::query()->with($with)->get()->toArray();
+    }
+
+    /**
+     * @param int   $id
+     * @param array $with
+     *
+     * @return array
+     */
+    public function find($id, array $with = [])
+    {
+        return Absence::query()->with($with)->find($id)->toArray();
     }
 
     /**
      * @param array $data
+     * @param array $with
      *
-     * @return mixed
+     * @return array
      */
-    public function getByRequest(array $data)
+    public function getByRequest(array $data, array $with = [])
     {
-        $absence = Absence::query();
+        $absence = Absence::query()->with($with);
 
         return $absence->get();
     }
 
+    /**
+     * @param int    $classScheduleId
+     * @param string $date
+     *
+     * @return array
+     */
     public function getStudentList($classScheduleId, $date)
     {
-        return Student::query()
+        $students = Student::query()
                       ->whereHas('classStudents', function ($classStudents) use ($classScheduleId) {
-                          $classStudents->whereHas('classSchedule', function ($classSchedule) use ($classScheduleId) {
-                              $classSchedule->where('id', $classScheduleId);
-                          });
+                          $classStudents->where('class_schedule_id', $classScheduleId);
                       })
                       ->orWhereHas('reschedules', function ($reschedules) use ($classScheduleId, $date) {
                           $reschedules->where('to_class_schedule_id', $classScheduleId)->where('to_date', $date);
                       })
                       ->get()
             ;
+
+        foreach ($students as $student) {
+            $student->is_reschedule = $student->isReschedule($date);
+        }
+
+        return $students->toArray();
     }
 
 }

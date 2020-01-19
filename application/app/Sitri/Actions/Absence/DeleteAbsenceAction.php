@@ -10,15 +10,14 @@ use Exception;
 class DeleteAbsenceAction
 {
     /**
-     * @param Absence $absence
+     * @param $absenceId
      *
      * @return bool
      * @throws Exception
      */
-    public function execute(Absence $absence)
+    public function execute($absenceId)
     {
-        $absence->absenceDetails()->delete();
-        $absence->delete();
+        Absence::query()->find($absenceId)->delete();
 
         return true;
     }

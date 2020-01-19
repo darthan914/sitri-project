@@ -12,10 +12,12 @@ use App\Sitri\Models\Admin\Absence;
 use App\Sitri\Repositories\Absence\AbsenceRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Sitri\Repositories\ClassSchedule\ClassScheduleRepositoryInterface;
+use App\Sitri\Repositories\Schedule\ScheduleRepositoryInterface;
 use App\Sitri\Repositories\Student\StudentRepositoryInterface;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -28,21 +30,28 @@ class AbsenceController extends Controller
      */
     private $absenceRepository;
     /**
-     * @var ClassScheduleRepositoryInterface
+     * @var ScheduleRepositoryInterface
      */
     private $scheduleRepository;
+    /**
+     * @var ClassScheduleRepositoryInterface
+     */
+    private $classScheduleRepository;
 
     /**
      * AbsenceController constructor.
      *
      * @param AbsenceRepositoryInterface       $absenceRepository
-     * @param ClassScheduleRepositoryInterface $scheduleRepository
+     * @param ClassScheduleRepositoryInterface $classScheduleRepository
+     * @param ScheduleRepositoryInterface      $scheduleRepository
      */
     public function __construct(
         AbsenceRepositoryInterface $absenceRepository,
-        ClassScheduleRepositoryInterface $scheduleRepository
+        ClassScheduleRepositoryInterface $classScheduleRepository,
+        ScheduleRepositoryInterface $scheduleRepository
     ) {
         $this->absenceRepository = $absenceRepository;
+        $this->classScheduleRepository = $classScheduleRepository;
         $this->scheduleRepository = $scheduleRepository;
     }
 
@@ -68,21 +77,19 @@ class AbsenceController extends Controller
     {
         $request->validated();
 
-        $dataTable = Datatables::of($this->absenceRepository->getByRequest($request->all()));
+        $absences = $this->absenceRepository->getByRequest($request->all(), ['classSchedule']);
 
-        $dataTable->addColumn('action', function ($index) {
-            return view('admin.absence.datatable.action', compact('index'));
-        });
+        $dataTable = Datatables::of($absences);
 
-        $dataTable->editColumn('class_schedule_id', function ($absence) {
-            return $absence->classSchedule->getClassInfo();
+        $dataTable->addColumn('action', function ($absence) {
+            return view('admin.absence.datatable.action', compact('absence'));
         });
 
         $dataTable->editColumn('date', function ($absence) {
             return Carbon::parse($absence->date)->format('d F Y');
         });
 
-        $dataTable = $dataTable->rawColumns(['action'])->make(true);
+        $dataTable = $dataTable->make(true);
         return $dataTable;
     }
 
@@ -93,7 +100,9 @@ class AbsenceController extends Controller
      */
     public function create(Request $request)
     {
-        return view('admin.absence.create', compact('request'));
+        $onlyDay = implode(',', $this->scheduleRepository->getActiveDay());
+
+        return view('admin.absence.create', compact('request', 'onlyDay'));
     }
 
     /**
@@ -116,31 +125,33 @@ class AbsenceController extends Controller
     }
 
     /**
-     * @param Absence $absence
+     * @param int     $id
      * @param Request $request
      *
      * @return Factory|View
      */
-    public function edit(Absence $absence, Request $request)
+    public function edit($id, Request $request)
     {
-        $classSchedules = $this->scheduleRepository->getByRequest(['f_date' => $absence->date]);
+        $absence = $this->absenceRepository->find($id, ['classSchedule', 'absenceDetails.student']);
+        $classSchedules = $this->scheduleRepository->getByRequest(['f_date' => $absence['date']]);
+        $onlyDay = implode(',', $this->scheduleRepository->getActiveDay());
 
-        return view('admin.absence.edit', compact('absence', 'classSchedules', 'request'));
+        return view('admin.absence.edit', compact('absence', 'classSchedules', 'request', 'onlyDay'));
     }
 
     /**
-     * @param Absence              $absence
+     * @param int                  $id
      * @param UpdateAbsenceRequest $request
      * @param UpdateAbsenceAction  $action
      *
      * @return RedirectResponse
      */
-    public function update(Absence $absence, UpdateAbsenceRequest $request, UpdateAbsenceAction $action)
+    public function update($id, UpdateAbsenceRequest $request, UpdateAbsenceAction $action)
     {
         $request->validated();
 
         try {
-            $action->execute($absence, $request->all());
+            $action->execute($id, $request->all());
         } catch (Exception $e) {
             return redirect()->route('admin.absence.index')->with('failed', $e->getMessage());
         }
@@ -149,36 +160,35 @@ class AbsenceController extends Controller
     }
 
     /**
-     * @param Absence             $absence
+     * @param int                 $id
      * @param DeleteAbsenceAction $action
      *
-     * @return RedirectResponse
+     * @return JsonResponse
      * @throws Exception
      */
-    public function delete(Absence $absence, DeleteAbsenceAction $action)
+    public function delete($id, DeleteAbsenceAction $action)
     {
-        $action->execute($absence);
+        $action->execute($id);
 
-        return redirect()->route('admin.absence.index')->with('success', 'Data has been deleted');
+        return response()->json(['messages' => 'Data has been deleted!']);
     }
 
     public function getStudentList(Request $request)
     {
         $students = $this->absenceRepository->getStudentList($request->class_schedule_id, $request->date);
-        $date = $request->date;
 
-        return view('admin.absence.partial.studentList', compact('students', 'date'));
+        return view('admin.absence.partial.studentList', compact('students'));
     }
 
     public function getScheduleDate(Request $request)
     {
-        $classSchedules = $this->scheduleRepository->getByRequest(['f_date' => $request->date]);
+        $classSchedules = $this->classScheduleRepository->getByRequest(['f_date' => $request->date]);
 
         $result = [];
         foreach ($classSchedules as $classSchedule) {
             $result[] = [
-                'id'   => $classSchedule->id,
-                'name' => $classSchedule->getClassInfo(),
+                'id'   => $classSchedule['id'],
+                'name' => $classSchedule['class_info'],
             ];
         }
 
