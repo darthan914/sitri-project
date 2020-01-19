@@ -8,23 +8,36 @@ use App\Sitri\Models\Admin\Schedule;
 
 class ScheduleRepository implements ScheduleRepositoryInterface
 {
-
     /**
-     * @return mixed
+     * @param array $with
+     *
+     * @return array
      */
-    public function all()
+    public function all(array $with = [])
     {
-        return Schedule::query()->orderBy('day')->orderBy('start_time')->get();
+        return Schedule::query()->with($with)->orderBy('day')->orderBy('start_time')->get()->toArray();
     }
 
     /**
-     * @param array $data
+     * @param int   $id
+     * @param array $with
      *
-     * @return mixed
+     * @return array
      */
-    public function getByRequest(array $data)
+    public function find($id, array $with = [])
     {
-        return Schedule::query()->orderBy('day')->orderBy('start_time')->get();
+        return Schedule::query()->with($with)->find($id)->toArray();
+    }
+
+    /**
+     * @param array $request
+     * @param array $with
+     *
+     * @return array
+     */
+    public function getByRequest(array $request, array $with = [])
+    {
+        return Schedule::query()->with($with)->orderBy('day')->orderBy('start_time')->get()->toArray();
     }
 
     /**
@@ -32,18 +45,31 @@ class ScheduleRepository implements ScheduleRepositoryInterface
      *
      * @return mixed
      */
-    public function getIsActive($active)
+    public function getActive($active = true)
     {
-        return Schedule::query()->where('active', $active)->orderBy('day')->orderBy('start_time')->get();
+        return Schedule::query()
+                       ->where('active', $active)
+                       ->orderBy('day')
+                       ->orderBy('start_time')
+                       ->get()
+                       ->toArray();
     }
 
-    public function listDayActive()
+    /**
+     * @return array
+     */
+    public function getActiveDay()
     {
-        return $this->getIsActive(true)->map(function ($schedule) { return $schedule->day; })->unique()->all();
+        return collect($this->getActive())->pluck('day')->unique()->all();
     }
 
+    /**
+     * @param int $day
+     *
+     * @return array
+     */
     public function getScheduleByDay($day)
     {
-        return Schedule::query()->where('day', $day)->get();
+        return Schedule::query()->where('day', $day)->get()->toArray();
     }
 }
