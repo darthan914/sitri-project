@@ -11,6 +11,7 @@ use App\Sitri\Actions\Reschedule\UpdateRescheduleAction;
 use App\Sitri\Models\Admin\Reschedule;
 use App\Sitri\Repositories\Reschedule\RescheduleRepositoryInterface;
 use App\Http\Controllers\Controller;
+use App\Sitri\Repositories\Schedule\ScheduleRepositoryInterface;
 use App\Sitri\Repositories\Student\StudentRepositoryInterface;
 use Exception;
 use Illuminate\Contracts\View\Factory;
@@ -30,19 +31,26 @@ class RescheduleController extends Controller
      * @var StudentRepositoryInterface
      */
     private $studentRepository;
+    /**
+     * @var ScheduleRepositoryInterface
+     */
+    private $scheduleRepository;
 
     /**
      * RescheduleController constructor.
      *
      * @param RescheduleRepositoryInterface $rescheduleRepository
      * @param StudentRepositoryInterface    $studentRepository
+     * @param ScheduleRepositoryInterface   $scheduleRepository
      */
     public function __construct(
         RescheduleRepositoryInterface $rescheduleRepository,
-        StudentRepositoryInterface $studentRepository
+        StudentRepositoryInterface $studentRepository,
+        ScheduleRepositoryInterface $scheduleRepository
     ) {
         $this->rescheduleRepository = $rescheduleRepository;
         $this->studentRepository = $studentRepository;
+        $this->scheduleRepository = $scheduleRepository;
     }
 
     /**
@@ -97,7 +105,7 @@ class RescheduleController extends Controller
     public function create(Request $request)
     {
         $students = $this->studentRepository->all();
-        $toDateDayAvailable = implode(',', $this->rescheduleRepository->getDayAvailable());
+        $toDateDayAvailable = implode(',', $this->scheduleRepository->getActiveDay());
 
         return view('admin.reschedule.create', compact('students', 'request', 'toDateDayAvailable'));
     }
@@ -140,7 +148,7 @@ class RescheduleController extends Controller
         $toClassSchedules = $this->rescheduleRepository->getRescheduleStudentAvailableByDate($reschedule['student_id'],
             $reschedule['to_date'], $reschedule['from_date']);
         $students = $this->studentRepository->all();
-        $toDateDayAvailable = implode(',', $this->rescheduleRepository->getDayAvailable());
+        $toDateDayAvailable = implode(',', $this->scheduleRepository->getActiveDay());
 
         return view('admin.reschedule.edit',
             compact('reschedule', 'students', 'fromClassSchedules', 'toClassSchedules', 'toDateDayAvailable'));
@@ -167,7 +175,7 @@ class RescheduleController extends Controller
     }
 
     /**
-     * @param int             $id
+     * @param int                    $id
      * @param DeleteRescheduleAction $action
      *
      * @return JsonResponse
