@@ -8,7 +8,7 @@
     <script>
         $(function () {
             let scheduleSelector = $('#schedule-list');
-            scheduleSelector.DataTable({
+            let dataTableSchedule = scheduleSelector.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -34,16 +34,19 @@
                 autoWidth: false
             });
 
-            alertModal(scheduleSelector);
-            activeModal(scheduleSelector);
+            sweetAlertDelete(scheduleSelector, function () {
+                dataTableSchedule.ajax.reload();
+            });
+
+            sweetAlertActive(scheduleSelector, function () {
+                dataTableSchedule.ajax.reload();
+            });
         })
     </script>
 @stop
 
 @section('content')
-    @include('admin._general.modal.alert')
-    @include('admin._general.modal.alertActive')
-    @include('admin.schedule.filter.index')
+{{--    @include('admin.schedule.filter.index')--}}
 
     <div class="row">
         <div class="col-xs-12">
@@ -58,13 +61,13 @@
                         <thead>
                         <tr role="row">
                             <th>
-                                Day
+                                Hari
                             </th>
                             <th>
-                                Start
+                                Jam Mulai
                             </th>
                             <th>
-                                End
+                                Jam Selesai
                             </th>
                             <th>
                                 Active

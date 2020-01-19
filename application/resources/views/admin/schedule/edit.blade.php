@@ -15,9 +15,9 @@
 
                             <div class="col-sm-10">
                                 <select class="form-control" id="day" name="day">
-                                    @foreach($day  as $key => $value)
+                                    @foreach($day as $key => $value)
                                         <option value="{{ $key }}"
-                                                @if(old('day', $schedule->day) == $key) selected @endif>{{ $value }}</option>
+                                                @if(old('day', $schedule['day']) == $key) selected @endif>{{ $value }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('day') }}</span>
@@ -30,7 +30,7 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control timepicker" id="start_time" name="start_time"
                                        placeholder="Start Time"
-                                       value="{{ old('start_time', $schedule->start_time) }}">
+                                       value="{{ old('start_time', $schedule['start_time']) }}">
                                 <span class="help-block">{{ $errors->first('start_time') }}</span>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control timepicker" id="end_time" name="end_time"
                                        placeholder="End Time"
-                                       value="{{ old('end_time', $schedule->end_time) }}">
+                                       value="{{ old('end_time', $schedule['end_time']) }}">
                                 <span class="help-block">{{ $errors->first('end_time') }}</span>
                             </div>
                         </div>
@@ -49,8 +49,9 @@
                         <div class="form-group @if($errors->first('active')) has-error @endif">
                             <div class="col-sm-10 col-sm-offset-2">
                                 <label class="checkbox-inline">
+                                    <input type="hidden" name="active" value="0">
                                     <input type="checkbox" id="active" name="active" value="1"
-                                           @if(old('active', $schedule->active) == 1) checked @endif>Active</label>
+                                           @if(old('active', $schedule['active']) == 1) checked @endif>Active</label>
                                 <span class="help-block">{{ $errors->first('active') }}</span>
                             </div>
                         </div>

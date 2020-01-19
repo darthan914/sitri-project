@@ -4,27 +4,21 @@
         <span class="sr-only">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        {{--@if(Auth::user()->can('update-user'))--}}
         <li>
-            <a href="{{ route('admin.schedule.edit', $index) }}">Edit</a>
+            <a href="{{ route('admin.schedule.edit', $schedule['id']) }}">Edit</a>
         </li>
-        {{--@endif--}}
-        {{--@if(Auth::user()->can('active-user'))--}}
         <li>
-            <a href="#" class="active-modal" data-toggle="modal" data-target="#active-modal"
-               data-route="{{ route('admin.schedule.active', $index) }}"
-               data-active="{{ $index->active ? '0' : '1' }}"
-               data-title="{{ $index->active ? 'Inactive' : 'Active' }} schedule {{ $index->name }}?"
-            >Set {{ $index->active ? 'Inactive' : 'Active' }}</a>
+            <a href="#" class="sweet-alert-active" data-toggle="modal" data-target="#active-modal"
+               data-route="{{ route('admin.schedule.active', $schedule['id']) }}"
+               data-active="{{ $schedule['active'] ? '0' : '1' }}"
+               data-title="{{ $schedule['active'] ? 'Inactive' : 'Active' }} schedule?"
+            >Set {{ $schedule['active'] ? 'Inactive' : 'Active' }}</a>
         </li>
-        {{--@endif--}}
-        {{--@if(Auth::user()->can('delete-user'))--}}
         <li>
-            <a href="#" class="alert-modal" data-toggle="modal" data-target="#alert-modal"
-               data-route="{{ route('admin.schedule.delete', $index) }}"
-               data-title="Delete schedule {{ $index->name }}?"
+            <a href="#" class="sweet-alert-delete" data-toggle="modal" data-target="#alert-modal"
+               data-route="{{ route('admin.schedule.delete', $schedule['id']) }}"
+               data-title="Delete schedule?"
             >Delete</a>
         </li>
-        {{--@endif--}}
     </ul>
 </div>
