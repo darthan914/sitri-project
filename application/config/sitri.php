@@ -4,7 +4,7 @@ return [
     'day'            => [
         'Minggu',
         'Senin',
-        'Selesa',
+        'Selasa',
         'Rabu',
         'Kamis',
         'Jumat',
