@@ -29,4 +29,11 @@ class StoreClassRoomRequest extends FormRequest
             'active' => 'nullable|boolean',
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        if(!isset($this->active)) {
+            $this->active = 0;
+        }
+    }
 }

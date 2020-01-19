@@ -50,10 +50,10 @@ Route::prefix('classRoom')->name('classRoom.')->group(function () {
     Route::get('dataTable', 'ClassRoomController@dataTable')->name('dataTable');
     Route::get('create', 'ClassRoomController@create')->name('create');
     Route::post('store', 'ClassRoomController@store')->name('store');
-    Route::get('{classRoom}/edit', 'ClassRoomController@edit')->name('edit');
-    Route::post('{classRoom}/update', 'ClassRoomController@update')->name('update');
-    Route::post('{classRoom}/delete', 'ClassRoomController@delete')->name('delete');
-    Route::post('{classRoom}/active', 'ClassRoomController@active')->name('active');
+    Route::get('{id}/edit', 'ClassRoomController@edit')->name('edit');
+    Route::post('{id}/update', 'ClassRoomController@update')->name('update');
+    Route::post('{id}/delete', 'ClassRoomController@delete')->name('delete');
+    Route::post('{id}/active', 'ClassRoomController@active')->name('active');
 })
 ;
 

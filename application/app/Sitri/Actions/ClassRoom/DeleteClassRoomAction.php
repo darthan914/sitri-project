@@ -10,13 +10,13 @@ use Exception;
 class DeleteClassRoomAction
 {
     /**
-     * @param ClassRoom $classRoom
+     * @param int $classRoomId
      *
      * @return bool
      * @throws Exception
      */
-    public function execute(ClassRoom $classRoom)
+    public function execute($classRoomId)
     {
-        return $classRoom->delete();
+        return ClassRoom::query()->find($classRoomId)->delete();
     }
 }

@@ -4,27 +4,21 @@
         <span class="sr-only">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        {{--@if(Auth::user()->can('update-user'))--}}
         <li>
-            <a href="{{ route('admin.classRoom.edit', $index) }}">Edit</a>
+            <a href="{{ route('admin.classRoom.edit', $classRoom['id']) }}">Edit</a>
         </li>
-        {{--@endif--}}
-        {{--@if(Auth::user()->can('active-user'))--}}
         <li>
-            <a href="#" class="active-modal" data-toggle="modal" data-target="#active-modal"
-               data-route="{{ route('admin.classRoom.active', $index) }}"
-               data-active="{{ $index->active ? '0' : '1' }}"
-               data-title="{{ $index->active ? 'Inactive' : 'Active' }} classRoom {{ $index->name }}?"
-            >Set {{ $index->active ? 'Inactive' : 'Active' }}</a>
+            <a href="#" class="sweet-alert-active" data-toggle="modal" data-target="#active-modal"
+               data-route="{{ route('admin.classRoom.active', $classRoom['id']) }}"
+               data-active="{{ $classRoom['active'] ? '0' : '1' }}"
+               data-title="{{ $classRoom['active'] ? 'Inactive' : 'Active' }} classRoom {{ $classRoom['name'] }}?"
+            >Set {{ $classRoom['active'] ? 'Inactive' : 'Active' }}</a>
         </li>
-        {{--@endif--}}
-        {{--@if(Auth::user()->can('delete-user'))--}}
         <li>
-            <a href="#" class="alert-modal" data-toggle="modal" data-target="#alert-modal"
-               data-route="{{ route('admin.classRoom.delete', $index) }}"
-               data-title="Delete classRoom {{ $index->name }}?"
+            <a href="#" class="sweet-alert-delete" data-toggle="modal" data-target="#alert-modal"
+               data-route="{{ route('admin.classRoom.delete', $classRoom['id']) }}"
+               data-title="Delete classRoom {{ $classRoom['name'] }}?"
             >Delete</a>
         </li>
-        {{--@endif--}}
     </ul>
 </div>

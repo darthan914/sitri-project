@@ -9,13 +9,13 @@ use App\Sitri\Models\Admin\ClassRoom;
 class ActiveClassRoomAction
 {
     /**
-     * @param ClassRoom $classRoom
-     * @param           $active
+     * @param int  $classRoomId
+     * @param bool $active
      *
      * @return bool
      */
-    public function execute(ClassRoom $classRoom, $active)
+    public function execute($classRoomId, $active)
     {
-        return $classRoom->update(['active' => $active]);
+        return ClassRoom::query()->find($classRoomId)->update(['active' => $active]);
     }
 }

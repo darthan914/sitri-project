@@ -15,6 +15,7 @@ use App\Sitri\Models\Admin\ClassRoom;
 use App\Sitri\Repositories\ClassRoom\ClassRoomRepositoryInterface;
 use Exception;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Yajra\DataTables\Facades\DataTables;
@@ -58,19 +59,20 @@ class ClassRoomController extends Controller
     {
         $request->validated();
 
-        $dataTable = Datatables::of($this->classRoomRepository->getByRequest($request->all()));
+        $classRooms = $this->classRoomRepository->getByRequest($request->all());
+        $dataTable = Datatables::of($classRooms);
 
-        $dataTable->addColumn('action', function ($index) {
-            return view('admin.classRoom.datatable.action', compact('index'));
+        $dataTable->addColumn('action', function ($classRoom) {
+            return view('admin.classRoom.datatable.action', compact('classRoom'));
         });
 
-        $dataTable->editColumn('active', function ($index) {
-            $active = $index->active;
+        $dataTable->editColumn('active', function ($classRoom) {
+            $active = $classRoom['active'];
             return view('admin._general.datatable.active', compact('active'));
         });
 
 
-        $dataTable = $dataTable->rawColumns(['action', 'active'])->make(true);
+        $dataTable = $dataTable->make(true);
         return $dataTable;
     }
 
@@ -102,28 +104,30 @@ class ClassRoomController extends Controller
     }
 
     /**
-     * @param ClassRoom $classRoom
+     * @param int $id
      *
      * @return Factory|View
      */
-    public function edit(ClassRoom $classRoom)
+    public function edit($id)
     {
+        $classRoom = $this->classRoomRepository->find($id);
+
         return view('admin.classRoom.edit', compact('classRoom'));
     }
 
     /**
-     * @param ClassRoom              $classRoom
+     * @param int                    $id
      * @param UpdateClassRoomRequest $request
      * @param UpdateClassRoomAction  $action
      *
      * @return RedirectResponse
      */
-    public function update(ClassRoom $classRoom, UpdateClassRoomRequest $request, UpdateClassRoomAction $action)
+    public function update($id, UpdateClassRoomRequest $request, UpdateClassRoomAction $action)
     {
         $request->validated();
 
         try {
-            $action->execute($classRoom, $request->all());
+            $action->execute($id, $request->all());
         } catch (Exception $e) {
             return redirect()->route('admin.classRoom.index')->with('failed', $e->getMessage());
         }
@@ -132,32 +136,32 @@ class ClassRoomController extends Controller
     }
 
     /**
-     * @param ClassRoom             $classRoom
+     * @param int                   $id
      * @param DeleteClassRoomAction $action
      *
-     * @return RedirectResponse
+     * @return JsonResponse
      * @throws Exception
      */
-    public function delete(ClassRoom $classRoom, DeleteClassRoomAction $action)
+    public function delete($id, DeleteClassRoomAction $action)
     {
-        $action->execute($classRoom);
+        $action->execute($id);
 
-        return redirect()->route('admin.classRoom.index')->with('success', 'Data has been deleted');
+        return response()->json(['messages' => 'Data has been deleted!']);
     }
 
     /**
-     * @param ClassRoom             $classRoom
+     * @param int                   $id
      * @param ActiveRequest         $request
      * @param ActiveClassRoomAction $action
      *
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function active(ClassRoom $classRoom, ActiveRequest $request, ActiveClassRoomAction $action)
+    public function active($id, ActiveRequest $request, ActiveClassRoomAction $action)
     {
         $request->validated();
 
-        $action->execute($classRoom, $request->active);
+        $action->execute($id, $request->active);
 
-        return redirect()->route('admin.classRoom.index')->with('success', 'Data has been updated');
+        return response()->json(['messages' => 'Data has been updated!']);
     }
 }

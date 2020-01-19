@@ -9,7 +9,7 @@
         $(function () {
             let classRoomSelector = $('#classRoom-list');
 
-            classRoomSelector.DataTable({
+            let dataTableClassRoom = classRoomSelector.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -34,21 +34,23 @@
                 autoWidth: false
             });
 
-            alertModal(classRoomSelector);
-            activeModal(classRoomSelector);
+            sweetAlertActive(classRoomSelector, function () {
+                dataTableClassRoom.ajax.reload();
+            });
+            sweetAlertDelete(classRoomSelector, function () {
+                dataTableClassRoom.ajax.reload();
+            });
         })
     </script>
 @stop
 
 @section('content')
-    @include('admin._general.modal.alert')
-    @include('admin._general.modal.alertActive')
-    @include('admin.classRoom.filter.index')
+{{--    @include('admin.classRoom.filter.index')--}}
 
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-body">
+                <div class="box-body text-right">
                     <a href="{{ route('admin.classRoom.create') }}" class="btn btn-default">Create</a>
                 </div>
                 <div class="box-body">
