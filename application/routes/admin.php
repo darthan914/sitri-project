@@ -101,9 +101,9 @@ Route::prefix('absence')->name('absence.')->group(function () {
     Route::get('dataTable', 'AbsenceController@dataTable')->name('dataTable');
     Route::get('create', 'AbsenceController@create')->name('create');
     Route::post('store', 'AbsenceController@store')->name('store');
-    Route::get('{absence}/edit', 'AbsenceController@edit')->name('edit');
-    Route::post('{absence}/update', 'AbsenceController@update')->name('update');
-    Route::post('{absence}/delete', 'AbsenceController@delete')->name('delete');
+    Route::get('{id}/edit', 'AbsenceController@edit')->name('edit');
+    Route::post('{id}/update', 'AbsenceController@update')->name('update');
+    Route::post('{id}/delete', 'AbsenceController@delete')->name('delete');
     Route::get('getScheduleDate', 'AbsenceController@getScheduleDate')->name('getScheduleDate');
     Route::get('getStudentList', 'AbsenceController@getStudentList')->name('getStudentList');
 })
