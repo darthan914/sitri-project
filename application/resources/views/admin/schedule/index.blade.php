@@ -51,7 +51,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-body">
+                <div class="box-body text-right">
                     <a href="{{ route('admin.schedule.create') }}" class="btn btn-default">Create</a>
                 </div>
                 <div class="box-body">
