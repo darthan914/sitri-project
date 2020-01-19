@@ -10,23 +10,23 @@ use Exception;
 class UpdateClassStudentAction
 {
     /**
-     * @param ClassStudent $classStudent
-     * @param array        $request
+     * @param int   $classStudentId
+     * @param array $request
      *
      * @return bool
      * @throws Exception
      */
-    public function execute(ClassStudent $classStudent, array $request)
+    public function execute($classStudentId, array $request)
     {
         $check = ClassStudent::query()->where('class_schedule_id', $request['class_schedule_id'])
                              ->where('student_id', $request['student_id'])
-                             ->where('id', '<>', $classStudent->id)->first()
+                             ->where('id', '<>', $classStudentId)->first()
         ;
 
         if (isset($check)) {
             throw new Exception('Class student already exist');
         }
 
-        return $classStudent->update($request);
+        return ClassStudent::query()->find($classStudentId)->update($request);
     }
 }

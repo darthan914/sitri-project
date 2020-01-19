@@ -8,7 +8,7 @@
     <script>
         $(function () {
             let classStudentSelector = $('#classStudent-list');
-            classStudentSelector.DataTable({
+            let dataTableClassStudent = classStudentSelector.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -20,33 +20,32 @@
                     },
                 },
                 columns: [
-                    {data: 'class_schedule_id'},
-                    {data: 'student_id'},
+                    {data: 'class_schedule.class_info'},
+                    {data: 'student.name'},
+                    {data: 'teacher_name'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
                 paging: true,
                 lengthChange: true,
-                searching: false,
                 ordering: true,
                 info: true,
                 autoWidth: false
             });
 
-            alertModal(classStudentSelector);
-            activeModal(classStudentSelector);
+            sweetAlertDelete(classStudentSelector, function () {
+                dataTableClassStudent.ajax.reload();
+            });
         })
     </script>
 @stop
 
 @section('content')
-    @include('admin._general.modal.alert')
-    @include('admin._general.modal.alertActive')
-    @include('admin.classStudent.filter.index')
+{{--    @include('admin.classStudent.filter.index')--}}
 
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-body">
+                <div class="box-body text-right">
                     <a href="{{ route('admin.classStudent.create') }}" class="btn btn-default">Create</a>
                 </div>
                 <div class="box-body">
@@ -56,10 +55,13 @@
                         <thead>
                         <tr role="row">
                             <th>
-                                Class Schedule
+                                Jadwal Kelas
                             </th>
                             <th>
-                                Student
+                                Murid
+                            </th>
+                            <th>
+                                Guru
                             </th>
                             <th>
 

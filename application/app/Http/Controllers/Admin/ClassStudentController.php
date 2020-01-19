@@ -74,34 +74,15 @@ class ClassStudentController extends Controller
     {
         $request->validated();
 
-        $dataTable = Datatables::of($this->classStudentRepository->getByRequest($request->all()));
+        $classStudents = $this->classStudentRepository->getByRequest($request->all(), ['classSchedule', 'student']);
 
-        $dataTable->addColumn('action', function ($index) {
-            return view('admin.classStudent.datatable.action', compact('index'));
+        $dataTable = Datatables::of($classStudents);
+
+        $dataTable->addColumn('action', function ($classStudent) {
+            return view('admin.classStudent.datatable.action', compact('classStudent'));
         });
 
-        $dataTable->editColumn('class_schedule_id', function ($index) {
-            if (isset($index->classSchedule)) {
-                return $index->classSchedule->getClassInfo();
-            }
-            return 'Missing Class';
-        });
-
-        $dataTable->editColumn('student_id', function ($index) {
-            if (isset($index->student)) {
-                return $index->student->name;
-            }
-            return 'Missing Student';
-        });
-
-        $dataTable->editColumn('active', function ($index) {
-            $active = $index->active;
-            return view('admin._general.datatable.active', compact('active'));
-        });
-
-
-        $dataTable = $dataTable->rawColumns(['action', 'active'])->make(true);
-        return $dataTable;
+        return $dataTable->make(true);
     }
 
     /**
@@ -109,7 +90,7 @@ class ClassStudentController extends Controller
      */
     public function create(Request $request)
     {
-        $classSchedules = $this->scheduleRepository->getIsActive(true);
+        $classSchedules = $this->scheduleRepository->getActive(true);
         $students = $this->studentRepository->all();
         return view('admin.classStudent.create', compact('classSchedules', 'students', 'request'));
     }
@@ -134,33 +115,34 @@ class ClassStudentController extends Controller
     }
 
     /**
-     * @param ClassStudent $classStudent
+     * @param int $id
      *
      * @return Factory|View
      */
-    public function edit(ClassStudent $classStudent)
+    public function edit($id)
     {
-        $classSchedules = $this->scheduleRepository->getIsActive(true);
+        $classStudent = $this->classStudentRepository->find($id);
+        $classSchedules = $this->scheduleRepository->getActive(true);
         $students = $this->studentRepository->all();
         return view('admin.classStudent.edit', compact('classStudent', 'classSchedules', 'students'));
     }
 
     /**
-     * @param ClassStudent              $classStudent
+     * @param int                       $id
      * @param UpdateClassStudentRequest $request
      * @param UpdateClassStudentAction  $action
      *
      * @return RedirectResponse
      */
     public function update(
-        ClassStudent $classStudent,
+        $id,
         UpdateClassStudentRequest $request,
         UpdateClassStudentAction $action
     ) {
         $request->validated();
 
         try {
-            $action->execute($classStudent, $request->all());
+            $action->execute($id, $request->all());
         } catch (Exception $e) {
             return redirect()->route('admin.classStudent.index')->with('failed', $e->getMessage());
         }
@@ -169,15 +151,15 @@ class ClassStudentController extends Controller
     }
 
     /**
-     * @param ClassStudent             $classStudent
+     * @param int                      $id
      * @param DeleteClassStudentAction $action
      *
      * @return RedirectResponse
      * @throws Exception
      */
-    public function delete(ClassStudent $classStudent, DeleteClassStudentAction $action)
+    public function delete($id, DeleteClassStudentAction $action)
     {
-        $action->execute($classStudent);
+        $action->execute($id);
 
         return redirect()->route('admin.classStudent.index')->with('success', 'Data has been deleted');
     }
