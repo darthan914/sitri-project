@@ -40,7 +40,7 @@ $(function () {
         beforeShowDay: function (date) {
             let day = date.getDay();
             let onlyDay = $(this).attr('data-only-day');
-            if(onlyDay === undefined){
+            if (onlyDay === undefined) {
                 return [true];
             }
 
@@ -70,6 +70,12 @@ $(function () {
 
     $(".dataTable-general").DataTable();
 
+});
+
+new AutoNumeric.multiple('.currency', {
+    decimalCharacter: '.',
+    digitGroupSeparator: ',',
+    decimalPlaces: 0,
 });
 
 const alertModal = function (selector) {
