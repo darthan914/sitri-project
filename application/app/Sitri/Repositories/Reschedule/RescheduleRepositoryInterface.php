@@ -78,9 +78,4 @@ interface RescheduleRepositoryInterface
      * @return array
      */
     public function getDayStudentAvailable($studentId);
-
-    /**
-     * @return array
-     */
-    public function getDayAvailable();
 }

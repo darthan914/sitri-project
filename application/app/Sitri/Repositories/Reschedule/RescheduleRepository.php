@@ -152,13 +152,4 @@ class RescheduleRepository implements RescheduleRepositoryInterface
                             })->get()->pluck('schedule.day')->toArray()
             ;
     }
-
-
-    /**
-     * @return array
-     */
-    public function getDayAvailable()
-    {
-        return Schedule::query()->distinct()->select('day')->get()->pluck('day')->toArray();
-    }
 }
