@@ -9,13 +9,13 @@ use App\Sitri\Models\Admin\ClassSchedule;
 class ActiveClassScheduleAction
 {
     /**
-     * @param ClassSchedule $classSchedule
-     * @param               $active
+     * @param int  $classScheduleId
+     * @param bool $active
      *
      * @return bool
      */
-    public function execute(ClassSchedule $classSchedule, $active)
+    public function execute($classScheduleId, $active)
     {
-        return $classSchedule->update(['active' => $active]);
+        return ClassSchedule::query()->find($classScheduleId)->update(['active' => $active]);
     }
 }

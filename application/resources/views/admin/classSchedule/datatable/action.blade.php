@@ -4,18 +4,28 @@
         <span class="sr-only">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        {{--@if(Auth::user()->can('update-user'))--}}
         <li>
-            <a href="{{ route('admin.classSchedule.edit', $index) }}">Edit</a>
+            <a href="{{ route('admin.classSchedule.edit', $classSchedule['id']) }}">Edit</a>
         </li>
-        {{--@endif--}}
-        {{--@if(Auth::user()->can('delete-user'))--}}
         <li>
-            <a href="#" class="alert-modal" data-toggle="modal" data-target="#alert-modal"
-               data-route="{{ route('admin.classSchedule.delete', $index) }}"
-               data-title="Delete classSchedule {{ $index->name }}?"
+            <a href="#" class="sweet-alert-delete" data-toggle="modal" data-target="#alert-modal"
+               data-route="{{ route('admin.classSchedule.delete', $classSchedule['id']) }}"
+               data-title="Delete Class Schedule?"
             >Delete</a>
         </li>
-        {{--@endif--}}
+        <li>
+            <a href="#" class="sweet-alert-active"
+               data-route="{{ route('admin.classSchedule.active', $classSchedule['id']) }}"
+               data-active="{{ $classSchedule['active'] ? '0' : '1' }}"
+               data-title="{{ $classSchedule['active'] ? 'Inactive' : 'Active' }} class?"
+            >Set {{ $classSchedule['active'] ? 'Inactive' : 'Active' }}</a>
+        </li>
+        <li>
+            <a href="#" class="sweet-alert-active"
+               data-route="{{ route('admin.classSchedule.trial', $classSchedule['id']) }}"
+               data-active="{{ $classSchedule['is_trial'] ? '0' : '1' }}"
+               data-title="Set {{ $classSchedule['is_trial'] ? 'not' : '' }} trial?"
+            >Set {{ $classSchedule['is_trial'] ? 'not' : '' }} trial</a>
+        </li>
     </ul>
 </div>

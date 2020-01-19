@@ -18,8 +18,8 @@
                                         data-placeholder="Select Class">
                                     <option value=""></option>
                                     @foreach($classRooms as $classRoom)
-                                        <option value="{{ $classRoom->id }}"
-                                                @if($classRoom->id == old('class_room_id')) selected @endif>{{ $classRoom->name }}</option>
+                                        <option value="{{ $classRoom['id'] }}"
+                                                @if($classRoom['id'] == old('class_room_id')) selected @endif>{{ $classRoom['name'] }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('class_room_id') }}</span>
@@ -50,16 +50,6 @@
                                     <option value="">Select Time</option>
                                 </select>
                                 <span class="help-block">{{ $errors->first('schedule_id') }}</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group @if($errors->first('teacher_name')) has-error @endif">
-                            <label for="teacher_name" class="col-sm-2 control-label">Teacher</label>
-
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="teacher_name" name="teacher_name"
-                                        placeholder="Teacher" value="{{ old('teacher_name') }}">
-                                <span class="help-block">{{ $errors->first('teacher_name') }}</span>
                             </div>
                         </div>
 

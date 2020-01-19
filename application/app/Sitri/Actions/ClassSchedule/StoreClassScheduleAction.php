@@ -25,11 +25,10 @@ class StoreClassScheduleAction
                 'schedule_id'   => $request['schedule_id']
             ],
             [
-                'teacher_name' => $request['teacher_name'],
-                'is_trial'     => isset($request['is_trial']) ? 1 : 0,
-                'id_active'    => isset($request['teacher_name']) ? 1 : 0,
+                'is_trial' => isset($request['is_trial']) ? 1 : 0,
+                'active'   => isset($request['active']) ? 1 : 0,
             ]
         )->toArray()
-        ;
+            ;
     }
 }

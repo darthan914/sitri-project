@@ -8,7 +8,7 @@
     <script>
         $(function () {
             let classScheduleSelector = $('#classSchedule-list');
-            classScheduleSelector.DataTable({
+            let dataTableClassSchedule = classScheduleSelector.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -20,36 +20,36 @@
                     },
                 },
                 columns: [
-                    {data: 'class_room_id'},
-                    {data: 'schedule_id'},
-                    {data: 'teacher_name'},
+                    {data: 'class_room.name'},
+                    {data: 'schedule.schedule_info'},
                     {data: 'active'},
                     {data: 'is_trial'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
                 paging: true,
                 lengthChange: true,
-                searching: false,
                 ordering: true,
                 info: true,
                 autoWidth: false
             });
 
-            alertModal(classScheduleSelector);
-            activeModal(classScheduleSelector);
+            sweetAlertActive(classScheduleSelector, function () {
+                dataTableClassSchedule.ajax.reload();
+            });
+            sweetAlertDelete(classScheduleSelector, function () {
+                dataTableClassSchedule.ajax.reload();
+            });
         })
     </script>
 @stop
 
 @section('content')
-    @include('admin._general.modal.alert')
-    @include('admin._general.modal.alertActive')
-    @include('admin.classSchedule.filter.index')
+{{--    @include('admin.classSchedule.filter.index')--}}
 
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-body">
+                <div class="box-body text-right">
                     <a href="{{ route('admin.classSchedule.create') }}" class="btn btn-default">Create</a>
                 </div>
                 <div class="box-body">
@@ -63,9 +63,6 @@
                             </th>
                             <th>
                                 Schedule
-                            </th>
-                            <th>
-                                Teacher
                             </th>
                             <th>
                                 Active

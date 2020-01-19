@@ -62,10 +62,11 @@ Route::prefix('classSchedule')->name('classSchedule.')->group(function () {
     Route::get('dataTable', 'ClassScheduleController@dataTable')->name('dataTable');
     Route::get('create', 'ClassScheduleController@create')->name('create');
     Route::post('store', 'ClassScheduleController@store')->name('store');
-    Route::get('{classSchedule}/edit', 'ClassScheduleController@edit')->name('edit');
-    Route::post('{classSchedule}/update', 'ClassScheduleController@update')->name('update');
-    Route::post('{classSchedule}/delete', 'ClassScheduleController@delete')->name('delete');
-    Route::post('{classSchedule}/active', 'ClassScheduleController@active')->name('active');
+    Route::get('{id}/edit', 'ClassScheduleController@edit')->name('edit');
+    Route::post('{id}/update', 'ClassScheduleController@update')->name('update');
+    Route::post('{id}/delete', 'ClassScheduleController@delete')->name('delete');
+    Route::post('{id}/active', 'ClassScheduleController@active')->name('active');
+    Route::post('{id}/trial', 'ClassScheduleController@trial')->name('trial');
     Route::get('getTimeByDay', 'ClassScheduleController@getTimeByDay')->name('getTimeByDay');
 })
 ;

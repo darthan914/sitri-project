@@ -18,8 +18,8 @@
                                         data-placeholder="Select Class">
                                     <option value=""></option>
                                     @foreach($classRooms as $classRoom)
-                                        <option value="{{ $classRoom->id }}"
-                                                @if($classRoom->id == old('class_room_id', $classSchedule->class_room_id)) selected @endif>{{ $classRoom->name }}</option>
+                                        <option value="{{ $classRoom['id'] }}"
+                                                @if($classRoom['id'] == old('class_room_id', $classSchedule['class_room_id'])) selected @endif>{{ $classRoom['name'] }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('class_room_id') }}</span>
@@ -34,7 +34,7 @@
                                     <option value="">Select Day</option>
                                     @foreach($day as $key => $value)
                                         <option value="{{ $key }}"
-                                                @if(old('day', $classSchedule->schedule->day) == $key) selected @endif>{{ $value }}</option>
+                                                @if(old('day', $classSchedule['schedule']['day']) == $key) selected @endif>{{ $value }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('day') }}</span>
@@ -53,21 +53,11 @@
                             </div>
                         </div>
 
-                        <div class="form-group @if($errors->first('teacher_name')) has-error @endif">
-                            <label for="teacher_name" class="col-sm-2 control-label">Teacher</label>
-
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="teacher_name" name="teacher_name"
-                                        placeholder="Teacher" value="{{ old('teacher_name') }}">
-                                <span class="help-block">{{ $errors->first('teacher_name') }}</span>
-                            </div>
-                        </div>
-
                         <div class="form-group @if($errors->first('active')) has-error @endif">
                             <div class="col-sm-10 col-sm-offset-2">
                                 <label class="checkbox-inline">
                                     <input type="checkbox" id="active" name="active" value="1"
-                                           @if(old('active', $classSchedule->active) == 1) checked @endif>Active</label>
+                                           @if(old('active', $classSchedule['active']) == 1) checked @endif>Active</label>
                                 <span class="help-block">{{ $errors->first('active') }}</span>
                             </div>
                         </div>
@@ -76,7 +66,7 @@
                             <div class="col-sm-10 col-sm-offset-2">
                                 <label class="checkbox-inline">
                                     <input type="checkbox" id="is_trial" name="is_trial" value="1"
-                                           @if(old('is_trial', $classSchedule->is_trial) == 1) checked @endif>Trial</label>
+                                           @if(old('is_trial', $classSchedule['is_trial']) == 1) checked @endif>Trial</label>
                                 <span class="help-block">{{ $errors->first('is_trial') }}</span>
                             </div>
                         </div>
@@ -99,7 +89,7 @@
 @section('js')
     <script>
         $(function () {
-            let old_time = '{{ old('schedule_id', $classSchedule->schedule_id) }}';
+            let old_time = '{{ old('schedule_id', $classSchedule['schedule_id']) }}';
 
             let daySelector = $('select[name=day]');
             let scheduleSelector = $('select[name=schedule_id]');

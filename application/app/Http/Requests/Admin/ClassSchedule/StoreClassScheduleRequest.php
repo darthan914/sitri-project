@@ -26,7 +26,6 @@ class StoreClassScheduleRequest extends FormRequest
         return [
             'class_room_id' => 'required|integer',
             'schedule_id'   => 'required|integer',
-            'teacher_name'  => 'required',
         ];
     }
 

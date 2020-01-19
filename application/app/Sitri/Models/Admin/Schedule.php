@@ -14,7 +14,9 @@ class Schedule extends Model
 {
     protected $fillable = ['day', 'start_time', 'end_time', 'active'];
 
-    public function getSchedule()
+    protected $appends = ['schedule_info'];
+
+    public function getScheduleInfoAttribute()
     {
         return config('sitri.day')[$this->day] . ' (' . $this->start_time . ' - ' . $this->end_time . ')';
     }

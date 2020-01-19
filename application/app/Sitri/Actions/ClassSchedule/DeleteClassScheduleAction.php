@@ -10,13 +10,13 @@ use Exception;
 class DeleteClassScheduleAction
 {
     /**
-     * @param ClassSchedule $classSchedule
+     * @param int $classScheduleId
      *
      * @return bool
      * @throws Exception
      */
-    public function execute(ClassSchedule $classSchedule)
+    public function execute($classScheduleId)
     {
-        return $classSchedule->delete();
+        return ClassSchedule::query()->find($classScheduleId)->delete();
     }
 }

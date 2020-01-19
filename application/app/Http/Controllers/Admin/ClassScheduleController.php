@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\ClassSchedule\UpdateClassScheduleRequest;
 use App\Http\Requests\Admin\General\ActiveRequest;
 use App\Sitri\Actions\ClassSchedule\ActiveClassScheduleAction;
 use App\Sitri\Actions\ClassSchedule\DeleteClassScheduleAction;
+use App\Sitri\Actions\ClassSchedule\SetTrialClassScheduleAction;
 use App\Sitri\Actions\ClassSchedule\StoreClassScheduleAction;
 use App\Sitri\Actions\ClassSchedule\UpdateClassScheduleAction;
 use App\Sitri\Models\Admin\ClassSchedule;
@@ -17,6 +18,7 @@ use App\Sitri\Repositories\ClassSchedule\ClassScheduleRepositoryInterface;
 use App\Sitri\Repositories\Schedule\ScheduleRepositoryInterface;
 use Exception;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -75,33 +77,23 @@ class ClassScheduleController extends Controller
     public function dataTable(IndexClassScheduleRequest $request)
     {
         $request->validated();
+        $classSchedules = $this->classScheduleRepository->getByRequest($request->all(), ['classRoom']);
 
-        $dataTable = Datatables::of($this->classScheduleRepository->getByRequest($request->all()));
+        $dataTable = Datatables::of($classSchedules);
 
-        $dataTable->addColumn('action', function ($index) {
-            return view('admin.classSchedule.datatable.action', compact('index'));
+        $dataTable->addColumn('action', function ($classSchedule) {
+            return view('admin.classSchedule.datatable.action', compact('classSchedule'));
         });
 
-        $dataTable->editColumn('class_room_id', function ($index) {
-            return $index->classRoom->name;
-        });
-
-        $dataTable->editColumn('schedule_id', function ($index) {
-            return $index->getSchedule();
-        });
-
-
-        $dataTable->editColumn('active', function ($index) {
-            $active = $index->active;
+        $dataTable->editColumn('active', function ($classSchedule) {
+            $active = $classSchedule['active'];
             return view('admin._general.datatable.active', compact('active'));
         });
 
-        $dataTable->editColumn('is_trial', function ($index) {
-            $active = $index->is_trial;
+        $dataTable->editColumn('is_trial', function ($classSchedule) {
+            $active = $classSchedule['is_trial'];
             return view('admin._general.datatable.active', compact('active'));
         });
-
-
 
         $dataTable = $dataTable->rawColumns(['action', 'active', 'is_trial'])->make(true);
         return $dataTable;
@@ -114,6 +106,7 @@ class ClassScheduleController extends Controller
     {
         $classRooms = $this->classRoomRepository->getActive(true);
         $day = config('sitri.day');
+
         return view('admin.classSchedule.create', compact('classRooms', 'day', 'time'));
     }
 
@@ -137,34 +130,36 @@ class ClassScheduleController extends Controller
     }
 
     /**
-     * @param ClassSchedule $classSchedule
+     * @param int $id
      *
      * @return Factory|View
      */
-    public function edit(ClassSchedule $classSchedule)
+    public function edit($id)
     {
+        $classSchedule = $this->classScheduleRepository->find($id);
         $classRooms = $this->classRoomRepository->getActive(true);
         $day = config('sitri.day');
         $time = config('sitri.time');
+
         return view('admin.classSchedule.edit', compact('classSchedule', 'classRooms', 'day', 'time'));
     }
 
     /**
-     * @param ClassSchedule              $classSchedule
+     * @param int                        $id
      * @param UpdateClassScheduleRequest $request
      * @param UpdateClassScheduleAction  $action
      *
      * @return RedirectResponse
      */
     public function update(
-        ClassSchedule $classSchedule,
+        $id,
         UpdateClassScheduleRequest $request,
         UpdateClassScheduleAction $action
     ) {
         $request->validated();
 
         try {
-            $action->execute($classSchedule, $request->all());
+            $action->execute($request->all());
         } catch (Exception $e) {
             return redirect()->route('admin.classSchedule.index')->with('failed', $e->getMessage());
         }
@@ -173,33 +168,49 @@ class ClassScheduleController extends Controller
     }
 
     /**
-     * @param ClassSchedule             $classSchedule
+     * @param int                       $id
      * @param DeleteClassScheduleAction $action
      *
-     * @return RedirectResponse
+     * @return JsonResponse
      * @throws Exception
      */
-    public function delete(ClassSchedule $classSchedule, DeleteClassScheduleAction $action)
+    public function delete($id, DeleteClassScheduleAction $action)
     {
-        $action->execute($classSchedule);
+        $action->execute($id);
 
-        return redirect()->route('admin.classSchedule.index')->with('success', 'Data has been deleted');
+        return response()->json(['messages' => 'Data has been deleted']);
     }
 
     /**
-     * @param ClassSchedule             $classSchedule
+     * @param int                       $id
      * @param ActiveRequest             $request
      * @param ActiveClassScheduleAction $action
      *
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function active(ClassSchedule $classSchedule, ActiveRequest $request, ActiveClassScheduleAction $action)
+    public function active($id, ActiveRequest $request, ActiveClassScheduleAction $action)
     {
         $request->validated();
 
-        $action->execute($classSchedule, $request->active);
+        $action->execute($id, $request->active);
 
-        return redirect()->route('admin.classSchedule.index')->with('success', 'Data has been updated');
+        return response()->json(['messages' => 'Data has been updated']);
+    }
+
+    /**
+     * @param int                         $id
+     * @param ActiveRequest               $request
+     * @param SetTrialClassScheduleAction $action
+     *
+     * @return JsonResponse
+     */
+    public function trial($id, ActiveRequest $request, SetTrialClassScheduleAction $action)
+    {
+        $request->validated();
+
+        $action->execute($id, $request->active);
+
+        return response()->json(['messages' => 'Data has been updated']);
     }
 
     public function getTimeByDay(Request $request)
