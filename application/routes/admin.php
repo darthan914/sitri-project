@@ -38,10 +38,10 @@ Route::prefix('schedule')->name('schedule.')->group(function () {
     Route::get('dataTable', 'ScheduleController@dataTable')->name('dataTable');
     Route::get('create', 'ScheduleController@create')->name('create');
     Route::post('store', 'ScheduleController@store')->name('store');
-    Route::get('{schedule}/edit', 'ScheduleController@edit')->name('edit');
-    Route::post('{schedule}/update', 'ScheduleController@update')->name('update');
-    Route::post('{schedule}/delete', 'ScheduleController@delete')->name('delete');
-    Route::post('{schedule}/active', 'ScheduleController@active')->name('active');
+    Route::get('{id}/edit', 'ScheduleController@edit')->name('edit');
+    Route::post('{id}/update', 'ScheduleController@update')->name('update');
+    Route::post('{id}/delete', 'ScheduleController@delete')->name('delete');
+    Route::post('{id}/active', 'ScheduleController@active')->name('active');
 })
 ;
 
