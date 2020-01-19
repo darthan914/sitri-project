@@ -131,3 +131,14 @@ Route::prefix('trial')->name('trial.')->group(function () {
     Route::post('{id}/delete', 'TrialController@delete')->name('delete');
 })
 ;
+
+Route::prefix('item')->name('item.')->group(function () {
+    Route::get('/', 'ItemController@index')->name('index');
+    Route::get('dataTable', 'ItemController@dataTable')->name('dataTable');
+    Route::get('create', 'ItemController@create')->name('create');
+    Route::post('store', 'ItemController@store')->name('store');
+    Route::get('{id}/edit', 'ItemController@edit')->name('edit');
+    Route::post('{id}/update', 'ItemController@update')->name('update');
+    Route::post('{id}/delete', 'ItemController@delete')->name('delete');
+})
+;

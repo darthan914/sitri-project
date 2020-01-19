@@ -160,6 +160,11 @@ return [
             'icon'  => 'far fa-clock',
         ],
         [
+            'text'  => 'Item Management',
+            'route' => 'admin.item.index',
+            'icon'  => 'far fa-clock',
+        ],
+        [
             'text'    => 'Class Management',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
@@ -420,6 +425,17 @@ return [
                     'type'     => 'js',
                     'asset'    => false,
                     'location' => '//code.jquery.com/ui/1.12.1/jquery-ui.js',
+                ],
+            ],
+        ],
+        [
+            'name'   => 'AutoNumeric',
+            'active' => true,
+            'files'  => [
+                [
+                    'type'     => 'js',
+                    'asset'    => false,
+                    'location' => '//cdn.jsdelivr.net/npm/autonumeric@4.5.4',
                 ],
             ],
         ],
