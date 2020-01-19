@@ -9,13 +9,13 @@ use App\Sitri\Models\Admin\Schedule;
 class UpdateScheduleAction
 {
     /**
-     * @param Schedule $schedule
+     * @param int $scheduleId
      * @param array    $request
      *
      * @return bool
      */
-    public function execute(Schedule $schedule, array $request)
+    public function execute($scheduleId, array $request)
     {
-        return $schedule->update($request);
+        return Schedule::query()->find($scheduleId)->update($request);
     }
 }
