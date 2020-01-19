@@ -4,7 +4,7 @@
 namespace App\Sitri\Actions\Trial;
 
 
-use app\Sitri\Actions\Student\CreateOrUpdateStudentParentAction;
+use App\Sitri\Actions\Student\CreateOrUpdateStudentParentAction;
 use App\Sitri\Models\Admin\ChildTrial;
 use App\Sitri\Models\Admin\ClassStudent;
 use App\Sitri\Models\Admin\ParentTrial;
@@ -31,23 +31,23 @@ class StoreTrialAction
      */
     public function execute(array $data)
     {
-        (new CreateOrUpdateStudentParentAction)->execute($data);
+        (new CreateOrUpdateStudentParentAction($this->userRepository))->execute($data);
         $data['is_trial'] = 1;
-
 
         if (is_array($data['name']) && is_array($data['class_schedule_id'])) {
             foreach ($data['name'] as $key => $childName) {
                 if (isset($childName) && isset($data['class_schedule_id'][$key])) {
                     $student = [
-                        'user_id'           => $user->id,
-                        'name'              => $childName,
-                        'is_trial'          => 1,
+                        'user_id'  => $data['user_id'],
+                        'name'     => $childName,
+                        'is_trial' => 1,
                     ];
                     $studentId = Student::query()->create($student)->id;
 
                     $classStudent = [
                         'class_schedule_id' => $data['class_schedule_id'][$key],
-                        'student_id' => $studentId,
+                        'student_id'        => $studentId,
+                        'teacher_name'      => $data['teacher_name'][$key],
                     ];
                     ClassStudent::query()->create($classStudent);
                 }

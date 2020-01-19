@@ -27,6 +27,7 @@ use App\Sitri\Repositories\Student\StudentRepositoryInterface;
 use App\Sitri\Repositories\Trial\TrialRepositoryInterface;
 use Exception;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -44,8 +45,10 @@ class TrialController extends Controller
      */
     private $classScheduleRepository;
 
-    public function __construct(StudentRepositoryInterface $studentRepository, ClassScheduleRepositoryInterface $classScheduleRepository)
-    {
+    public function __construct(
+        StudentRepositoryInterface $studentRepository,
+        ClassScheduleRepositoryInterface $classScheduleRepository
+    ) {
 
         $this->studentRepository = $studentRepository;
         $this->classScheduleRepository = $classScheduleRepository;
@@ -75,19 +78,15 @@ class TrialController extends Controller
         $request = $request->all();
         $request['is_trial'] = 1;
 
-        $dataTable = Datatables::of($this->studentRepository->getByRequest($request));
+        $students = $this->studentRepository->getByRequest($request, ['user', 'classStudent.classSchedule']);
 
-        $dataTable->addColumn('action', function ($index) {
-            return view('admin.trial.datatable.action', compact('index'));
+        $dataTable = Datatables::of($students);
+
+        $dataTable->addColumn('action', function ($student) {
+            return view('admin.trial.datatable.action', compact('student'));
         });
 
-        $dataTable->editColumn('name', function ($index) {
-            return view('admin.trial.datatable.information', compact('index'));
-        });
-
-
-        $dataTable = $dataTable->rawColumns(['check', 'action', 'name'])->make(true);
-        return $dataTable;
+        return $dataTable->make(true);
     }
 
     /**
@@ -95,7 +94,7 @@ class TrialController extends Controller
      */
     public function create()
     {
-        $classSchedules = $this->classScheduleRepository->getIsTrial(1);
+        $classSchedules = $this->classScheduleRepository->getIsTrial();
 
         return view('admin.trial.create', compact('classSchedules'));
     }
@@ -110,49 +109,53 @@ class TrialController extends Controller
     {
         $request->validated();
 
-        $action->execute($request->all(), true);
+        $action->execute($request->all());
 
         return redirect()->route('admin.trial.index')->with('success', 'Data has been added');
     }
 
     /**
-     * @param Student $student
+     * @param int $id
      *
      * @return Factory|View
      */
-    public function edit(Student $student)
+    public function edit($id)
     {
-        return view('admin.trial.edit', compact('student'));
+        $student = $this->studentRepository->find($id, ['user', 'classStudent']);
+        $classSchedules = $this->classScheduleRepository->getIsTrial();
+
+        return view('admin.trial.edit', compact('student', 'classSchedules'));
     }
 
     /**
-     * @param Student             $student
+     * @param int                 $id
      * @param UpdateTrialRequest  $request
      * @param UpdateStudentAction $action
      *
      * @return RedirectResponse
+     * @throws Exception
      */
-    public function update(Student $student, UpdateTrialRequest $request, UpdateStudentAction $action)
+    public function update($id, UpdateTrialRequest $request, UpdateStudentAction $action)
     {
         $request->validated();
 
-        $action->execute($student, $request->all(), true);
+        $action->execute($id, $request->all(), true);
 
         return redirect()->route('admin.trial.index')->with('success', 'Data has been updated');
     }
 
     /**
-     * @param Student             $student
+     * @param int                 $id
      * @param DeleteStudentAction $action
      *
-     * @return RedirectResponse
+     * @return JsonResponse
      * @throws Exception
      */
-    public function delete(Student $student, DeleteStudentAction $action)
+    public function delete($id, DeleteStudentAction $action)
     {
-        $action->execute($student);
+        $action->execute($id);
 
-        return redirect()->route('admin.trial.index')->with('success', 'Data has been deleted');
+        return response()->json(['messages' => 'Data has been deleted']);
     }
 
 }

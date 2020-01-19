@@ -13,7 +13,7 @@
                         <h3>
                             Orang Tua
                         </h3>
-                        
+
                         <div class="form-group @if($errors->first('parent_name')) has-error @endif">
                             <label for="parent_name" class="col-sm-2 control-label">Nama</label>
 
@@ -61,6 +61,16 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group @if($errors->first('teacher_name.'.$key)) has-error @endif">
+                                        <label for="teacher_name" class="col-sm-2 control-label">Dibimbing</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="teacher_name" name="teacher_name[]"
+                                                   placeholder="Nama Guru"
+                                                   value="{{ old('teacher_name.'.$key) }}">
+                                                <span class="help-block">{{ $errors->first('teacher_name.'.$key) }}</span>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group @if($errors->first('class_schedule_id.'.$key)) has-error @endif">
                                         <label for="class_schedule_id" class="col-sm-2 control-label">Class
                                             Schedule</label>
@@ -71,8 +81,8 @@
                                                     data-placeholder="Pilih Jadwal">
                                                 <option value=""></option>
                                                 @foreach($classSchedules as $classSchedule)
-                                                    <option value="{{ $classSchedule->id }}"
-                                                            @if($classSchedule->id == old('class_schedule_id.'.$key)) selected @endif>{{ $classSchedule->getClassInfo() }}</option>
+                                                    <option value="{{ $classSchedule['id'] }}"
+                                                            @if($classSchedule['id'] == old('class_schedule_id.'.$key)) selected @endif>{{ $classSchedule['class_info'] }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="help-block">{{ $errors->first('class_schedule_id.'.$key) }}</span>
@@ -97,6 +107,16 @@
                                                    value="">
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="teacher_name" class="col-sm-2 control-label">Dibimbing</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="teacher_name" name="teacher_name[]"
+                                                   placeholder="Nama Guru"
+                                                   value="">
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label for="class_schedule_id" class="col-sm-2 control-label">Jadwal</label>
 
@@ -106,7 +126,7 @@
                                                     data-placeholder="Pilih Jadwal">
                                                 <option value=""></option>
                                                 @foreach($classSchedules as $classSchedule)
-                                                    <option value="{{ $classSchedule->id }}">{{ $classSchedule->getClassInfo() }}</option>
+                                                    <option value="{{ $classSchedule['id'] }}">{{ $classSchedule['class_info'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -158,12 +178,18 @@
                     '</div>' +
                     '</div>' +
                     '<div class="form-group">' +
+                    '<label for="teacher_name" class="col-sm-2 control-label">Dibimbing</label>' +
+                    '<div class="col-sm-10">' +
+                    '<input type="text" class="form-control" id="teacher_name" name="teacher_name[]" placeholder="Nama Guru" value="">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="form-group">' +
                     '<label for="class_schedule_id" class="col-sm-2 control-label">Jadwal</label>' +
                     '<div class="col-sm-10">' +
                     '<select class="form-control select2" id="class_schedule_id" name="class_schedule_id[]" data-placeholder="Pilih Jadwal">' +
                     '<option value="">Pilih Jadwal</option>' +
                     @foreach($classSchedules as $classSchedule)
-                    '<option value="{{ $classSchedule->id }}">{{ $classSchedule->getClassInfo() }}</option>' +
+                    '<option value="{{ $classSchedule['id'] }}">{{ $classSchedule['class_info'] }}</option>' +
                     @endforeach
                     '</select>' +
                     '</div>' +
@@ -178,10 +204,12 @@
                     '</div>' +
                     '</div>';
                 $('.append-input-child').append($html);
+                $('.select2').select2();
             });
 
             $('.append-input-child').on('click', '.delete-child', function () {
                 $(this).parent().parent().parent().remove();
+
             })
         });
     </script>

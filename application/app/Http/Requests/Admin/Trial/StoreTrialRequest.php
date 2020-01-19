@@ -29,6 +29,8 @@ class StoreTrialRequest extends FormRequest
             'parent_phone'        => ['required', 'min:7', 'max:14'],
             'parent_email'        => ['required', 'email'],
             'name.*'              => ['required'],
+            'age.*'               => ['required', 'integer'],
+            'teacher_name.*'      => ['required'],
             'class_schedule_id.*' => ['required'],
         ];
     }

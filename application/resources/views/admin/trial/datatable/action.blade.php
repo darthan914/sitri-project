@@ -4,18 +4,17 @@
         <span class="sr-only">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        {{--@if(Auth::user()->can('update-trial'))--}}
         <li>
-            <a href="{{ route('admin.trial.edit', $index) }}">Edit</a>
+            <a href="{{ route('admin.trial.edit', $student['id']) }}">Edit</a>
         </li>
-        {{--@endif--}}
-        {{--@if(Auth::user()->can('delete-trial'))--}}
         <li>
-            <a href="#" class="alert-modal" data-toggle="modal" data-target="#alert-modal"
-               data-route="{{ route('admin.trial.delete', $index) }}"
-               data-title="Delete trial {{ $index->name }}?"
+            <a href="#" class="sweet-alert-delete"
+               data-route="{{ route('admin.trial.delete', $student['id']) }}"
+               data-title="Delete trial {{ $student['name'] }}?"
             >Delete</a>
         </li>
-        {{--@endif--}}
+        <li>
+            <a href="{{ route('admin.student.edit', $student['id']) }}">Make Regular</a>
+        </li>
     </ul>
 </div>

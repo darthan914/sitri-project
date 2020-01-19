@@ -126,8 +126,8 @@ Route::prefix('trial')->name('trial.')->group(function () {
     Route::get('dataTable', 'TrialController@dataTable')->name('dataTable');
     Route::get('create', 'TrialController@create')->name('create');
     Route::post('store', 'TrialController@store')->name('store');
-    Route::get('{student}/edit', 'TrialController@edit')->name('edit');
-    Route::post('{student}/update', 'TrialController@update')->name('update');
-    Route::post('{student}/delete', 'TrialController@delete')->name('delete');
+    Route::get('{id}/edit', 'TrialController@edit')->name('edit');
+    Route::post('{id}/update', 'TrialController@update')->name('update');
+    Route::post('{id}/delete', 'TrialController@delete')->name('delete');
 })
 ;

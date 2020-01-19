@@ -8,7 +8,7 @@
     <script>
         $(function () {
             let trialSelector = $('#trial-list');
-            trialSelector.DataTable({
+            let dataTableTrial = trialSelector.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -20,32 +20,32 @@
                 },
                 columns: [
                     {data: 'name'},
+                    {data: 'user.name'},
+                    {data: 'class_student.class_schedule.class_info'},
+                    {data: 'class_student.teacher_name'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
                 paging: true,
                 lengthChange: true,
-                searching: false,
                 ordering: true,
                 info: true,
                 autoWidth: false
-            }).on('click', '.alert-modal', function () {
-                $('#alert-modal form').attr('action', $(this).data('route'));
-                $('#alert-modal .modal-title').html($(this).data('title'));
-            })
+            });
 
-            alertModal(trialSelector);
+            sweetAlertDelete(trialSelector, function () {
+                dataTableTrial.ajax.reload();
+            });
         })
     </script>
 @stop
 
 @section('content')
-    @include('admin._general.modal.alert')
-    @include('admin.trial.filter.index')
+    {{--    @include('admin.trial.filter.index')--}}
 
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-body">
+                <div class="box-body text-right">
                     <a href="{{ route('admin.trial.create') }}" class="btn btn-default">Create</a>
                 </div>
                 <div class="box-body">
@@ -55,7 +55,16 @@
                         <thead>
                         <tr role="row">
                             <th>
-                                Information
+                                Murid
+                            </th>
+                            <th>
+                                Orang tua
+                            </th>
+                            <th>
+                                Jadwal Kelas
+                            </th>
+                            <th>
+                                Dibimbing
                             </th>
                             <th>
 
