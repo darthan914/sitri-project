@@ -15,6 +15,7 @@ use App\Sitri\Repositories\Schedule\ScheduleRepositoryInterface;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Yajra\DataTables\Facades\DataTables;
@@ -25,15 +26,6 @@ class ScheduleController extends Controller
      * @var ScheduleRepositoryInterface
      */
     private $scheduleRepository;
-    private $day = [
-                'Sunday',
-                'Monday',
-                'Tuesday',
-                'Wednesday',
-                'Thursday',
-                'Friday',
-                'Saturday'
-            ];
 
     /**
      * ScheduleController constructor.
@@ -67,24 +59,23 @@ class ScheduleController extends Controller
     {
         $request->validated();
 
-        $dataTable = Datatables::of($this->scheduleRepository->getByRequest($request->all()));
+        $schedules = $this->scheduleRepository->getByRequest($request->all());
+        $dataTable = Datatables::of($schedules);
 
-        $dataTable->addColumn('action', function ($index) {
-            return view('admin.schedule.datatable.action', compact('index'));
+        $dataTable->addColumn('action', function ($schedule) {
+            return view('admin.schedule.datatable.action', compact('schedule'));
         });
 
-        $dataTable->editColumn('day', function ($index) {
-            return $this->day[$index->day];
+        $dataTable->editColumn('day', function ($schedule) {
+            return config('sitri.day')[$schedule['day']];
         });
 
-        $dataTable->editColumn('active', function ($index) {
-            $active = $index->active;
+        $dataTable->editColumn('active', function ($schedule) {
+            $active = $schedule['active'];
             return view('admin._general.datatable.active', compact('active'));
         });
 
-
-        $dataTable = $dataTable->rawColumns(['action', 'active'])->make(true);
-        return $dataTable;
+        return $dataTable->make(true);
     }
 
     /**
@@ -92,7 +83,7 @@ class ScheduleController extends Controller
      */
     public function create()
     {
-        $day = $this->day;
+        $day = config('sitri.day');
         return view('admin.schedule.create', compact('day'));
     }
 
@@ -112,60 +103,61 @@ class ScheduleController extends Controller
     }
 
     /**
-     * @param Schedule $schedule
+     * @param int $id
      *
      * @return Factory|View
      */
-    public function edit(Schedule $schedule)
+    public function edit($id)
     {
-        $day = $this->day;
+        $schedule = $this->scheduleRepository->find($id);
+        $day = config('sitri.day');
 
         return view('admin.schedule.edit', compact('schedule', 'day'));
     }
 
     /**
-     * @param Schedule              $schedule
+     * @param int                   $id
      * @param UpdateScheduleRequest $request
      * @param UpdateScheduleAction  $action
      *
      * @return RedirectResponse
      */
-    public function update(Schedule $schedule, UpdateScheduleRequest $request, UpdateScheduleAction $action)
+    public function update($id, UpdateScheduleRequest $request, UpdateScheduleAction $action)
     {
         $request->validated();
 
-        $action->execute($schedule, $request->all());
+        $action->execute($id, $request->all());
 
         return redirect()->route('admin.schedule.index')->with('success', 'Data has been updated');
     }
 
     /**
-     * @param Schedule             $schedule
+     * @param int                  $id
      * @param DeleteScheduleAction $action
      *
-     * @return RedirectResponse
+     * @return JsonResponse
      * @throws Exception
      */
-    public function delete(Schedule $schedule, DeleteScheduleAction $action)
+    public function delete($id, DeleteScheduleAction $action)
     {
-        $action->execute($schedule);
+        $action->execute($id);
 
-        return redirect()->route('admin.schedule.index')->with('success', 'Data has been deleted');
+        return response()->json(['messages' => 'Data has been deleted!']);
     }
 
     /**
-     * @param Schedule             $schedule
+     * @param int                  $id
      * @param ActiveRequest        $request
      * @param ActiveScheduleAction $action
      *
      * @return RedirectResponse
      */
-    public function active(Schedule $schedule, ActiveRequest $request, ActiveScheduleAction $action)
+    public function active($id, ActiveRequest $request, ActiveScheduleAction $action)
     {
         $request->validated();
 
-        $action->execute($schedule, $request->active);
+        $action->execute($id, $request->active);
 
-        return redirect()->route('admin.schedule.index')->with('success', 'Data has been updated');
+        return response()->json(['messages' => 'Data has been updated!']);
     }
 }
