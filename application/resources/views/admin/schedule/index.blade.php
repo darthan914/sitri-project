@@ -28,7 +28,6 @@
                 ],
                 paging: true,
                 lengthChange: true,
-                searching: false,
                 ordering: true,
                 info: true,
                 autoWidth: false
