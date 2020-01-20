@@ -39,4 +39,11 @@ interface ClassStudentRepositoryInterface
      * @return int
      */
     public function countClassStudent($classScheduleId, $exceptStudentId = null);
+
+    /**
+     * @param int $classScheduleId
+     *
+     * @return array
+     */
+    public function getStudentByClassScheduleId($classScheduleId);
 }

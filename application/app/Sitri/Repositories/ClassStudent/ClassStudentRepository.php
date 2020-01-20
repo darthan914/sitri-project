@@ -65,4 +65,16 @@ class ClassStudentRepository implements ClassStudentRepositoryInterface
 
         return $classStudents->count();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getStudentByClassScheduleId($classScheduleId)
+    {
+        return ClassStudent::query()
+                           ->with('student')
+                           ->where('class_schedule_id', $classScheduleId)
+                           ->get()
+                           ->toArray();
+    }
 }
