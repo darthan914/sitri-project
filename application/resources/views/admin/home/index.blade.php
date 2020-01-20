@@ -6,12 +6,9 @@
 
 @section('js')
     <script>
-        $(function () {
-            $('.alert-modal').click(function () {
-                $('#alert-modal form').attr('action', $(this).data('route'));
-                $('#alert-modal .modal-title').html($(this).data('title'));
-            });
-        })
+        sweetAlertDelete($('body'), function () {
+            location.reload();
+        });
     </script>
 @stop
 
@@ -58,9 +55,9 @@
                         <tbody>
                         @foreach($studentNotOnSchedule as $student)
                             <tr>
-                                <td>{{ $student->surname ?? $student->name }}</td>
-                                <td>{{ $student->user->name ?? '' }}</td>
-                                <td><a href="{{ route('admin.student.view', $student) }}"
+                                <td>{{ $student['surname'] ?? $student['name'] }}</td>
+                                <td>{{ $student['user']['name'] }}</td>
+                                <td><a href="{{ route('admin.student.view', $student['id']) }}"
                                        class="btn btn-sm btn-primary">View</a></td>
                             </tr>
                         @endforeach
@@ -85,15 +82,15 @@
                         <tbody>
                         @foreach($studentOnTrial as $student)
                             <tr>
-                                <td>{{ $student->surname ?? $student->name }}</td>
-                                <td>{{ $student->user->name }}</td>
+                                <td>{{ $student['surname'] ?? $student['name'] }}</td>
+                                <td>{{ $student['user']['name'] }}</td>
                                 <td>
-                                    <a href="{{ route('admin.student.edit', $student) }}"
+                                    <a href="{{ route('admin.student.edit', $student['id']) }}"
                                        class="btn btn-sm btn-success">OK</a>
-                                    <button type="button" data-toggle="modal" data-target="#alert-modal"
-                                            data-route="{{ route('admin.student.delete', $student) }}"
-                                            data-title="Delete {{ $student->name }}"
-                                            class="btn btn-sm btn-danger alert-modal">Cancel
+                                    <button type="button"
+                                            data-route="{{ route('admin.student.delete', $student['id']) }}"
+                                            data-title="Delete {{ $student['name'] }}"
+                                            class="btn btn-sm btn-danger sweet-alert-delete">Cancel
                                     </button>
                                 </td>
                             </tr>
@@ -112,96 +109,96 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-                            @foreach($activeDayLists as $day)
-                                <th class="text-center @if($day == date('w')) highlight-today @endif" nowrap>
-                                    {{ config('sitri.day')[$day] }} {{ \Carbon\Carbon::parse($weekDates[$day])->format('d/m/y') }}
+                            @foreach($tableSchedules as $tableSchedule)
+                                <th class="text-center @if($tableSchedule['day'] == date('w')) highlight-today @endif"
+                                    nowrap>
+                                    {{ config('sitri.day')[$tableSchedule['day']] }} {{ \Carbon\Carbon::parse($tableSchedule['date'])->format('d/m/y') }}
                                 </th>
                             @endforeach
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($activeDayLists as $day)
-                            <td class="@if($day == date('w')) highlight-today @endif">
-                                @foreach($schedules as $schedule)
-                                    @if($schedule->day === $day)
-                                        <table class="table table-bordered" style="min-height: 300px">
-                                            <thead>
-                                            <th colspan="{{ $schedule->classSchedules->count() }}" class="text-center" nowrap>
-                                                {{ $schedule->start_time }} - {{ $schedule->end_time }}
-                                            </th>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                @foreach($schedule->classSchedules as $classSchedule)
-                                                    <td>
-                                                        <table class="table table-bordered">
-                                                            <thead>
+                        @foreach($tableSchedules as $tableSchedule)
+                            <td class="@if($tableSchedule == date('w')) highlight-today @endif">
+                                @foreach($tableSchedule['schedules'] as $schedule)
+                                    <table class="table table-bordered" style="min-height: 300px">
+                                        <thead>
+                                        <th colspan="{{ count($schedule['class_rooms']) }}" class="text-center"
+                                            nowrap>
+                                            {{ $schedule['time'] }}
+                                        </th>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            @foreach($schedule['class_rooms'] as $classRoom)
+                                                <td>
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                        <tr>
+                                                            <th class="text-center" style="width: 7em;" colspan="3">
+                                                                <a class="btn btn-sm btn-info btn-block"
+                                                                   href="{{ route('admin.absence.create', ['date' => $tableSchedule['date'], 'class_schedule_id' => $classRoom['class_schedule_id']]) }}">
+                                                                    {{ $classRoom['name'] }}
+                                                                </a>
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @php $num = 1 @endphp
+                                                        @foreach($classRoom['students'] as $student)
                                                             <tr>
-                                                                <th class="text-center" style="width: 7em;" colspan="3">
-                                                                    <a class="btn btn-sm btn-info btn-block"
-                                                                       href="{{ route('admin.absence.create', ['date' => $weekDates[$day], 'class_schedule_id' => $classSchedule->id]) }}">{{ $classSchedule->classRoom->name }}</a>
-                                                                </th>
+                                                                <td nowrap>
+                                                                    <a href="{{ route('admin.student.view', $student['student_id']) }}"
+                                                                       class="@if($student['on_reschedule']) strikethrough @endif"
+                                                                    >{{ $num++ }}</a>
+                                                                </td>
+
+                                                                <td nowrap>
+                                                                    <a href="{{ route('admin.student.view', $student['student_id']) }}"
+                                                                       class="@if($student['on_reschedule']) strikethrough @endif"
+                                                                    >{{ $student['student_name'] }}</a>
+                                                                </td>
+
+                                                                <td nowrap>
+                                                                    <a href="{{ route('admin.student.view', $student['student_id']) }}"
+                                                                       class="@if($student['on_reschedule']) strikethrough @endif"
+                                                                    >{{ $student['teacher_name'] }}</a>
+                                                                </td>
                                                             </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            @php $num = 1 @endphp
-                                                            @foreach($classSchedule->classStudents as $classStudent)
-                                                                <tr>
-                                                                    <td nowrap>
-                                                                        <a href="{{ route('admin.student.view', $classStudent->student) }}"
-                                                                           class="@if(isset($listRescheduleFrom[$weekDates[$day]][$classStudent->student_id])) strikethrough @endif"
-                                                                        >{{ $num++ }}</a>
-                                                                    </td>
-
-                                                                    <td nowrap>
-                                                                        <a href="{{ route('admin.student.view', $classStudent->student) }}"
-                                                                           class="@if(isset($listRescheduleFrom[$weekDates[$day]][$classStudent->student_id])) strikethrough @endif"
-                                                                        >{{ $classStudent->student->surname ?? $classStudent->student->name ?? '' }}</a>
-                                                                    </td>
-
-                                                                    <td nowrap>
-                                                                        <a href="{{ route('admin.student.view', $classStudent->student) }}"
-                                                                           class="@if(isset($listRescheduleFrom[$weekDates[$day]][$classStudent->student_id])) strikethrough @endif"
-                                                                        >{{ $classStudent->teacher_name }}</a>
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                            @foreach($rescheduleTo as $reschedule)
-                                                                @if($weekDates[$day] === $reschedule->to_date && $reschedule->to_class_schedule_id === $classSchedule->id)
-                                                                    <tr>
-                                                                        <td>
-                                                                            <a href="{{ route('admin.student.view', $reschedule->student) }}"
-                                                                               class="italic"
-                                                                            >{{ $num++ }}</a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="{{ route('admin.student.view', $reschedule->student) }}"
-                                                                               class="italic"
-                                                                            >{{ $reschedule->student->surname ?? $reschedule->student->name }}</a>
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="{{ route('admin.student.view', $reschedule->student) }}"
-                                                                               class="italic"
-                                                                            >{{ $reschedule->student->classStudent->teacher_name }}</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                @endif
-                                                            @endforeach
-                                                            @foreach(range(1, 16 - count($classSchedule->classStudents)) as $number)
-                                                                <tr>
-                                                                    <td nowrap>{{ $num++ }}</td>
-                                                                    <td nowrap></td>
-                                                                    <td nowrap></td>
-                                                                </tr>
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </td>
-                                                @endforeach
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    @endif
+                                                        @endforeach
+                                                        @foreach($classRoom['student_reschedules'] as $student)
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="{{ route('admin.student.view', $student['student_id']) }}"
+                                                                       class="italic"
+                                                                    >{{ $num++ }}</a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="{{ route('admin.student.view', $student['student_id']) }}"
+                                                                       class="italic"
+                                                                    >{{ $student['student_name'] }}</a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="{{ route('admin.student.view', $student['student_id']) }}"
+                                                                       class="italic"
+                                                                    >{{ $student['teacher_name'] }}</a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                        @foreach(range(1, 16 - count($classRoom['students']) - count($classRoom['student_reschedules'])) as $number)
+                                                            <tr>
+                                                                <td nowrap>{{ $num++ }}</td>
+                                                                <td nowrap></td>
+                                                                <td nowrap></td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            @endforeach
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 @endforeach
                             </td>
                         @endforeach
