@@ -112,44 +112,48 @@ class RescheduleRepository implements RescheduleRepositoryInterface
      *
      * @return array
      */
-    public function getByStudentId($studentId)
-    {
-        return $this->getByRequest(['f_student' => $studentId]);
-    }
-
-    /**
-     * @param string $startDate
-     * @param string $endDate
-     *
-     * @return array
-     */
-    public function getFromRangeDate($startDate, $endDate)
-    {
-        return $this->getByRequest(['f_range_from_date' => [$startDate, $endDate]]);
-    }
-
-    /**
-     * @param string $startDate
-     * @param string $endDate
-     *
-     * @return array
-     */
-    public function getToRangeDate($startDate, $endDate)
-    {
-        return $this->getByRequest(['f_range_to_date' => [$startDate, $endDate]]);
-    }
-
-    /**
-     * @param int $studentId
-     *
-     * @return array
-     */
     public function getDayStudentAvailable($studentId)
     {
         return ClassSchedule::query()
                             ->whereHas('classStudents', function (Builder $classStudent) use ($studentId) {
                                 $classStudent->where('student_id', $studentId);
                             })->get()->pluck('schedule.day')->toArray()
+            ;
+    }
+
+
+    /**
+     * @param string $date
+     * @param int    $classScheduleId
+     *
+     * @return array
+     */
+    public function getStudentRescheduleToByDateAndClassSchedule($date, $classScheduleId)
+    {
+        return Reschedule::query()
+                         ->with('student')
+                         ->where('to_date', $date)
+                         ->where('to_class_schedule_id', $classScheduleId)
+                         ->get()
+                         ->toArray()
+            ;
+    }
+
+
+    /**
+     * @param int    $studentId
+     * @param string $date
+     * @param int    $classScheduleId
+     *
+     * @return bool
+     */
+    public function isStudentOnReschedule($studentId, $date, $classScheduleId)
+    {
+        return Reschedule::query()
+                         ->where('student_id', $studentId)
+                         ->where('from_date', $date)
+                         ->where('from_class_schedule_id', $classScheduleId)
+                         ->first() !== null
             ;
     }
 }

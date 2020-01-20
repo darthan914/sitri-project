@@ -54,28 +54,22 @@ interface RescheduleRepositoryInterface
      *
      * @return array
      */
-    public function getByStudentId($studentId);
+    public function getDayStudentAvailable($studentId);
 
     /**
-     * @param string $startDate
-     * @param string $endDate
+     * @param string $date
+     * @param int $classScheduleId
      *
      * @return array
      */
-    public function getFromRangeDate($startDate, $endDate);
-
-    /**
-     * @param string $startDate
-     * @param string $endDate
-     *
-     * @return array
-     */
-    public function getToRangeDate($startDate, $endDate);
+    public function getStudentRescheduleToByDateAndClassSchedule($date, $classScheduleId);
 
     /**
      * @param int $studentId
+     * @param string $date
+     * @param int $classScheduleId
      *
-     * @return array
+     * @return bool
      */
-    public function getDayStudentAvailable($studentId);
+    public function isStudentOnReschedule($studentId, $date, $classScheduleId);
 }
