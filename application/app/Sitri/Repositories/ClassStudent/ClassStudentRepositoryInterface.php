@@ -46,4 +46,11 @@ interface ClassStudentRepositoryInterface
      * @return array
      */
     public function getStudentByClassScheduleId($classScheduleId);
+
+    /**
+     * @param int $studentId
+     *
+     * @return string
+     */
+    public function getFirstTeacherName($studentId);
 }

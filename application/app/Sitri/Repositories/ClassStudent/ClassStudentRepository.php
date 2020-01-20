@@ -77,4 +77,17 @@ class ClassStudentRepository implements ClassStudentRepositoryInterface
                            ->get()
                            ->toArray();
     }
+
+
+    /**
+     * @param int $studentId
+     *
+     * @return string
+     */
+    public function getFirstTeacherName($studentId)
+    {
+        return ClassStudent::query()
+                           ->where('student_id', $studentId)
+                           ->first()->teacher_name;
+    }
 }
