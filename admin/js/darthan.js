@@ -98,6 +98,57 @@ const activeModal = function (selector) {
     })
 };
 
+const sweetAlertDateActive = function (selector, cbSuccess = emptyFunction(), cbError = emptyFunction()) {
+    selector.on('click', '.sweet-alert-date-active', function () {
+        let option = {
+            title: $(this).attr('data-title'),
+            type: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+        };
+
+        if ($(this).attr('data-active') === '1') {
+            let addOption = {
+                html: '<input type="text" id="sweet-alert-datepicker" name="date" placeholder="Date" autocomplete="off">',
+                onOpen: function () {
+                    $('#sweet-alert-datepicker').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        maxDate: "",
+                        dateFormat: "yy-mm-dd",
+                    });
+                },
+            };
+
+            option = Object.assign(option, addOption);
+        }
+
+
+        Swal.fire(option).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: $(this).attr('data-route'),
+                    data: {
+                        active: $(this).attr('data-active'),
+                        date: $('#sweet-alert-datepicker').val(),
+                    },
+                    success: function (response) {
+                        Swal.fire("Success!", response.messages, "success");
+                        cbSuccess();
+                    },
+                    error: function (response) {
+                        Swal.fire("Failed!", 'Failed to update!', "error");
+                        cbError();
+                    }
+                });
+            }
+        })
+    });
+};
+
 const sweetAlertActive = function (selector, cbSuccess = emptyFunction(), cbError = emptyFunction()) {
     selector.on('click', '.sweet-alert-active', function () {
         Swal.fire({
