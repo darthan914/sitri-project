@@ -8,7 +8,7 @@
     <script>
         $(function () {
             let paymentSelector = $('#payment-list');
-            paymentSelector.DataTable({
+            let dataTablePayment =paymentSelector.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -21,21 +21,24 @@
                 },
                 columns: [
                     {data: 'no_payment'},
-                    {data: 'student_id'},
-                    {data: 'value'},
-                    {data: 'date_paid'},
+                    {data: 'student.name'},
+                    {data: 'total'},
+                    {data: 'status_payment'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
                 paging: true,
                 lengthChange: true,
-                searching: false,
                 ordering: true,
                 info: true,
                 autoWidth: false
             });
 
-            alertModal(paymentSelector);
-            activeModal(paymentSelector);
+            sweetAlertActive(paymentSelector, function () {
+                dataTablePayment.ajax.reload();
+            });
+            sweetAlertDelete(paymentSelector, function () {
+                dataTablePayment.ajax.reload();
+            });
         })
     </script>
 @stop
@@ -58,16 +61,16 @@
                         <thead>
                         <tr role="row">
                             <th>
-                                No Payment
+                                No Invoice
                             </th>
                             <th>
-                                Student
+                                Murid
                             </th>
                             <th>
-                                Value
+                                Jumlah Tagihan
                             </th>
                             <th>
-                                Date Paid
+                                Tanggal Bayar
                             </th>
                             <th>
 
