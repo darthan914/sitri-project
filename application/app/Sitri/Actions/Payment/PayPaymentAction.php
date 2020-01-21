@@ -11,13 +11,15 @@ use Exception;
 class PayPaymentAction
 {
     /**
-     * @param Payment $payment
+     * @param int $paymentId
      *
      * @return bool
      * @throws Exception
      */
-    public function execute(Payment $payment, $paid)
+    public function execute($paymentId, $paid)
     {
+        $payment = Payment::query()->find($paymentId);
+
         if ($payment->date_paid && $paid) {
             throw new Exception('Data has been paid.');
         }
