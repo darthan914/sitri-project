@@ -5,6 +5,51 @@
 @stop
 
 @section('js')
+    <script>
+        $(function () {
+            hideShowCheckbox($('input[name=use_registration]'), $('.use-registration'));
+            hideShowCheckbox($('input[name=use_monthly]'), $('.use-monthly'));
+            hideShowCheckbox($('input[name=use_shopping]'), $('.use-shopping'));
+
+            hideShowRadio('type_month_payment', $('.radio-use-monthly'), [
+                {'value': 'ONE_MONTH', 'target': $('.use-one-month')},
+                {'value': 'THREE_MONTH', 'target': $('.use-three-month')},
+                {'value': 'DAY_OFF', 'target': $('.use-day-off')},
+            ]);
+
+            $('.add-child').click(function () {
+                $html =
+                    '<div>' +
+                    '<div class="form-group">' +
+                    '<label for="item" class="col-sm-2 control-label">Barang / Quantity</label>' +
+                    '<div class="col-sm-4">' +
+                    '<select class="form-control select2" id="item" name="item[]" data-placeholder="Pilih Barang">' +
+                    '<option value=""></option>' +
+                    @foreach($items as $item)
+                        '<option value="{{ $item['name'] }}">{{ $item['name'] }}</option>' +
+                    @endforeach
+                        '</select>' +
+                    '</div>' +
+                    '<div class="col-sm-4">' +
+                    '<input type="number" class="form-control" id="quantity" name="quantity[]" placeholder="Quantity" value="0">' +
+                    '</div>' +
+                    '<div class="col-sm-2">' +
+                    '<button class="btn btn-block btn-danger delete-child" type="button">Delete</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+                $('.append-input-child').append($html);
+                $('.select2').select2();
+            });
+
+            $('.append-input-child').on('click', '.delete-child', function () {
+                $(this).parent().parent().parent().remove();
+
+            });
+
+        })
+    </script>
+
 @stop
 
 @section('content')
@@ -13,17 +58,6 @@
             <div class="box">
                 <form class="form-horizontal" method="post" action="{{ route('admin.payment.store') }}">
                     <div class="box-body">
-                        <div class="form-group @if($errors->first('no_payment')) has-error @endif">
-                            <label for="no_payment" class="col-sm-2 control-label">No</label>
-
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="no_payment" name="no_payment"
-                                       placeholder="No"
-                                       value="{{ old('no_payment') }}">
-                                <span class="help-block">{{ $errors->first('no_payment') }}</span>
-                            </div>
-                        </div>
-
                         <div class="form-group @if($errors->first('student_id')) has-error @endif">
                             <label for="student_id" class="col-sm-2 control-label">Student</label>
 
@@ -31,56 +65,231 @@
                                 <select class="form-control select2" id="student_id" name="student_id"
                                         data-placeholder="Select Student">
                                     <option value=""></option>
-                                    @foreach($students  as $student)
-                                        <option value="{{ $student->id }}"
-                                                @if(old('student_id') == $student->id) selected @endif>{{ $student->name }}</option>
+                                    @foreach($students as $student)
+                                        <option value="{{ $student['id'] }}"
+                                                @if(old('student_id') == $student['id']) selected @endif>{{ $student['name'] }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('student_id') }}</span>
                             </div>
                         </div>
 
-                        <div class="form-group @if($errors->first('registration_value')) has-error @endif">
-                            <label for="registration_value" class="col-sm-2 control-label">Pendaftaran</label>
+                        <div class="form-group">
+                            <label for="register_value" class="col-sm-2 control-label"></label>
 
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="registration_value" name="registration_value"
-                                       placeholder="Pendaftaran"
-                                       value="{{ old('registration_value', 0) }}">
-                                <span class="help-block">{{ $errors->first('registration_value') }}</span>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="use_registration" value="1"
+                                           @if(old('use_registration') == 1) checked @endif>
+                                    Gunakan Pendaftaran</label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="use_monthly" value="1"
+                                           @if(old('use_monthly') == 1) checked @endif>
+                                    Gunakan Bulanan</label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="use_shopping" value="1"
+                                           @if(old('use_shopping') == 1) checked @endif>
+                                    Gunakan Belanja</label>
+                                <span class="help-block"></span>
                             </div>
                         </div>
 
-                        <div class="form-group @if($errors->first('monthly_value')) has-error @endif">
-                            <label for="monthly_value" class="col-sm-2 control-label">Bulanan</label>
+                        <div class="use-registration">
+                            <div class="form-group @if($errors->first('register_value')) has-error @endif">
+                                <label for="register_value" class="col-sm-2 control-label">Pendaftaran</label>
 
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" id="monthly_value" name="monthly_value"
-                                       placeholder="Bulanan"
-                                       value="{{ old('monthly_value', 0) }}">
-                                <span class="help-block">{{ $errors->first('monthly_value') }}</span>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control currency" id="register_value"
+                                           name="register_value"
+                                           placeholder="Pendaftaran"
+                                           value="{{ old('register_value', $cost['register']) }}">
+                                    <span class="help-block">{{ $errors->first('register_value') }}</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group @if($errors->first('day_off_value')) has-error @endif">
-                            <label for="day_off_value" class="col-sm-2 control-label">Cuti</label>
+                        <div class="use-monthly">
+                            <div class="form-group">
+                                <label for="type_month_payment" class="col-sm-2 control-label"></label>
 
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" id="day_off_value" name="day_off_value"
-                                       placeholder="Cuti"
-                                       value="{{ old('day_off_value', 0) }}">
-                                <span class="help-block">{{ $errors->first('day_off_value') }}</span>
+                                <div class="col-sm-10">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="type_month_payment" value="ONE_MONTH"
+                                               @if(old('type_month_payment') == 'ONE_MONTH') checked @endif>1 Bulan</label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="type_month_payment" value="THREE_MONTH"
+                                               @if(old('type_month_payment') == 'THREE_MONTH') checked @endif>3 Bulan</label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="type_month_payment" value="DAY_OFF"
+                                               @if(old('type_month_payment') == 'DAY_OFF') checked @endif>Cuti</label>
+                                    <span class="help-block"></span>
+                                </div>
                             </div>
+
+                            <div class="radio-use-monthly use-one-month">
+                                <div class="form-group @if($errors->first('one_month_month')) has-error @endif">
+                                    <label for="one_month_month" class="col-sm-2 control-label">Bulan</label>
+
+                                    <div class="col-sm-10">
+                                        <select class="form-control select2" id="one_month_month" name="one_month_month"
+                                                data-placeholder="Select Month">
+                                            <option value=""></option>
+                                            @foreach($months as $key => $month)
+                                                <option value="{{ $key }}"
+                                                        @if(old('one_month_month') == $key) selected @endif>{{ $month }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="help-block">{{ $errors->first('one_month_month') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group @if($errors->first('one_month_value')) has-error @endif">
+                                    <label for="one_month_value" class="col-sm-2 control-label">Biaya 1 bulan</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control currency" id="one_month_value"
+                                               name="one_month_value"
+                                               placeholder="Biaya"
+                                               value="{{ old('one_month_value', $cost['one_month']) }}">
+                                        <span class="help-block">{{ $errors->first('one_month_value') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="radio-use-monthly use-three-month">
+                                <div class="form-group @if($errors->first('three_month_month')) has-error @endif">
+                                    <label for="three_month_month" class="col-sm-2 control-label">Bulan antara</label>
+
+                                    <div class="col-sm-10">
+                                        <select class="form-control select2" id="three_month_month"
+                                                name="three_month_month"
+                                                data-placeholder="Select Month">
+                                            <option value=""></option>
+                                            @foreach($multiple_months as $month)
+                                                <option value="{{ $month['value'] }}"
+                                                        @if(old('three_month_month') == $month['value']) selected @endif>{{ $month['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="help-block">{{ $errors->first('three_month_month') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group @if($errors->first('three_month_value')) has-error @endif">
+                                    <label for="three_month_value" class="col-sm-2 control-label">Biaya 3 bulan</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control currency" id="three_month_value"
+                                               name="three_month_value"
+                                               placeholder="Biaya"
+                                               value="{{ old('three_month_value', $cost['three_month']) }}">
+                                        <span class="help-block">{{ $errors->first('three_month_value') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="radio-use-monthly use-day-off">
+                                <div class="form-group @if($errors->first('day_off_month')) has-error @endif">
+                                    <label for="month" class="col-sm-2 control-label">Bulan</label>
+
+                                    <div class="col-sm-10">
+                                        <select class="form-control select2" id="day_off_month" name="day_off_month"
+                                                data-placeholder="Select Month">
+                                            <option value=""></option>
+                                            @foreach($months as $key => $month)
+                                                <option value="{{ $key }}"
+                                                        @if(old('day_off_month') == $key) selected @endif>{{ $month }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="help-block">{{ $errors->first('day_off_month') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group @if($errors->first('day_off_value')) has-error @endif">
+                                    <label for="day_off_value" class="col-sm-2 control-label">Cuti</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" id="day_off_value"
+                                               name="day_off_value"
+                                               placeholder="Cuti"
+                                               value="{{ old('day_off_value', $cost['day_off']) }}">
+                                        <span class="help-block">{{ $errors->first('day_off_value') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <div class="form-group @if($errors->first('shopping_value')) has-error @endif">
-                            <label for="shopping_value" class="col-sm-2 control-label">Belanja</label>
+                        <div class="use-shopping">
+                            <div class="append-input-child">
+                                @forelse(old('item', []) as $key => $value)
+                                    <div>
+                                        <div
+                                            class="form-group @if($errors->first('item.'.$key) || $errors->first('quantity.'.$key)) has-error @endif">
+                                            <label for="item" class="col-sm-2 control-label">Barang / Quantity</label>
+                                            <div class="col-sm-4">
+                                                <select class="form-control select2" id="item"
+                                                        name="item[]"
+                                                        data-placeholder="Pilih Barang">
+                                                    <option value=""></option>
+                                                    @foreach($items as $item)
+                                                        <option value="{{ $item['name'] }}"
+                                                                @if($item['name'] == old('item.'.$key)) selected @endif>{{ $item['name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <span class="help-block">{{ $errors->first('item.'.$key) }}</span>
+                                            </div>
 
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" id="shopping_value" name="shopping_value"
-                                       placeholder="Belanja"
-                                       value="{{ old('shopping_value', 0) }}">
-                                <span class="help-block">{{ $errors->first('shopping_value') }}</span>
+                                            <div class="col-sm-4">
+                                                <input type="number" class="form-control" id="quantity"
+                                                       name="quantity[]"
+                                                       placeholder="Quantity"
+                                                       value="{{ old('quantity.'.$key) }}">
+                                                <span class="help-block">{{ $errors->first('quantity.'.$key) }}</span>
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <button class="btn btn-block btn-danger delete-child" type="button">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div>
+                                        <div class="form-group">
+                                            <label for="item" class="col-sm-2 control-label">Barang / Quantity</label>
+                                            <div class="col-sm-4">
+                                                <select class="form-control select2" id="item"
+                                                        name="item[]"
+                                                        data-placeholder="Pilih Barang">
+                                                    <option value=""></option>
+                                                    @foreach($items as $item)
+                                                        <option value="{{ $item['name'] }}">{{ $item['name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <input type="number" class="form-control" id="quantity"
+                                                       name="quantity[]" placeholder="Quantity" value="0">
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <button class="btn btn-block btn-danger delete-child" type="button">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforelse
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-primary btn-block add-child btn-sm">Add more
+                                        child
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
