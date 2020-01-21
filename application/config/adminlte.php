@@ -196,6 +196,17 @@ return [
             ],
         ],
 
+        [
+            'text'    => 'Setting Management',
+            'icon'    => 'fas fa-fw fa-share',
+            'submenu' => [
+                [
+                    'text'  => 'Default Cost',
+                    'route' => 'admin.setting.cost',
+                ],
+            ],
+        ],
+
 //        ['header' => 'PARENT MENU'],
 //
 //        ['header' => 'account_settings'],
