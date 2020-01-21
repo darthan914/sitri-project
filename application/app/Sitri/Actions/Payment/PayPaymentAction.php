@@ -16,7 +16,7 @@ class PayPaymentAction
      * @return bool
      * @throws Exception
      */
-    public function execute($paymentId, $paid)
+    public function execute($paymentId, $paid, $date)
     {
         $payment = Payment::query()->find($paymentId);
 
@@ -25,7 +25,7 @@ class PayPaymentAction
         }
 
         if ($paid) {
-            $payment->update(['date_paid' => Carbon::now()->toDateString()]);
+            $payment->update(['date_paid' => $date]);
         } else {
             $payment->update(['date_paid' => null]);
         }
