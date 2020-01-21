@@ -11,11 +11,14 @@ use App\Sitri\Actions\Payment\PayPaymentAction;
 use App\Sitri\Actions\Payment\StorePaymentAction;
 use App\Sitri\Actions\Payment\UpdatePaymentAction;
 use App\Sitri\Models\Admin\Payment;
+use App\Sitri\Repositories\Item\ItemRepositoryInterface;
 use App\Sitri\Repositories\Payment\PaymentRepositoryInterface;
 use App\Http\Controllers\Controller;
+use App\Sitri\Repositories\Setting\SettingRepositoryInterface;
 use App\Sitri\Repositories\Student\StudentRepositoryInterface;
 use Exception;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Yajra\DataTables\Facades\DataTables;
@@ -30,6 +33,14 @@ class PaymentController extends Controller
      * @var StudentRepositoryInterface
      */
     private $studentRepository;
+    /**
+     * @var ItemRepositoryInterface
+     */
+    private $itemRepository;
+    /**
+     * @var SettingRepositoryInterface
+     */
+    private $settingRepository;
 
 
     /**
@@ -37,13 +48,19 @@ class PaymentController extends Controller
      *
      * @param PaymentRepositoryInterface $paymentRepository
      * @param StudentRepositoryInterface $studentRepository
+     * @param ItemRepositoryInterface    $itemRepository
+     * @param SettingRepositoryInterface $settingRepository
      */
     public function __construct(
         PaymentRepositoryInterface $paymentRepository,
-        StudentRepositoryInterface $studentRepository
+        StudentRepositoryInterface $studentRepository,
+        ItemRepositoryInterface $itemRepository,
+        SettingRepositoryInterface $settingRepository
     ) {
         $this->paymentRepository = $paymentRepository;
         $this->studentRepository = $studentRepository;
+        $this->itemRepository = $itemRepository;
+        $this->settingRepository = $settingRepository;
     }
 
     /**
@@ -68,25 +85,19 @@ class PaymentController extends Controller
     {
         $request->validated();
 
-        $dataTable = Datatables::of($this->paymentRepository->getByRequest($request->all()));
+        $payments = $this->paymentRepository->getByRequest($request->all(), ['student']);
 
-        $dataTable->addColumn('action', function ($index) {
-            return view('admin.payment.datatable.action', compact('index'));
+        $dataTable = Datatables::of($payments);
+
+        $dataTable->addColumn('action', function ($payment) {
+            return view('admin.payment.datatable.action', compact('payment'));
         });
 
-        $dataTable->editColumn('student_id', function ($payment) {
-            return $payment->student->name . ' - ' . $payment->student->user->name;
+        $dataTable->editColumn('total', function ($payment) {
+            return 'Rp. ' . number_format($payment['total']);
         });
 
-        $dataTable->editColumn('value', function ($payment) {
-            return 'Rp. ' . number_format($payment->total);
-        });
-
-        $dataTable->editColumn('date_paid', function ($payment) {
-            return view('admin.payment.datatable.paid', compact('payment'));
-        });
-
-        $dataTable = $dataTable->rawColumns(['action', 'date_paid'])->make(true);
+        $dataTable = $dataTable->make(true);
         return $dataTable;
     }
 
@@ -96,7 +107,12 @@ class PaymentController extends Controller
     public function create()
     {
         $students = $this->studentRepository->all();
-        return view('admin.payment.create', compact('students'));
+        $months = config('sitri.month');
+        $multiple_months = config('sitri.multiple_month');
+        $items = $this->itemRepository->all();
+        $cost = $this->settingRepository->getCost();
+
+        return view('admin.payment.create', compact('students', 'months', 'multiple_months', 'items', 'cost'));
     }
 
     /**
@@ -119,13 +135,19 @@ class PaymentController extends Controller
     }
 
     /**
-     * @param Payment $payment
+     * @param int $id
      *
      * @return Factory|View
      */
-    public function edit(Payment $payment)
+    public function edit($id)
     {
-        return view('admin.payment.edit', compact('payment'));
+        $payment = $this->paymentRepository->find($id, ['student']);
+        $students = $this->studentRepository->all();
+        $months = config('sitri.month');
+        $multiple_months = config('sitri.multiple_month');
+        $items = $this->itemRepository->all();
+
+        return view('admin.payment.edit', compact('payment', 'students', 'months', 'multiple_months', 'items'));
     }
 
     /**
@@ -148,34 +170,40 @@ class PaymentController extends Controller
         return redirect()->route('admin.payment.index')->with('success', 'Data has been updated');
     }
 
-    public function delete(Payment $payment, DeletePaymentAction $action)
+    /**
+     * @param int                 $id
+     * @param DeletePaymentAction $action
+     *
+     * @return JsonResponse
+     */
+    public function delete($id, DeletePaymentAction $action)
     {
         try {
-            $action->execute($payment);
+            $action->execute($id);
         } catch (Exception $e) {
-            return redirect()->route('admin.payment.index')->with('failed', $e->getMessage());
+            return response()->json(['messages' => $e->getMessage()]);
         }
 
-        return redirect()->route('admin.payment.index')->with('success', 'Data has been updated');
+        return response()->json(['messages' => 'Data has been deleted!']);
     }
 
     /**
-     * @param Payment          $payment
+     * @param int              $id
      * @param ActiveRequest    $request
      * @param PayPaymentAction $action
      *
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function paid(Payment $payment, ActiveRequest $request, PayPaymentAction $action)
+    public function paid($id, ActiveRequest $request, PayPaymentAction $action)
     {
         $request->validate();
 
         try {
-            $action->execute($payment, $request->active);
+            $action->execute($id, $request->active);
         } catch (Exception $e) {
-            return redirect()->route('admin.payment.index')->with('failed', $e->getMessage());
+            return response()->json(['messages' => $e->getMessage()]);
         }
 
-        return redirect()->route('admin.payment.index')->with('success', 'Data has been updated');
+        return response()->json(['messages' => 'Data has been updated!']);
     }
 }
