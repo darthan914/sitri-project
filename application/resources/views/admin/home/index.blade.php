@@ -119,7 +119,7 @@
                         </thead>
                         <tbody>
                         @foreach($tableSchedules as $tableSchedule)
-                            <td class="@if($tableSchedule == date('w')) highlight-today @endif">
+                            <td class="@if($tableSchedule['day'] == date('w')) highlight-today @endif">
                                 @foreach($tableSchedule['schedules'] as $schedule)
                                     <table class="table table-bordered" style="min-height: 300px">
                                         <thead>
