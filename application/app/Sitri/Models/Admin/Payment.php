@@ -5,36 +5,125 @@ namespace App\Sitri\Models\Admin;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property bool   use_registration
+ * @property double register_value
+ * @property string type_month_payment
+ * @property bool   use_monthly
+ * @property double one_month_value
+ * @property double three_month_value
+ * @property double day_off_value
+ * @property string date_paid
+ * @property array  items
+ * @property bool   use_shopping
+ * @property double total_item
+ */
 class Payment extends Model
 {
+    const TYPE_MONTH_PAYMENT_ONE_MONTH = 'ONE_MONTH';
+
+    const TYPE_MONTH_PAYMENT_THREE_MONTH = 'THREE_MONTH';
+
+    const TYPE_MONTH_PAYMENT_DAY_OFF = 'DAY_OFF';
+
     protected $fillable = [
         'no_payment',
         'student_id',
-        'registration_value',
-        'monthly_value',
+        'use_registration',
+        'register_value',
+        'use_monthly',
+        'type_month_payment',
+        'one_month_month',
+        'one_month_value',
+        'three_month_month',
+        'three_month_value',
+        'day_off_month',
         'day_off_value',
-        'shopping_value',
         'date_paid',
         'note',
-        'type_payment'
+        'use_shopping',
+        'items'
     ];
+
+    protected $appends = ['total', 'total_item', 'status_payment', 'month'];
 
     public function student()
     {
-        return $this->belongsTo(Student::class)->withoutGlobalScope('isActive');
+        return $this->belongsTo(Student::class);
     }
 
     public function getTotalAttribute()
     {
-        return $this->registration_value + $this->monthly_value + $this->day_off_value + $this->shopping_value;
-    }
+        $value = 0;
 
-    public function getStatusPayment()
-    {
-        if($this->date_paid === null) {
-            return '';
+        if ($this->use_registration) {
+            $value += $this->register_value;
         }
 
-        return Carbon::parse($this->date_paid)->format('d.m.y') . ' ('. $this->type_payment .')';
+        if ($this->use_monthly) {
+            switch ($this->type_month_payment) {
+                case self::TYPE_MONTH_PAYMENT_ONE_MONTH:
+                    $value += $this->one_month_value;
+                    break;
+                case self::TYPE_MONTH_PAYMENT_THREE_MONTH:
+                    $value += $this->three_month_value;
+                    break;
+                case self::TYPE_MONTH_PAYMENT_DAY_OFF:
+                    $value += $this->day_off_value;
+            }
+        }
+
+        if ($this->use_shopping) {
+            $value += $this->total_item;
+        }
+
+        return $value;
+    }
+
+    public function setItemsAttribute($value)
+    {
+        $this->attributes['items'] = json_encode($value);
+    }
+
+    public function getItemsAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    public function getTotalItemAttribute()
+    {
+        $value = 0;
+        if (is_array($this->items)) {
+            foreach ($this->items as $item) {
+                $value += $item['value'] * $item['quantity'];
+            }
+        }
+
+        return $value;
+    }
+
+    public function getMonthAttribute()
+    {
+        switch ($this->type_month_payment) {
+            case self::TYPE_MONTH_PAYMENT_ONE_MONTH:
+                return config('sitri.month')[$this->one_month_month];
+            case self::TYPE_MONTH_PAYMENT_THREE_MONTH:
+                $split = explode('-', $this->three_month_month);
+
+                return config('sitri.month')[$split[0]] . ' - ' . config('sitri.month')[$split[1]];
+            case self::TYPE_MONTH_PAYMENT_DAY_OFF:
+                return config('sitri.month')[$this->day_off_month];
+            default:
+                return '';
+        }
+    }
+
+    public function getStatusPaymentAttribute()
+    {
+        if ($this->date_paid === null) {
+            return 'Unpaid';
+        }
+
+        return 'Paid! : ' . Carbon::parse($this->date_paid)->format('d/m/y');
     }
 }
