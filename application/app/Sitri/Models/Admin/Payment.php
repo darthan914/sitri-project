@@ -87,7 +87,7 @@ class Payment extends Model
 
     public function getItemsAttribute($value)
     {
-        return json_decode($value, true);
+        return $value ? json_decode($value, true) : [];
     }
 
     public function getTotalItemAttribute()
