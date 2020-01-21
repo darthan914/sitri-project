@@ -142,3 +142,9 @@ Route::prefix('item')->name('item.')->group(function () {
     Route::post('{id}/delete', 'ItemController@delete')->name('delete');
 })
 ;
+
+Route::prefix('setting')->name('setting.')->group(function () {
+    Route::get('cost', 'SettingController@cost')->name('cost');
+    Route::post('cost', 'SettingController@updateCost')->name('cost');
+})
+;
