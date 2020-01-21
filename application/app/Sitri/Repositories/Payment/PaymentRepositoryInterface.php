@@ -28,4 +28,9 @@ interface PaymentRepositoryInterface
      * @return array
      */
     public function getByRequest(array $request, array $with = []);
+
+    /**
+     * @return string
+     */
+    public function generateNoPayment();
 }

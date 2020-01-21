@@ -27,13 +27,15 @@ class GenerateItemPaymentAction
     {
         $items = [];
         foreach ($request['item'] as $key => $item) {
-            $getItem = $this->itemRepository->getByName($item);
-            if ($getItem) {
-                $items[] = [
-                    'name'     => $item,
-                    'value'    => $getItem['value'],
-                    'quantity' => $request['quantity'][$key]
-                ];
+            if (isset($item)) {
+                $getItem = $this->itemRepository->getByName($item);
+                if ($getItem) {
+                    $items[] = [
+                        'name'     => $item,
+                        'value'    => $getItem['value'],
+                        'quantity' => $request['quantity'][$key]
+                    ];
+                }
             }
         }
         $request['items'] = $items;

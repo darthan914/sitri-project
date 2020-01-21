@@ -28,14 +28,14 @@ class StorePaymentRequest extends FormRequest
             'student_id' => 'required',
 
             'register_value' => 'required_with:use_registration|numeric',
-            'type_month_payment' => 'required',
+            'type_month_payment' => 'required_if:use_monthly,1',
 
             'one_month_value' => 'numeric',
             'three_month_value' => 'numeric',
             'day_off_value' => 'numeric',
 
-            'item.*'     => 'required_with:use_shopping',
-            'quantity.*' => 'required_with:use_shopping|integer',
+            'item.*'     => 'required_if:use_shopping,1',
+            'quantity.*' => 'required_if:use_shopping,1|integer',
         ];
     }
 

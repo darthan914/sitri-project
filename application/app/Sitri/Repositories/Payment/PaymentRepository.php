@@ -76,4 +76,26 @@ class PaymentRepository implements PaymentRepositoryInterface
 
         return $payment->get()->toArray();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function generateNoPayment()
+    {
+        $month = strtoupper(Carbon::now()->format('M'));
+
+        $payment = Payment::query()->select('no_payment')
+                  ->where('no_payment', 'like',
+                      $month . "/%")
+                  ->orderBy('no_payment', 'desc')
+                  ->get()
+        ;
+
+        $number = 0;
+        if ($payment->count() > 0) {
+            $number = intval(substr($payment[0]->no_payment, -3, 3));
+        }
+
+        return $month . "/" . $number;
+    }
 }
