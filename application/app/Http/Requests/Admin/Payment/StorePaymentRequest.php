@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Payment;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class StorePaymentRequest extends FormRequest
 {
@@ -24,12 +25,56 @@ class StorePaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'no_payment' => 'required|unique:payments',
             'student_id' => 'required',
-            'registration_value' => 'numeric',
-            'monthly_value' => 'numeric',
+
+            'register_value' => 'required_with:use_registration|numeric',
+            'type_month_payment' => 'required',
+
+            'one_month_value' => 'numeric',
+            'three_month_value' => 'numeric',
             'day_off_value' => 'numeric',
-            'shopping_value' => 'numeric',
+
+            'item.*'     => 'required_with:use_shopping',
+            'quantity.*' => 'required_with:use_shopping|integer',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if (!isset($this->use_registration)) {
+            $this->merge(['use_registration' => 0]);
+        }
+
+        if (!isset($this->use_monthly)) {
+            $this->merge(['use_monthly' => 0]);
+        }
+
+        if (!isset($this->use_shopping)) {
+            $this->merge(['use_shopping' => 0]);
+        }
+
+        $this->merge([
+            'register_value'    => str_replace(',', '', $this->register_value),
+            'one_month_value'   => str_replace(',', '', $this->one_month_value),
+            'three_month_value' => str_replace(',', '', $this->three_month_value),
+            'day_off_value'     => str_replace(',', '', $this->day_off_value),
+        ]);
+    }
+
+    public function withValidator(Validator $validator)
+    {
+        $validator->after(function (Validator $validator) {
+            if (isset($this->use_monthly) && 'ONE_MONTH' === $this->type_payment && '' === $this->one_month_month) {
+                $validator->errors()->add('one_month_month', 'Month is required!');
+            }
+
+            if (isset($this->use_monthly) && 'THREE_MONTH' === $this->type_payment && '' === $this->three_month_month) {
+                $validator->errors()->add('three_month_month', 'Month is required!');
+            }
+
+            if (isset($this->use_monthly) && 'DAY_OFF' === $this->type_payment && '' === $this->day_off_month) {
+                $validator->errors()->add('day_off_month', 'Month is required!');
+            }
+        });
     }
 }
