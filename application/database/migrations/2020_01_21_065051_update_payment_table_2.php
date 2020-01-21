@@ -28,7 +28,6 @@ class UpdatePaymentTable2 extends Migration
             $table->double('three_month_value');
 
             $table->unsignedInteger('day_off_month')->nullable();
-            $table->dropColumn('value');
 
 
             $table->text('items')->nullable();
@@ -58,7 +57,6 @@ class UpdatePaymentTable2 extends Migration
             $table->dropColumn('three_month_value');
 
             $table->dropColumn('day_off_month');
-            $table->double('value');
 
             $table->dropColumn('items');
         });
