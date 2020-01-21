@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\General\ActiveDateRequest;
 use App\Http\Requests\Admin\General\ActiveRequest;
 use App\Http\Requests\Admin\Payment\IndexPaymentRequest;
 use App\Http\Requests\Admin\Payment\StorePaymentRequest;
@@ -194,12 +195,12 @@ class PaymentController extends Controller
      *
      * @return JsonResponse
      */
-    public function paid($id, ActiveRequest $request, PayPaymentAction $action)
+    public function paid($id, ActiveDateRequest $request, PayPaymentAction $action)
     {
         $request->validate();
 
         try {
-            $action->execute($id, $request->active);
+            $action->execute($id, $request->active, $request->date);
         } catch (Exception $e) {
             return response()->json(['messages' => $e->getMessage()]);
         }
