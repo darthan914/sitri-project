@@ -34,18 +34,7 @@ class StorePaymentAction
      */
     public function execute(array $request)
     {
-        $items = [];
-        foreach ($request['item'] as $key => $item) {
-            $getItem = $this->itemRepository->getByName($item);
-            if ($getItem) {
-                $items[] = [
-                    'name'     => $item,
-                    'value'    => $getItem['value'],
-                    'quantity' => $request['quantity'][$key]
-                ];
-            }
-        }
-        $request['items'] = $items;
+        (new GenerateItemPaymentAction($this->itemRepository))->execute($request);
         $request['no_payment'] = time();
 
         return Payment::query()->create($request);

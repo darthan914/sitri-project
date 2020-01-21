@@ -10,14 +10,14 @@ use Exception;
 class DeletePaymentAction
 {
     /**
-     * @param Payment $payment
+     * @param int $paymentId
      *
      * @return bool
      * @throws Exception
      */
-    public function execute(Payment $payment)
+    public function execute($paymentId)
     {
-        $payment->delete();
+        Payment::query()->find($paymentId)->delete();
 
         return true;
     }
