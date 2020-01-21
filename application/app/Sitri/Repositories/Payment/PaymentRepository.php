@@ -14,22 +14,37 @@ class PaymentRepository implements PaymentRepositoryInterface
 {
 
     /**
-     * @return mixed
+     * @param array $with
+     *
+     * @return array
      */
-    public function all()
+    public function all(array $with = [])
     {
-        return Payment::query()->get();
+        return Payment::query()->with($with)->orderBy('updated_at', 'DESC')->get()->toArray();
     }
 
     /**
-     * @param array $data
+     * @param int   $id
+     * @param array $with
      *
-     * @return mixed
+     * @return array
      */
-    public function getByRequest(array $data)
+    public function find($id, array $with = [])
     {
-        $collect = collect($data);
-        $payment = Payment::query();
+        return Payment::query()->with($with)->find($id)->toArray();
+    }
+
+    /**
+     * @param array $request
+     * @param array $with
+     *
+     * @return array
+     */
+    public function getByRequest(array $request, array $with = [])
+    {
+        $collect = collect($request);
+        $payment = Payment::query()->with($with);
+
         $paid = $collect->get('f_paid');
         if (null !== $paid) {
             if (!!$paid) {
@@ -59,6 +74,6 @@ class PaymentRepository implements PaymentRepositoryInterface
             $payment->where('student_id', $student);
         }
 
-        return $payment->get();
+        return $payment->get()->toArray();
     }
 }
