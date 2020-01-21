@@ -14,7 +14,7 @@
             >Delete</a>
         </li>
         <li>
-            <a href="#" class="sweet-alert-active"
+            <a href="#" class="sweet-alert-date-active"
                data-route="{{ route('admin.payment.paid', $payment['id']) }}"
                data-active="{{ $payment['date_paid'] ? '0' : '1' }}"
                data-title="Set {{ $payment['date_paid'] ? 'Unpaid' : 'Paid' }} {{ $payment['no_payment'] }}?"

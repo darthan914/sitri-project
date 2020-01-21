@@ -33,7 +33,7 @@
                 autoWidth: false
             });
 
-            sweetAlertActive(paymentSelector, function () {
+            sweetAlertDateActive(paymentSelector, function () {
                 dataTablePayment.ajax.reload();
             });
             sweetAlertDelete(paymentSelector, function () {
