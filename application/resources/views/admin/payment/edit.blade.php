@@ -208,7 +208,7 @@
                                     <label for="day_off_value" class="col-sm-2 control-label">Cuti</label>
 
                                     <div class="col-sm-10">
-                                        <input type="number" class="form-control" id="day_off_value"
+                                        <input type="number" class="form-control currency" id="day_off_value"
                                                name="day_off_value"
                                                placeholder="Cuti"
                                                value="{{ old('day_off_value', $payment['day_off_value']) }}">
