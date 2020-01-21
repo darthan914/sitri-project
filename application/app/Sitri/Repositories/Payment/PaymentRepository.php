@@ -96,6 +96,6 @@ class PaymentRepository implements PaymentRepositoryInterface
             $number = intval(substr($payment[0]->no_payment, -3, 3));
         }
 
-        return $month . "/" . $number;
+        return $month . "/" . str_pad($number + 1, 3, '0', STR_PAD_LEFT);
     }
 }
