@@ -159,5 +159,35 @@ const sweetAlertDelete = function (selector, cbSuccess = emptyFunction(), cbErro
     });
 };
 
+const hideShowCheckbox = function (selector, target) {
+    if (selector.prop('checked') === false) {
+        target.hide();
+    }
+
+    selector.click(function () {
+        target.slideToggle();
+
+    });
+};
+
+const hideShowRadio = function (name, target, data) {
+    for (let key in data) {
+        if ($('input[name=' + name + '][value=' + data[key].value + ']').prop('checked') === false) {
+            data[key].target.hide();
+        }
+    }
+
+    $('input[name=' + name + ']').change(function () {
+        let value = $(this).val();
+        target.slideUp();
+
+        for (let key in data) {
+            if (value === data[key].value) {
+                data[key].target.slideDown();
+            }
+        }
+    });
+};
+
 const emptyFunction = function () {
 };
