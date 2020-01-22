@@ -85,10 +85,10 @@ class PaymentRepository implements PaymentRepositoryInterface
         $month = strtoupper(Carbon::now()->format('M'));
 
         $payment = Payment::query()->select('no_payment')
-                  ->where('no_payment', 'like',
-                      $month . "/%")
-                  ->orderBy('no_payment', 'desc')
-                  ->get()
+                          ->where('no_payment', 'like',
+                              $month . "/%")
+                          ->orderBy('no_payment', 'desc')
+                          ->get()
         ;
 
         $number = 0;
@@ -97,5 +97,30 @@ class PaymentRepository implements PaymentRepositoryInterface
         }
 
         return $month . "/" . str_pad($number + 1, 3, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * @param int $studentId
+     * @param int $year
+     * @param int $month
+     *
+     * @return string
+     */
+    public function getStatusPaymentDate($studentId, $year, $month)
+    {
+        $payments = Payment::query()->where('student_id', $studentId)
+                           ->whereNotNull('date_paid')
+                           ->where('use_monthly', 1)
+                           ->where('year', $year)
+                           ->get()
+        ;
+
+        foreach ($payments as $payment) {
+            if ($payment->isPaidRangeMonth($year, $month)) {
+                return $payment->date_paid;
+            }
+        }
+
+        return '';
     }
 }

@@ -33,4 +33,13 @@ interface PaymentRepositoryInterface
      * @return string
      */
     public function generateNoPayment();
+
+    /**
+     * @param int $studentId
+     * @param int $year
+     * @param int $month
+     *
+     * @return string
+     */
+    public function getStatusPaymentDate($studentId, $year, $month);
 }
