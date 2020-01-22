@@ -39,4 +39,12 @@ interface AbsenceRepositoryInterface
      * @return array
      */
     public function getStudentList($classScheduleId, $date);
+
+    /**
+     * @param int    $studentId
+     * @param string $date
+     *
+     * @return string
+     */
+    public function getStatusStudentAbsence($studentId, $date);
 }

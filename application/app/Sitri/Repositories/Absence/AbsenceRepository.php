@@ -4,11 +4,13 @@
 namespace App\Sitri\Repositories\Absence;
 
 
+use App\Sitri\Models\Admin\AbsenceDetail;
 use App\Sitri\Models\Admin\ClassSchedule;
 use App\Sitri\Models\Admin\Absence;
 use App\Sitri\Models\Admin\Schedule;
 use App\Sitri\Models\Admin\Student;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class AbsenceRepository implements AbsenceRepositoryInterface
 {
@@ -56,14 +58,14 @@ class AbsenceRepository implements AbsenceRepositoryInterface
     public function getStudentList($classScheduleId, $date)
     {
         $students = Student::query()
-                      ->whereHas('classStudents', function ($classStudents) use ($classScheduleId) {
-                          $classStudents->where('class_schedule_id', $classScheduleId);
-                      })
-                      ->orWhereHas('reschedules', function ($reschedules) use ($classScheduleId, $date) {
-                          $reschedules->where('to_class_schedule_id', $classScheduleId)->where('to_date', $date);
-                      })
-                      ->get()
-            ;
+                           ->whereHas('classStudents', function ($classStudents) use ($classScheduleId) {
+                               $classStudents->where('class_schedule_id', $classScheduleId);
+                           })
+                           ->orWhereHas('reschedules', function ($reschedules) use ($classScheduleId, $date) {
+                               $reschedules->where('to_class_schedule_id', $classScheduleId)->where('to_date', $date);
+                           })
+                           ->get()
+        ;
 
         foreach ($students as $student) {
             $student->is_reschedule = $student->isReschedule($date);
@@ -72,4 +74,17 @@ class AbsenceRepository implements AbsenceRepositoryInterface
         return $students->toArray();
     }
 
+    /**
+     * @param int    $studentId
+     * @param string $date
+     *
+     * @return string
+     */
+    public function getStatusStudentAbsence($studentId, $date)
+    {
+        return AbsenceDetail::query()->where('student_id', $studentId)
+                            ->whereHas('absence', function (Builder $absence) use ($date                            ) {
+                                $absence->where('date', $date);
+                            })->first()->status ?? '';
+    }
 }
