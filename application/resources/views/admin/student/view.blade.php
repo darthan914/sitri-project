@@ -45,7 +45,7 @@
                 },
                 columns: [
                     {data: 'no_payment'},
-                    {data: 'value'},
+                    {data: 'total'},
                     {data: 'date_paid'},
                     {data: 'action', orderable: false, searchable: false, width: '6em'},
                 ],
