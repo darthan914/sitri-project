@@ -44,9 +44,7 @@
 @stop
 
 @section('content')
-    @include('admin._general.modal.alert')
-    @include('admin._general.modal.alertActive')
-    @include('admin.payment.filter.index')
+{{--    @include('admin.payment.filter.index')--}}
 
     <div class="row">
         <div class="col-xs-12">
