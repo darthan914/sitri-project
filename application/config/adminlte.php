@@ -165,6 +165,11 @@ return [
             'icon'  => 'far fa-clock',
         ],
         [
+            'text'  => 'Dashboard',
+            'route' => 'admin.dashboard.index',
+            'icon'  => 'far fa-clock',
+        ],
+        [
             'text'    => 'Class Management',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [

@@ -7,6 +7,11 @@ Route::prefix('home')->name('home.')->group(function () {
 })
 ;
 
+Route::prefix('dashboard')->name('dashboard.')->group(function () {
+    Route::get('/', 'DashboardController@index')->name('index');
+})
+;
+
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('/', 'UserController@index')->name('index');
     Route::get('dataTable', 'UserController@dataTable')->name('dataTable');
