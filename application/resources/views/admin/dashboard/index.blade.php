@@ -13,12 +13,15 @@
         .color-paid {
             background-color: #00ff00;
         }
+
         .color-time {
             background-color: #00ffff;
         }
+
         .color-class {
             background-color: #b4b4b4;
         }
+
         .color-student {
             background-color: #fffc00;
         }
@@ -49,14 +52,10 @@
                             <tbody>
                             @foreach($tableDashboards[$day] as $dashboard)
                                 @foreach($dashboard as $schedule)
-                                    <tr>
-                                        <td colspan="{{ 2 + count($headerTable['dates']) }}" class="color-time">
-                                            Jam {{ $schedule['time'] }}</td>
-                                    </tr>
                                     @foreach($schedule['class_rooms'] as $classRoom)
                                         <tr>
-                                            <td colspan="{{ 2 + count($headerTable['dates']) }}" class="color-class">
-                                                Kelas {{ $classRoom['name'] }}</td>
+                                            <td colspan="{{ 2 + count($headerTable['dates']) }}" class="color-time">
+                                                Jam {{ $schedule['time'] }} - Kelas {{ $classRoom['name'] }}</td>
                                         </tr>
                                         @foreach($classRoom['students'] as $student)
                                             <tr>
@@ -67,6 +66,9 @@
                                                 <td class="color-paid">{{ $student['paid'] }}</td>
                                             </tr>
                                         @endforeach
+                                        <tr>
+                                            <td colspan="{{ 2 + count($headerTable['dates']) }}" class="color-class"></td>
+                                        </tr>
                                     @endforeach
                                 @endforeach
                             @endforeach
