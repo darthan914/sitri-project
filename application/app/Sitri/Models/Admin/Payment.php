@@ -42,10 +42,11 @@ class Payment extends Model
         'date_paid',
         'note',
         'use_shopping',
-        'items'
+        'items',
+        'year'
     ];
 
-    protected $appends = ['total', 'total_item', 'status_payment', 'month'];
+    protected $appends = ['total', 'total_item', 'status_payment', 'months', 'text_month'];
 
     public function student()
     {
@@ -102,7 +103,7 @@ class Payment extends Model
         return $value;
     }
 
-    public function getMonthAttribute()
+    public function getTextMonthAttribute()
     {
         switch ($this->type_month_payment) {
             case self::TYPE_MONTH_PAYMENT_ONE_MONTH:
@@ -118,6 +119,20 @@ class Payment extends Model
         }
     }
 
+    public function getMonthsAttribute()
+    {
+        switch ($this->type_month_payment) {
+            case self::TYPE_MONTH_PAYMENT_ONE_MONTH:
+                return [(int)$this->one_month_month];
+            case self::TYPE_MONTH_PAYMENT_THREE_MONTH:
+                return explode('-', $this->three_month_month);
+            case self::TYPE_MONTH_PAYMENT_DAY_OFF:
+                return [(int)$this->day_off_month];
+            default:
+                return [0];
+        }
+}
+
     public function getStatusPaymentAttribute()
     {
         if ($this->date_paid === null) {
@@ -125,5 +140,14 @@ class Payment extends Model
         }
 
         return 'Paid! : ' . Carbon::parse($this->date_paid)->format('d/m/y');
+    }
+
+    public function isPaidRangeMonth($year, $month)
+    {
+        if($this->year == $year) {
+            return in_array($month, $this->months);
+        }
+
+        return false;
     }
 }
