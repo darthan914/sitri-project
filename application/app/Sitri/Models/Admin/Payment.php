@@ -125,7 +125,8 @@ class Payment extends Model
             case self::TYPE_MONTH_PAYMENT_ONE_MONTH:
                 return [(int)$this->one_month_month];
             case self::TYPE_MONTH_PAYMENT_THREE_MONTH:
-                return explode('-', $this->three_month_month);
+                $split = explode('-', $this->three_month_month);
+                return [$split[0], ((($split[0]+1) - 1) % 12) + 1, $split[1]];
             case self::TYPE_MONTH_PAYMENT_DAY_OFF:
                 return [(int)$this->day_off_month];
             default:
