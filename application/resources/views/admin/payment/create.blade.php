@@ -17,32 +17,32 @@
                 {'value': 'DAY_OFF', 'target': $('.use-day-off')},
             ]);
 
-            $('.add-child').click(function () {
+            $('.add-item').click(function () {
                 $html =
                     '<div>' +
                     '<div class="form-group">' +
                     '<label for="item" class="col-sm-2 control-label">Barang / Quantity</label>' +
-                    '<div class="col-sm-4">' +
+                    '<div class="col-sm-6">' +
                     '<select class="form-control select2" id="item" name="item[]" data-placeholder="Pilih Barang">' +
                     '<option value=""></option>' +
                     @foreach($items as $item)
-                        '<option value="{{ $item['name'] }}">{{ $item['name'] }}</option>' +
+                        '<option value="{{ $item['name'] }}">{{ $item['name'] }} - Rp. {{ number_format($item['value']) }}</option>' +
                     @endforeach
                         '</select>' +
                     '</div>' +
-                    '<div class="col-sm-4">' +
+                    '<div class="col-sm-2">' +
                     '<input type="number" class="form-control" id="quantity" name="quantity[]" placeholder="Quantity" value="0">' +
                     '</div>' +
                     '<div class="col-sm-2">' +
-                    '<button class="btn btn-block btn-danger delete-child" type="button">Delete</button>' +
+                    '<button class="btn btn-block btn-danger delete-item" type="button">Delete</button>' +
                     '</div>' +
                     '</div>' +
                     '</div>';
-                $('.append-input-child').append($html);
+                $('.append-input-item').append($html);
                 $('.select2').select2();
             });
 
-            $('.append-input-child').on('click', '.delete-child', function () {
+            $('.append-input-item').on('click', '.delete-item', function () {
                 $(this).parent().parent().parent().remove();
 
             });
@@ -220,26 +220,26 @@
                         </div>
 
                         <div class="use-shopping">
-                            <div class="append-input-child">
+                            <div class="append-input-item">
                                 @forelse(old('item', []) as $key => $value)
                                     <div>
                                         <div
                                             class="form-group @if($errors->first('item.'.$key) || $errors->first('quantity.'.$key)) has-error @endif">
                                             <label for="item" class="col-sm-2 control-label">Barang / Quantity</label>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <select class="form-control select2" id="item"
                                                         name="item[]"
                                                         data-placeholder="Pilih Barang">
                                                     <option value=""></option>
                                                     @foreach($items as $item)
                                                         <option value="{{ $item['name'] }}"
-                                                                @if($item['name'] == old('item.'.$key)) selected @endif>{{ $item['name'] }}</option>
+                                                                @if($item['name'] == old('item.'.$key)) selected @endif>{{ $item['name'] }} - Rp. {{ number_format($item['value']) }}</option>
                                                     @endforeach
                                                 </select>
                                                 <span class="help-block">{{ $errors->first('item.'.$key) }}</span>
                                             </div>
 
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-2">
                                                 <input type="number" class="form-control" id="quantity"
                                                        name="quantity[]"
                                                        placeholder="Quantity"
@@ -248,7 +248,7 @@
                                             </div>
 
                                             <div class="col-sm-2">
-                                                <button class="btn btn-block btn-danger delete-child" type="button">
+                                                <button class="btn btn-block btn-danger delete-item" type="button">
                                                     Delete
                                                 </button>
                                             </div>
@@ -258,24 +258,24 @@
                                     <div>
                                         <div class="form-group">
                                             <label for="item" class="col-sm-2 control-label">Barang / Quantity</label>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <select class="form-control select2" id="item"
                                                         name="item[]"
                                                         data-placeholder="Pilih Barang">
                                                     <option value=""></option>
                                                     @foreach($items as $item)
-                                                        <option value="{{ $item['name'] }}">{{ $item['name'] }}</option>
+                                                        <option value="{{ $item['name'] }}">{{ $item['name'] }} - Rp. {{ number_format($item['value']) }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
 
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-2">
                                                 <input type="number" class="form-control" id="quantity"
                                                        name="quantity[]" placeholder="Quantity" value="0">
                                             </div>
 
                                             <div class="col-sm-2">
-                                                <button class="btn btn-block btn-danger delete-child" type="button">
+                                                <button class="btn btn-block btn-danger delete-item" type="button">
                                                     Delete
                                                 </button>
                                             </div>
@@ -286,8 +286,8 @@
 
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <button type="button" class="btn btn-primary btn-block add-child btn-sm">Add more
-                                        child
+                                    <button type="button" class="btn btn-primary btn-block add-item btn-sm">Add more
+                                        item
                                     </button>
                                 </div>
                             </div>
