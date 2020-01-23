@@ -155,8 +155,8 @@
                                         data-placeholder="Pilih Kelas">
                                     <option value=""></option>
                                     @foreach($classRooms as $classRoom)
-                                        <option value="{{ $classRoom->id }}"
-                                                @if($classRoom->id == old('class_room_id')) selected @endif>{{ $classRoom->name }}</option>
+                                        <option value="{{ $classRoom['id'] }}"
+                                                @if($classRoom['id'] == old('class_room_id')) selected @endif>{{ $classRoom['name'] }}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('class_room_id') }}</span>
