@@ -82,9 +82,21 @@ class AbsenceRepository implements AbsenceRepositoryInterface
      */
     public function getStatusStudentAbsence($studentId, $date)
     {
-        return AbsenceDetail::query()->where('student_id', $studentId)
-                            ->whereHas('absence', function (Builder $absence) use ($date                            ) {
-                                $absence->where('date', $date);
-                            })->first()->status ?? '';
+        $status = AbsenceDetail::query()->where('student_id', $studentId)
+                               ->whereHas('absence', function (Builder $absence) use ($date) {
+                                   $absence->where('date', $date);
+                               })->first()->status ?? ''
+        ;
+
+        switch ($status) {
+            case AbsenceDetail::STATUS_PRESENT:
+                return 'V';
+            case AbsenceDetail::STATUS_ABSENCE:
+                return 'X';
+            case AbsenceDetail::STATUS_RESCHEDULE:
+                return 'R';
+            default:
+                return '';
+        }
     }
 }
