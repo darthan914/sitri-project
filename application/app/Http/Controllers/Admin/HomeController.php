@@ -97,6 +97,7 @@ class HomeController extends Controller
                                     'student_id'    => $classStudent['student_id'],
                                     'student_name'  => $classStudent['student']['surname'] ?? $classStudent['student']['name'],
                                     'teacher_name'  => $classStudent['teacher_name'],
+                                    'is_trial'      => (bool)$classStudent['student']['is_trial'],
                                     'on_reschedule' => $this->rescheduleRepository->isStudentOnReschedule($classStudent['student_id'],
                                         $weekDates[$activeDay], $classSchedule['id'])
                                 ];
@@ -138,6 +139,8 @@ class HomeController extends Controller
                 'schedules' => $dataSchedules
             ];
         }
+
+
 
         $studentNotOnSchedule = $this->studentRepository->getStudentsNotOnSchedule(['user']);
         $studentOnTrial = $this->studentRepository->getStudentsOnTrial(true, ['user']);

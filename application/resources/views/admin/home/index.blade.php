@@ -20,17 +20,23 @@
 
         .strikethrough {
             text-decoration: line-through;
+            background-color: lightgray;
         }
 
         .italic {
             font-style: italic;
             font-weight: bold;
             background-color: yellow;
-
         }
 
         .content-overflow {
             overflow: auto;
+        }
+
+        .trial {
+            font-style: italic;
+            font-weight: bold;
+            background-color: pink;
         }
     </style>
 @stop
@@ -146,41 +152,36 @@
                                                         <tbody>
                                                         @php $num = 1 @endphp
                                                         @foreach($classRoom['students'] as $student)
-                                                            <tr>
+                                                            <tr class="@if($student['on_reschedule']) strikethrough @elseif($student['is_trial']) trial @endif">
                                                                 <td nowrap>
                                                                     <a href="{{ route('admin.student.view', $student['student_id']) }}"
-                                                                       class="@if($student['on_reschedule']) strikethrough @endif"
                                                                     >{{ $num++ }}</a>
                                                                 </td>
 
                                                                 <td nowrap>
                                                                     <a href="{{ route('admin.student.view', $student['student_id']) }}"
-                                                                       class="@if($student['on_reschedule']) strikethrough @endif"
                                                                     >{{ $student['student_name'] }}</a>
                                                                 </td>
 
                                                                 <td nowrap>
                                                                     <a href="{{ route('admin.student.view', $student['student_id']) }}"
-                                                                       class="@if($student['on_reschedule']) strikethrough @endif"
+
                                                                     >{{ $student['teacher_name'] }}</a>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
                                                         @foreach($classRoom['student_reschedules'] as $student)
-                                                            <tr>
+                                                            <tr class="italic">
                                                                 <td>
                                                                     <a href="{{ route('admin.student.view', $student['student_id']) }}"
-                                                                       class="italic"
                                                                     >{{ $num++ }}</a>
                                                                 </td>
                                                                 <td>
                                                                     <a href="{{ route('admin.student.view', $student['student_id']) }}"
-                                                                       class="italic"
                                                                     >{{ $student['student_name'] }}</a>
                                                                 </td>
                                                                 <td>
                                                                     <a href="{{ route('admin.student.view', $student['student_id']) }}"
-                                                                       class="italic"
                                                                     >{{ $student['teacher_name'] }}</a>
                                                                 </td>
                                                             </tr>
