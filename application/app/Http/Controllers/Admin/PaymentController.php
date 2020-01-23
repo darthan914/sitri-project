@@ -152,18 +152,18 @@ class PaymentController extends Controller
     }
 
     /**
-     * @param Payment              $payment
+     * @param int                  $id
      * @param UpdatePaymentRequest $request
      * @param UpdatePaymentAction  $action
      *
      * @return RedirectResponse
      */
-    public function update(Payment $payment, UpdatePaymentRequest $request, UpdatePaymentAction $action)
+    public function update($id, UpdatePaymentRequest $request, UpdatePaymentAction $action)
     {
         $request->validated();
 
         try {
-            $action->execute($payment, $request->all());
+            $action->execute($id, $request->all());
         } catch (Exception $e) {
             return redirect()->route('admin.payment.index')->with('failed', $e->getMessage());
         }
@@ -189,9 +189,9 @@ class PaymentController extends Controller
     }
 
     /**
-     * @param int              $id
-     * @param ActiveRequest    $request
-     * @param PayPaymentAction $action
+     * @param int               $id
+     * @param ActiveDateRequest $request
+     * @param PayPaymentAction  $action
      *
      * @return JsonResponse
      */
