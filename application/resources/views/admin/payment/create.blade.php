@@ -165,9 +165,10 @@
                                                 name="three_month_month"
                                                 data-placeholder="Select Month">
                                             <option value=""></option>
-                                            @foreach($multiple_months as $month)
-                                                <option value="{{ $month['value'] }}"
-                                                        @if(old('three_month_month') == $month['value']) selected @endif>{{ $month['name'] }}</option>
+                                            @foreach($months as $key => $month)
+                                                @php $plus2Month = (($key + 1) % 12) + 1 @endphp
+                                                <option value="{{ $key }}-{{ $plus2Month }}"
+                                                        @if(old('three_month_month') == $key.'-'.$plus2Month) selected @endif>{{ $month }} - {{ config('sitri.month')[$plus2Month] }}</option>
                                             @endforeach
                                         </select>
                                         <span class="help-block">{{ $errors->first('three_month_month') }}</span>

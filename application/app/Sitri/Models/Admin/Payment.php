@@ -131,7 +131,7 @@ class Payment extends Model
             default:
                 return [0];
         }
-}
+    }
 
     public function getStatusPaymentAttribute()
     {
@@ -144,10 +144,16 @@ class Payment extends Model
 
     public function isPaidRangeMonth($year, $month)
     {
-        if($this->year == $year) {
-            return in_array($month, $this->months);
+        $months = [];
+        foreach ($this->months as $key => $monthList) {
+            $newYear = $year;
+            if (0 !== $key && $this->months[$key - 1] > $this->months[$key]) {
+                $newYear++;
+            }
+
+            $months[] = $newYear . '-' . $month;
         }
 
-        return false;
+        return in_array($year . '-' . $month, $months);
     }
 }

@@ -24,24 +24,6 @@ return [
         11 => 'November',
         12 => 'Desember',
     ],
-    'multiple_month'          => [
-        [
-            'value' => '1-3',
-            'name' => 'Januari - Maret'
-        ],
-        [
-            'value' => '4-6',
-            'name' => 'April - Juni'
-        ],
-        [
-            'value' => '7-9',
-            'name' => 'Juli - September'
-        ],
-        [
-            'value' => '10-12',
-            'name' => 'Oktober - Desember'
-        ],
-    ],
     'time'           => [
         [
             'start_time' => '14:00:00',

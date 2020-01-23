@@ -109,11 +109,10 @@ class PaymentController extends Controller
     {
         $students = $this->studentRepository->all();
         $months = config('sitri.month');
-        $multiple_months = config('sitri.multiple_month');
         $items = $this->itemRepository->all();
         $cost = $this->settingRepository->getCost();
 
-        return view('admin.payment.create', compact('students', 'months', 'multiple_months', 'items', 'cost'));
+        return view('admin.payment.create', compact('students', 'months', 'items', 'cost'));
     }
 
     /**
@@ -145,10 +144,9 @@ class PaymentController extends Controller
         $payment = $this->paymentRepository->find($id, ['student']);
         $students = $this->studentRepository->all();
         $months = config('sitri.month');
-        $multiple_months = config('sitri.multiple_month');
         $items = $this->itemRepository->all();
 
-        return view('admin.payment.edit', compact('payment', 'students', 'months', 'multiple_months', 'items'));
+        return view('admin.payment.edit', compact('payment', 'students', 'months', 'items'));
     }
 
     /**
