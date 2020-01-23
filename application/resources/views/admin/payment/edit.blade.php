@@ -56,7 +56,8 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <form class="form-horizontal" method="post" action="{{ route('admin.payment.update', $payment['id']) }}">
+                <form class="form-horizontal" method="post"
+                      action="{{ route('admin.payment.update', $payment['id']) }}">
                     <div class="box-body">
                         <div class="form-group @if($errors->first('student_id')) has-error @endif">
                             <label for="student_id" class="col-sm-2 control-label">Student</label>
@@ -115,10 +116,12 @@
                                 <div class="col-sm-10">
                                     <label class="radio-inline">
                                         <input type="radio" name="type_month_payment" value="ONE_MONTH"
-                                               @if(old('type_month_payment', $payment['type_month_payment']) == 'ONE_MONTH') checked @endif>1 Bulan</label>
+                                               @if(old('type_month_payment', $payment['type_month_payment']) == 'ONE_MONTH') checked @endif>1
+                                        Bulan</label>
                                     <label class="radio-inline">
                                         <input type="radio" name="type_month_payment" value="THREE_MONTH"
-                                               @if(old('type_month_payment', $payment['type_month_payment']) == 'THREE_MONTH') checked @endif>3 Bulan</label>
+                                               @if(old('type_month_payment', $payment['type_month_payment']) == 'THREE_MONTH') checked @endif>3
+                                        Bulan</label>
                                     <label class="radio-inline">
                                         <input type="radio" name="type_month_payment" value="DAY_OFF"
                                                @if(old('type_month_payment', $payment['type_month_payment']) == 'DAY_OFF') checked @endif>Cuti</label>
@@ -227,15 +230,24 @@
                                             class="form-group @if($errors->first('item.'.$key) || $errors->first('quantity.'.$key)) has-error @endif">
                                             <label for="item" class="col-sm-2 control-label">Barang / Quantity</label>
                                             <div class="col-sm-6">
+                                                @php $itemExists = collect($items)->pluck('name')->all(); @endphp
                                                 <select class="form-control select2" id="item"
                                                         name="item[]"
-                                                        data-placeholder="Pilih Barang">
+                                                        @if(!in_array($payment['items'][$key]['name'], $itemExists))
+                                                        data-placeholder="(Item: {{ $payment['items'][$key]['name'] }} - Rp. {{ number_format($payment['items'][$key]['value']) }}, has been deleted or updated)"
+                                                        @else
+                                                        data-placeholder="Pilih Barang"
+                                                    @endif
+                                                >
                                                     <option value=""></option>
                                                     @foreach($items as $item)
                                                         <option value="{{ $item['name'] }}"
-                                                                @if($item['name'] == old('item.'.$key, $payment['items'][$key]['name'])) selected @endif>{{ $item['name'] }} - Rp. {{ number_format($item['value']) }}</option>
+                                                                @if($item['name'] == old('item.'.$key, $payment['items'][$key]['name'])) selected @endif>{{ $item['name'] }}
+                                                            - Rp. {{ number_format($item['value']) }}</option>
                                                     @endforeach
                                                 </select>
+
+
                                                 <span class="help-block">{{ $errors->first('item.'.$key) }}</span>
                                             </div>
 
@@ -254,6 +266,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 @empty
                                     <div>
                                         <div class="form-group">
@@ -264,7 +277,8 @@
                                                         data-placeholder="Pilih Barang">
                                                     <option value=""></option>
                                                     @foreach($items as $item)
-                                                        <option value="{{ $item['name'] }}">{{ $item['name'] }} - Rp. {{ number_format($item['value']) }}</option>
+                                                        <option value="{{ $item['name'] }}">{{ $item['name'] }} -
+                                                            Rp. {{ number_format($item['value']) }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
