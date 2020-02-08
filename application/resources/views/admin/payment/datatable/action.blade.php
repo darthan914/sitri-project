@@ -8,6 +8,9 @@
             <a href="{{ route('admin.payment.edit', $payment['id']) }}">Edit</a>
         </li>
         <li>
+            <a href="{{ route('admin.payment.pdf', $payment['id']) }}">Print</a>
+        </li>
+        <li>
             <a href="#" class="sweet-alert-delete"
                data-route="{{ route('admin.payment.delete', $payment['id']) }}"
                data-title="Delete payment {{ $payment['no_payment'] }}?"

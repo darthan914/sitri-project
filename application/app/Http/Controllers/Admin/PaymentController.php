@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\General\ActiveDateRequest;
-use App\Http\Requests\Admin\General\ActiveRequest;
 use App\Http\Requests\Admin\Payment\IndexPaymentRequest;
 use App\Http\Requests\Admin\Payment\StorePaymentRequest;
 use App\Http\Requests\Admin\Payment\UpdatePaymentRequest;
@@ -11,18 +10,19 @@ use App\Sitri\Actions\Payment\DeletePaymentAction;
 use App\Sitri\Actions\Payment\PayPaymentAction;
 use App\Sitri\Actions\Payment\StorePaymentAction;
 use App\Sitri\Actions\Payment\UpdatePaymentAction;
-use App\Sitri\Models\Admin\Payment;
 use App\Sitri\Repositories\Item\ItemRepositoryInterface;
 use App\Sitri\Repositories\Payment\PaymentRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Sitri\Repositories\Setting\SettingRepositoryInterface;
 use App\Sitri\Repositories\Student\StudentRepositoryInterface;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class PaymentController extends Controller
 {
@@ -204,5 +204,14 @@ class PaymentController extends Controller
         }
 
         return response()->json(['messages' => 'Data has been updated!']);
+    }
+
+    public function pdf($id)
+    {
+        $payment = $this->paymentRepository->find($id, ['student.user']);
+
+
+        $pdf = PDF::loadView('admin.payment.pdf', compact('payment'))->setPaper('a5', 'landscape');
+        return $pdf->download($payment['no_payment'] . '-' . Carbon::now()->toDateTimeString() .'.pdf');
     }
 }

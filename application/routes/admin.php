@@ -123,6 +123,7 @@ Route::prefix('payment')->name('payment.')->group(function () {
     Route::post('{payment}/update', 'PaymentController@update')->name('update');
     Route::post('{payment}/delete', 'PaymentController@delete')->name('delete');
     Route::post('{payment}/paid', 'PaymentController@paid')->name('paid');
+    Route::get('{payment}/pdf', 'PaymentController@pdf')->name('pdf');
 })
 ;
 
