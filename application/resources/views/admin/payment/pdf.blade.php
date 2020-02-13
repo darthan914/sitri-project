@@ -107,7 +107,7 @@
         <td class="tg-0ypy" rowspan="8"><img src="{{ asset('admin/kdc-logo.jpg') }}" width="76%"></td>
         <td class="tg-1ydk" colspan="2">Nama</td>
         <td class="tg-0ypy">:</td>
-        <td class="tg-1ydk full-box" colspan="3">{{ $payment['student']['user']['name'] }}</td>
+        <td class="tg-1ydk full-box" colspan="3">{{ $payment['student']['name'] }}</td>
     </tr>
 
     <tr>
