@@ -68,7 +68,7 @@ class UserRepository implements UserRepositoryInterface
     {
         $user = User::query()->where('email', $email)->first();
 
-        if(null === $user){
+        if(null == $user){
             return null;
         }
 

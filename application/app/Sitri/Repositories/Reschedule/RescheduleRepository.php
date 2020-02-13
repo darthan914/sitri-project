@@ -98,7 +98,7 @@ class RescheduleRepository implements RescheduleRepositoryInterface
                                       })
         ;
 
-        if ($toDate === $fromDate) {
+        if ($toDate == $fromDate) {
             $classSchedule->whereDoesntHave('classStudents', function ($classStudents) use ($studentId) {
                 $classStudents->where('student_id', $studentId);
             });

@@ -64,15 +64,15 @@ class StorePaymentRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->after(function (Validator $validator) {
-            if (isset($this->use_monthly) && 'ONE_MONTH' === $this->type_payment && '' === $this->one_month_month) {
+            if (isset($this->use_monthly) && 'ONE_MONTH' == $this->type_payment && '' == $this->one_month_month) {
                 $validator->errors()->add('one_month_month', 'Month is required!');
             }
 
-            if (isset($this->use_monthly) && 'THREE_MONTH' === $this->type_payment && '' === $this->three_month_month) {
+            if (isset($this->use_monthly) && 'THREE_MONTH' == $this->type_payment && '' == $this->three_month_month) {
                 $validator->errors()->add('three_month_month', 'Month is required!');
             }
 
-            if (isset($this->use_monthly) && 'DAY_OFF' === $this->type_payment && '' === $this->day_off_month) {
+            if (isset($this->use_monthly) && 'DAY_OFF' == $this->type_payment && '' == $this->day_off_month) {
                 $validator->errors()->add('day_off_month', 'Month is required!');
             }
         });

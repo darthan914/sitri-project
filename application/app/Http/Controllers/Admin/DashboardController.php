@@ -118,7 +118,7 @@ class DashboardController extends Controller
                 $dataClassRooms = [];
                 foreach ($classRooms as $classRoom) {
                     foreach ($classSchedules as $key => $classSchedule) {
-                        if ($classSchedule['class_room_id'] === $classRoom['id'] && $classSchedule['schedule_id'] === $schedule['id']) {
+                        if ($classSchedule['class_room_id'] == $classRoom['id'] && $classSchedule['schedule_id'] == $schedule['id']) {
 
                             $classStudents = $this->classStudentRepository->getStudentByClassScheduleId($classSchedule['id']);
 

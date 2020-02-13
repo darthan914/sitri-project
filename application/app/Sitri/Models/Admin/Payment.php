@@ -136,7 +136,7 @@ class Payment extends Model
 
     public function getStatusPaymentAttribute()
     {
-        if ($this->date_paid === null) {
+        if ($this->date_paid == null) {
             return 'Unpaid';
         }
 

@@ -34,7 +34,7 @@ class SendForgotPasswordRequest extends FormRequest
         $validator->after(function ($validator) {
             $check = User::query()->where('email', $this->email)->get()->count();
 
-            if ($check === 0) {
+            if ($check == 0) {
                 $validator->errors()->add('email', 'Email not on the list!');
             }
         });

@@ -18,11 +18,11 @@ class ResetPasswordAction
      */
     public function execute($token, $newPassword)
     {
-        if (null === $token) {
+        if (null == $token) {
             throw new Exception('Token is required.');
         }
 
-        if (null === $newPassword) {
+        if (null == $newPassword) {
             throw new Exception('Password is required.');
         }
 

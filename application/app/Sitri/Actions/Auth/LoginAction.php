@@ -27,7 +27,7 @@ class LoginAction
         $user = User::query()->where('email', $email)->first();
 
         if ($user) {
-            if (false === $user->active) {
+            if (false == $user->active) {
                 throw new Exception('Your email is not active.');
             }
 

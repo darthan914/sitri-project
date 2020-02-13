@@ -20,7 +20,7 @@ class VerifyEmailAction
      */
     public function execute($token)
     {
-        if (null === $token) {
+        if (null == $token) {
             throw new Exception('Token is required!');
         }
 
