@@ -29,6 +29,9 @@ class StorePaymentRequest extends FormRequest
 
             'register_value' => 'required_with:use_registration|numeric',
             'type_month_payment' => 'required_if:use_monthly,1',
+            'one_month_month' => 'required_if:type_month_payment,ONE_MONTH',
+            'three_month_month' => 'required_if:type_month_payment,THREE_MONTH',
+            'day_off_month' => 'required_if:type_month_payment,DAY_OFF',
 
             'one_month_value' => 'numeric',
             'three_month_value' => 'numeric',
