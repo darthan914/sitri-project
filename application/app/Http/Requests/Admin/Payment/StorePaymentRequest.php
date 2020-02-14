@@ -29,9 +29,6 @@ class StorePaymentRequest extends FormRequest
 
             'register_value' => 'required_with:use_registration|numeric',
             'type_month_payment' => 'required_if:use_monthly,1',
-            'one_month_month' => 'required_if:type_month_payment,ONE_MONTH',
-            'three_month_month' => 'required_if:type_month_payment,THREE_MONTH',
-            'day_off_month' => 'required_if:type_month_payment,DAY_OFF',
 
             'one_month_value' => 'numeric',
             'three_month_value' => 'numeric',
@@ -67,15 +64,14 @@ class StorePaymentRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->after(function (Validator $validator) {
-            if (isset($this->use_monthly) && 'ONE_MONTH' == $this->type_payment && '' == $this->one_month_month) {
+            if (isset($this->use_monthly) && 1 === $this->use_monthly && 'ONE_MONTH' == $this->type_month_payment && null == $this->one_month_month) {
                 $validator->errors()->add('one_month_month', 'Month is required!');
             }
-
-            if (isset($this->use_monthly) && 'THREE_MONTH' == $this->type_payment && '' == $this->three_month_month) {
+            if (isset($this->use_monthly) && 1 === $this->use_monthly && 'THREE_MONTH' == $this->type_month_payment && null == $this->three_month_month) {
                 $validator->errors()->add('three_month_month', 'Month is required!');
             }
 
-            if (isset($this->use_monthly) && 'DAY_OFF' == $this->type_payment && '' == $this->day_off_month) {
+            if (isset($this->use_monthly) && 1 === $this->use_monthly && 'DAY_OFF' == $this->type_month_payment && null == $this->day_off_month) {
                 $validator->errors()->add('day_off_month', 'Month is required!');
             }
         });
