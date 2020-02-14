@@ -234,7 +234,7 @@
                                                 @php $itemExists = collect($items)->pluck('name')->all(); @endphp
                                                 <select class="form-control select2" id="item"
                                                         name="item[]"
-                                                        @if(!in_array($payment['items'][$key]['name'], $itemExists))
+                                                        @if(isset($payment['items'][$key]) && !in_array($payment['items'][$key]['name'], $itemExists))
                                                         data-placeholder="(Item: {{ $payment['items'][$key]['name'] }} - Rp. {{ number_format($payment['items'][$key]['value']) }}, has been deleted or updated)"
                                                         @else
                                                         data-placeholder="Pilih Barang"
