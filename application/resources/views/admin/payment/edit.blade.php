@@ -243,7 +243,7 @@
                                                     <option value=""></option>
                                                     @foreach($items as $item)
                                                         <option value="{{ $item['name'] }}"
-                                                                @if($item['name'] == old('item.'.$key, $payment['items'][$key]['name'])) selected @endif>{{ $item['name'] }}
+                                                                @if(isset($payment['items'][$key]) && $item['name'] == old('item.'.$key, $payment['items'][$key]['name'])) selected @endif>{{ $item['name'] }}
                                                             - Rp. {{ number_format($item['value']) }}</option>
                                                     @endforeach
                                                 </select>
