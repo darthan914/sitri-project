@@ -3,6 +3,7 @@
 namespace App\Sitri\Models\Admin;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -108,15 +109,26 @@ class Payment extends Model
         if ($this->use_monthly) {
             switch ($this->type_month_payment) {
                 case self::TYPE_MONTH_PAYMENT_ONE_MONTH:
-                    return config('sitri.month')[$this->one_month_month];
+                    try {
+                        return config('sitri.month')[$this->one_month_month];
+                    } catch (Exception $e) {
+                        return 'ERROR';
+                    }
                 case self::TYPE_MONTH_PAYMENT_THREE_MONTH:
                     $split = explode('-', $this->three_month_month);
-                    return config('sitri.month')[$split[0]] . ' - ' . config('sitri.month')[$split[1]];
+                    try {
+                        return config('sitri.month')[$split[0]] . ' - ' . config('sitri.month')[$split[1]];
+                    } catch (Exception $e) {
+                        return 'ERROR';
+                    }
                 case self::TYPE_MONTH_PAYMENT_DAY_OFF:
-                    return config('sitri.month')[$this->day_off_month];
+                    try {
+                        return config('sitri.month')[$this->day_off_month];
+                    } catch (Exception $e) {
+                        return 'ERROR';
+                    }
                 default:
                     return '';
-
             }
         }
 
