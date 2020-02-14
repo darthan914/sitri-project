@@ -256,7 +256,7 @@
                                                 <input type="number" class="form-control" id="quantity"
                                                        name="quantity[]"
                                                        placeholder="Quantity"
-                                                       value="{{ old('quantity.'.$key, $payment['items'][$key]['quantity']) }}">
+                                                       value="{{ old('quantity.'.$key, isset($payment['items'][$key]) ? $payment['items'][$key]['quantity'] : '') }}">
                                                 <span class="help-block">{{ $errors->first('quantity.'.$key) }}</span>
                                             </div>
 
