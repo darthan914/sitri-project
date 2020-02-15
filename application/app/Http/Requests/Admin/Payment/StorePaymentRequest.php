@@ -54,24 +54,24 @@ class StorePaymentRequest extends FormRequest
         }
 
         $this->merge([
-            'register_value'    => str_replace(',', '', $this->register_value),
-            'one_month_value'   => str_replace(',', '', $this->one_month_value),
-            'three_month_value' => str_replace(',', '', $this->three_month_value),
-            'day_off_value'     => str_replace(',', '', $this->day_off_value),
+            'register_value'    => (double)str_replace(',', '', $this->register_value),
+            'one_month_value'   => (double)str_replace(',', '', $this->one_month_value),
+            'three_month_value' => (double)str_replace(',', '', $this->three_month_value),
+            'day_off_value'     => (double)str_replace(',', '', $this->day_off_value),
         ]);
     }
 
     public function withValidator(Validator $validator)
     {
         $validator->after(function (Validator $validator) {
-            if (isset($this->use_monthly) && 1 === $this->use_monthly && 'ONE_MONTH' == $this->type_month_payment && null == $this->one_month_month) {
+            if (1 == $this->use_monthly && 'ONE_MONTH' == $this->type_month_payment && null == $this->one_month_month) {
                 $validator->errors()->add('one_month_month', 'Month is required!');
             }
-            if (isset($this->use_monthly) && 1 === $this->use_monthly && 'THREE_MONTH' == $this->type_month_payment && null == $this->three_month_month) {
+            if (1 == $this->use_monthly && 'THREE_MONTH' == $this->type_month_payment && null == $this->three_month_month) {
                 $validator->errors()->add('three_month_month', 'Month is required!');
             }
 
-            if (isset($this->use_monthly) && 1 === $this->use_monthly && 'DAY_OFF' == $this->type_month_payment && null == $this->day_off_month) {
+            if (1 == $this->use_monthly && 'DAY_OFF' == $this->type_month_payment && null == $this->day_off_month) {
                 $validator->errors()->add('day_off_month', 'Month is required!');
             }
         });
