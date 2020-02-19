@@ -225,7 +225,11 @@
     <tr>
         <td class="tg-vfh4" colspan="2">Diterima tgl</td>
         <td class="tg-w4gq">:</td>
-        <td class="tg-vfh4 full-box" colspan="3">{{ \Carbon\Carbon::now()->format('d/m/Y') }}</td>
+        <td class="tg-vfh4 full-box" colspan="3">
+            @if(null !== $payment['date_paid'])
+                {{ \Carbon\Carbon::parse($payment['date_paid'])->format('d/m/Y') }}
+            @endif
+        </td>
     </tr>
 
     <tr>
