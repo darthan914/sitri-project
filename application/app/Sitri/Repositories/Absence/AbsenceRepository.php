@@ -7,6 +7,7 @@ namespace App\Sitri\Repositories\Absence;
 use App\Sitri\Models\Admin\AbsenceDetail;
 use App\Sitri\Models\Admin\ClassSchedule;
 use App\Sitri\Models\Admin\Absence;
+use App\Sitri\Models\Admin\Reschedule;
 use App\Sitri\Models\Admin\Schedule;
 use App\Sitri\Models\Admin\Student;
 use Carbon\Carbon;
@@ -88,13 +89,18 @@ class AbsenceRepository implements AbsenceRepositoryInterface
                                })->first()->status ?? ''
         ;
 
+        $rescheduledDate = Reschedule::query()
+                                     ->where('student_id', $studentId)
+                                     ->where('from_date', $date)
+                                     ->first()->to_date ?? '';
+
         switch ($status) {
             case AbsenceDetail::STATUS_PRESENT:
                 return 'V';
             case AbsenceDetail::STATUS_ABSENCE:
                 return 'X';
             case AbsenceDetail::STATUS_RESCHEDULE:
-                return 'R';
+                return 'R ' .  Carbon::parse($rescheduledDate)->format('d/m/y');
             default:
                 return '';
         }
