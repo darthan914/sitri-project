@@ -41,5 +41,5 @@ interface PaymentRepositoryInterface
      *
      * @return string
      */
-    public function getStatusPaymentDate($studentId, $year, $month);
+    public function getStatusPaymentDate($studentId, $year = null, $month = null);
 }

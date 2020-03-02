@@ -106,8 +106,16 @@ class PaymentRepository implements PaymentRepositoryInterface
      *
      * @return string
      */
-    public function getStatusPaymentDate($studentId, $year, $month)
+    public function getStatusPaymentDate($studentId, $year = null, $month = null)
     {
+        if(null === $year) {
+            $year = Carbon::now()->year;
+        }
+
+        if(null === $month) {
+            $month = Carbon::now()->month;
+        }
+
         $payments = Payment::query()->where('student_id', $studentId)
                            ->whereNotNull('date_paid')
                            ->where('use_monthly', 1)
