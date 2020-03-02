@@ -156,7 +156,7 @@ class Payment extends Model
                 $newYear++;
             }
 
-            $months[] = $newYear . '-' . $month;
+            $months[] = $newYear . '-' . $monthList;
         }
 
         return in_array($year . '-' . $month, $months);
